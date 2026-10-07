@@ -1,0 +1,21 @@
+{
+  "name": "laser-tag-spot",
+  "version": "1.0.0",
+  "private": true,
+  "description": "8s neon laser tag commercial built with Remotion",
+  "scripts": {
+    "studio": "remotion studio",
+    "render": "remotion render src/index.ts LaserTagSpot out/laser-tag-spot.mp4",
+    "still": "remotion still src/index.ts LaserTagSpot out/still.png"
+  },
+  "dependencies": {
+    "@remotion/cli": "^4.0.534",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "remotion": "^4.0.534"
+  },
+  "devDependencies": {
+    "@types/react": "^19.3.0",
+    "typescript": "^7.0.2"
+  }
+}
