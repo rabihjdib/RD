@@ -1,13 +1,14 @@
-import {AbsoluteFill, random, useCurrentFrame} from 'remotion';
+import {AbsoluteFill, random, useCurrentFrame, useVideoConfig} from 'remotion';
 import {C} from '../theme';
 
 /** Low rolling fog: soft tinted blobs drifting across the lower half of frame. */
 export const Fog: React.FC<{strength?: number}> = ({strength = 1}) => {
 	const frame = useCurrentFrame();
+	const {width, height} = useVideoConfig();
 	const blobs = new Array(7).fill(0).map((_, i) => {
 		const speed = 0.6 + random(`fs${i}`) * 1.2;
-		const x = ((random(`fx${i}`) * 2400 + frame * speed * (i % 2 ? 1 : -1)) % 2600) - 340;
-		const y = 620 + random(`fy${i}`) * 420 + Math.sin(frame / 22 + i) * 18;
+		const x = ((random(`fx${i}`) * (width + 480) + frame * speed * (i % 2 ? 1 : -1)) % (width + 680)) - 340;
+		const y = height * 0.57 + random(`fy${i}`) * height * 0.39 + Math.sin(frame / 22 + i) * 18;
 		const r = 380 + random(`fr${i}`) * 420;
 		const tint = i % 3 === 0 ? C.magenta : i % 3 === 1 ? C.blue : '#9DB4D0';
 		return {x, y, r, tint};
@@ -36,9 +37,10 @@ export const Fog: React.FC<{strength?: number}> = ({strength = 1}) => {
 /** Light film grain, re-seeded every frame. */
 export const Grain: React.FC = () => {
 	const frame = useCurrentFrame();
+	const {width, height} = useVideoConfig();
 	return (
 		<AbsoluteFill style={{mixBlendMode: 'overlay', opacity: 0.22, pointerEvents: 'none'}}>
-			<svg width="1920" height="1080">
+			<svg width={width} height={height}>
 				<filter id="grain">
 					<feTurbulence type="fractalNoise" baseFrequency="0.85" numOctaves="2" seed={frame % 60} stitchTiles="stitch" />
 					<feColorMatrix type="saturate" values="0" />
@@ -61,8 +63,9 @@ export const Vignette: React.FC = () => (
 /** Thin neon line sweeping down the frame on a cut, like an LED strip pulse. */
 export const ScanSweep: React.FC<{color?: string}> = ({color = C.blueHot}) => {
 	const frame = useCurrentFrame();
-	const y = frame * 160 - 40;
-	if (y > 1140) return null;
+	const {height} = useVideoConfig();
+	const y = frame * (height / 6.75) - 40;
+	if (y > height + 60) return null;
 	return (
 		<div
 			style={{

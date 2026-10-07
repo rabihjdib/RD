@@ -11,15 +11,15 @@ import {C} from './theme';
 
 // 120 BPM score: one beat = 15 frames. Every cut lands on a beat or an eighth.
 export const SPOT_DURATION = 240;
-const CUTS = [0, 30, 60, 90, 112, 135, 165, 195, 210];
-const TAG = 195;
+export const CUTS = [0, 30, 60, 90, 112, 135, 165, 195, 210];
+export const TAG = 195;
 const HERO_W = 760;
 
-const sectorAt = (f: number) =>
+export const sectorAt = (f: number) =>
 	f < 30 ? 'STAGING' : f < 90 ? 'SECTOR A' : f < 165 ? 'SECTOR B' : f < 210 ? 'OVERHEAD' : 'ARENA';
 
 /** Quick push on every cut, plus a decaying shake on the tag. */
-const useCamera = () => {
+export const useCamera = () => {
 	const f = useCurrentFrame();
 	const last = [...CUTS].reverse().find((c) => c <= f) ?? 0;
 	const punch = 1 + 0.045 * Math.exp(-(f - last) / 3.5);
@@ -31,6 +31,21 @@ const useCamera = () => {
 
 const BottomShade: React.FC = () => (
 	<AbsoluteFill style={{background: 'linear-gradient(0deg, rgba(5,7,11,0.85) 0%, rgba(5,7,11,0) 42%)'}} />
+);
+
+/** Flash frames on every cut: magenta on the tag, blue into the overhead map. */
+export const CutFlashes: React.FC = () => (
+	<>
+		{CUTS.slice(1).map((c) => (
+			<Sequence key={c} from={c} durationInFrames={6}>
+				<Flash
+					color={c === TAG ? C.magenta : c === 165 ? C.blue : '#ffffff'}
+					peak={c === TAG ? 0.85 : c === 210 ? 0.6 : 0.28}
+					frames={c === TAG ? 5 : 3}
+				/>
+			</Sequence>
+		))}
+	</>
 );
 
 export const LaserTagSpot: React.FC = () => {
@@ -133,16 +148,7 @@ export const LaserTagSpot: React.FC = () => {
 			<Vignette />
 			<Grain />
 
-			{CUTS.slice(1).map((c) => (
-				<Sequence key={c} from={c} durationInFrames={6}>
-					<Flash
-						color={c === TAG ? C.magenta : c === 165 ? C.blue : '#ffffff'}
-						peak={c === TAG ? 0.85 : c === 210 ? 0.6 : 0.28}
-						frames={c === TAG ? 5 : 3}
-					/>
-				</Sequence>
-			))}
-
+			<CutFlashes />
 			<Audio src={staticFile('audio/score.wav')} />
 		</AbsoluteFill>
 	);

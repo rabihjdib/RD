@@ -11,10 +11,11 @@ type Props = {
 	origin?: [number, number];
 	drift?: [number, number];
 	warm?: boolean;
+	focus?: [number, number];
 };
 
 /** One source clip, pushed in over the shot and graded to the blue/magenta/gunmetal look. */
-export const Graded: React.FC<Props> = ({clip, from, duration, zoom = [1.02, 1.1], origin = [0.5, 0.45], drift = [0, 0], warm}) => {
+export const Graded: React.FC<Props> = ({clip, from, duration, zoom = [1.02, 1.1], origin = [0.5, 0.45], drift = [0, 0], warm, focus = [0.5, 0.5]}) => {
 	const frame = useCurrentFrame();
 	const t = interpolate(frame, [0, duration], [0, 1], {
 		extrapolateLeft: 'clamp',
@@ -41,6 +42,7 @@ export const Graded: React.FC<Props> = ({clip, from, duration, zoom = [1.02, 1.1
 						width: '100%',
 						height: '100%',
 						objectFit: 'cover',
+						objectPosition: `${focus[0] * 100}% ${focus[1] * 100}%`,
 						filter: `contrast(1.28) saturate(${warm ? 0.75 : 1.25}) brightness(${warm ? 0.82 : 0.95})`,
 					}}
 				/>

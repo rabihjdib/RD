@@ -47,7 +47,7 @@ const squad: Pt[][] = [
 const enemy: Pt = [1180, 360];
 
 /** Overhead tactical read of the arena, revealed by a crane-up from a low oblique angle. */
-export const TacticalMap: React.FC<{duration: number}> = ({duration}) => {
+export const TacticalMap: React.FC<{duration: number; endScale?: number; endLift?: number}> = ({duration, endScale = 0.84, endLift = 70}) => {
 	const frame = useCurrentFrame();
 	const crane = interpolate(frame, [0, duration * 0.7], [0, 1], {
 		extrapolateRight: 'clamp',
@@ -55,8 +55,8 @@ export const TacticalMap: React.FC<{duration: number}> = ({duration}) => {
 	});
 	const t = interpolate(frame, [2, duration], [0, 1], {extrapolateLeft: 'clamp', extrapolateRight: 'clamp'});
 	const tilt = interpolate(crane, [0, 1], [62, 0]);
-	const scale = interpolate(crane, [0, 1], [1.25, 0.84]);
-	const lift = interpolate(crane, [0, 1], [260, 70]);
+	const scale = interpolate(crane, [0, 1], [endScale * 1.5, endScale]);
+	const lift = interpolate(crane, [0, 1], [260, endLift]);
 	const pulse = 1 + 0.35 * Math.abs(Math.sin(frame / 4));
 
 	return (

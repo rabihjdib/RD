@@ -1,9 +1,10 @@
-import {AbsoluteFill, Easing, interpolate, useCurrentFrame} from 'remotion';
+import {AbsoluteFill, Easing, interpolate, useCurrentFrame, useVideoConfig} from 'remotion';
 import {C, display, mono} from '../theme';
 
 /** Laser fired from the muzzle point across frame into a hit marker. */
-export const TagHit: React.FC<{from: [number, number]; to: [number, number]}> = ({from, to}) => {
+export const TagHit: React.FC<{from: [number, number]; to: [number, number]; labelBelow?: boolean}> = ({from, to, labelBelow}) => {
 	const frame = useCurrentFrame();
+	const {width, height} = useVideoConfig();
 	const reach = interpolate(frame, [1, 4], [0, 1], {extrapolateLeft: 'clamp', extrapolateRight: 'clamp', easing: Easing.out(Easing.quad)});
 	const beamFade = interpolate(frame, [5, 11], [1, 0], {extrapolateLeft: 'clamp', extrapolateRight: 'clamp'});
 	const x2 = from[0] + (to[0] - from[0]) * reach;
@@ -14,7 +15,7 @@ export const TagHit: React.FC<{from: [number, number]; to: [number, number]}> = 
 
 	return (
 		<AbsoluteFill style={{pointerEvents: 'none'}}>
-			<svg width="1920" height="1080" style={{position: 'absolute'}}>
+			<svg width={width} height={height} style={{position: 'absolute'}}>
 				<defs>
 					<filter id="beam" x="-20%" y="-200%" width="140%" height="500%">
 						<feGaussianBlur stdDeviation="7" result="b" />
@@ -51,10 +52,11 @@ export const TagHit: React.FC<{from: [number, number]; to: [number, number]}> = 
 			<div
 				style={{
 					position: 'absolute',
-					left: to[0] + 120,
-					top: to[1] - 78,
+					left: labelBelow ? to[0] : to[0] + 120,
+					top: labelBelow ? to[1] + 150 : to[1] - 78,
 					opacity: label,
-					transform: `translateX(${(1 - label) * 30}px)`,
+					textAlign: labelBelow ? 'center' : 'left',
+					transform: labelBelow ? `translateX(-50%) translateY(${(1 - label) * 30}px)` : `translateX(${(1 - label) * 30}px)`,
 				}}
 			>
 				<div style={{fontFamily: mono, fontWeight: 700, fontSize: 24, letterSpacing: 6, color: C.magenta}}>HIT CONFIRMED</div>

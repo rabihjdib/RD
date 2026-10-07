@@ -9,11 +9,12 @@ type Props = {
 	delay?: number;
 	label?: string;
 	accent?: string;
+	labelTop?: number;
 	children: React.ReactNode;
 };
 
 /** A neon-edged window that wipes open from its centre line. */
-export const Panel: React.FC<Props> = ({x, y = 0, w, h = 1080, delay = 0, label, accent = C.blueHot, children}) => {
+export const Panel: React.FC<Props> = ({x, y = 0, w, h = 1080, delay = 0, label, accent = C.blueHot, labelTop = 108, children}) => {
 	const frame = useCurrentFrame() - delay;
 	const open = interpolate(frame, [0, 7], [0, 1], {
 		extrapolateLeft: 'clamp',
@@ -73,7 +74,7 @@ export const Panel: React.FC<Props> = ({x, y = 0, w, h = 1080, delay = 0, label,
 					style={{
 						position: 'absolute',
 						left: 18,
-						top: 108,
+						top: labelTop,
 						fontFamily: mono,
 						fontWeight: 700,
 						fontSize: 18,

@@ -6,7 +6,8 @@
   "scripts": {
     "studio": "remotion studio",
     "render": "remotion render src/index.ts LaserTagSpot out/laser-tag-spot.mp4",
-    "still": "remotion still src/index.ts LaserTagSpot out/still.png"
+    "still": "remotion still src/index.ts LaserTagSpot out/still.png",
+    "render:vertical": "remotion render src/index.ts LaserTagSpotVertical out/laser-tag-spot-9x16.mp4"
   },
   "dependencies": {
     "@remotion/cli": "^4.0.534",

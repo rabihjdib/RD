@@ -4,7 +4,7 @@ import {C, mono} from '../theme';
 const pad = (n: number) => String(n).padStart(2, '0');
 
 /** Frame-wide tactical overlay: corner brackets, status readouts, live timecode. */
-export const Hud: React.FC<{sector: string}> = ({sector}) => {
+export const Hud: React.FC<{sector: string; textTop?: number; textBottom?: number}> = ({sector, textTop = 58, textBottom = 58}) => {
 	const frame = useCurrentFrame();
 	const {fps, durationInFrames} = useVideoConfig();
 	const fadeIn = interpolate(frame, [0, 10], [0, 1], {extrapolateRight: 'clamp'});
@@ -30,8 +30,8 @@ export const Hud: React.FC<{sector: string}> = ({sector}) => {
 			{corner({right: 40, top: 40, borderRightWidth: 3, borderTopWidth: 3})}
 			{corner({left: 40, bottom: 40, borderLeftWidth: 3, borderBottomWidth: 3})}
 			{corner({right: 40, bottom: 40, borderRightWidth: 3, borderBottomWidth: 3})}
-			<div style={{...text, left: 72, top: 58}}>ARENA 02 // {sector}</div>
-			<div style={{...text, right: 72, top: 58, display: 'flex', alignItems: 'center', gap: 12}}>
+			<div style={{...text, left: 72, top: textTop}}>ARENA 02 // {sector}</div>
+			<div style={{...text, right: 72, top: textTop, display: 'flex', alignItems: 'center', gap: 12}}>
 				<span
 					style={{
 						width: 12,
@@ -44,11 +44,11 @@ export const Hud: React.FC<{sector: string}> = ({sector}) => {
 				/>
 				LIVE {tc}
 			</div>
-			<div style={{...text, left: 72, bottom: 58, fontSize: 18}}>
+			<div style={{...text, left: 72, bottom: textBottom, fontSize: 18}}>
 				<span style={{color: C.blueHot}}>BLUE</span> 4/4 &nbsp;&nbsp; <span style={{color: C.magenta}}>MAGENTA</span>{' '}
 				{frame >= 197 ? '3/4' : '4/4'}
 			</div>
-			<div style={{position: 'absolute', right: 72, bottom: 66, display: 'flex', gap: 6}}>
+			<div style={{position: 'absolute', right: 72, bottom: textBottom + 8, display: 'flex', gap: 6}}>
 				{new Array(16).fill(0).map((_, i) => (
 					<div
 						key={i}
