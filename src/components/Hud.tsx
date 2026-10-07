@@ -4,10 +4,17 @@ import {C, mono} from '../theme';
 const pad = (n: number) => String(n).padStart(2, '0');
 
 /** Frame-wide tactical overlay: corner brackets, status readouts, live timecode. */
-export const Hud: React.FC<{sector: string; textTop?: number; textBottom?: number}> = ({sector, textTop = 58, textBottom = 58}) => {
+export const Hud: React.FC<{sector: string; textTop?: number; textBottom?: number; hideFrom?: number}> = ({
+	sector,
+	textTop = 58,
+	textBottom = 58,
+	hideFrom = Infinity,
+}) => {
 	const frame = useCurrentFrame();
 	const {fps, durationInFrames} = useVideoConfig();
-	const fadeIn = interpolate(frame, [0, 10], [0, 1], {extrapolateRight: 'clamp'});
+	const fadeIn =
+		interpolate(frame, [0, 10], [0, 1], {extrapolateRight: 'clamp'}) *
+		interpolate(frame, [hideFrom, hideFrom + 8], [1, 0], {extrapolateLeft: 'clamp', extrapolateRight: 'clamp'});
 	const blink = Math.floor(frame / 8) % 2 === 0;
 	const tc = `00:00:${pad(Math.floor(frame / fps))}:${pad(frame % fps)}`;
 	const progress = frame / durationInFrames;

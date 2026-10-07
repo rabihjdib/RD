@@ -7,7 +7,7 @@ import {Panel} from './components/Panel';
 import {TacticalMap} from './components/TacticalMap';
 import {TagHit} from './components/TagHit';
 import {Title} from './components/Title';
-import {CutFlashes, sectorAt, TAG, useCamera} from './LaserTagSpot';
+import {CutFlashes, END_CARD, sectorAt, SPOT_DURATION, TAG, useCamera} from './LaserTagSpot';
 import {C} from './theme';
 
 // 9:16 cut for Reels / TikTok / Shorts. Same beats, score and effects as the 16:9 spot;
@@ -123,8 +123,8 @@ export const LaserTagSpotVertical: React.FC = () => {
 				</Sequence>
 
 				{/* 09 End card */}
-				<Sequence from={210} durationInFrames={30}>
-					<Backdrop clip="corridor" from={210} />
+				<Sequence from={END_CARD} durationInFrames={SPOT_DURATION - END_CARD}>
+					<Backdrop clip="corridor" from={150} />
 					<Fog strength={1.6} />
 					<EndCard />
 				</Sequence>
@@ -132,7 +132,7 @@ export const LaserTagSpotVertical: React.FC = () => {
 				<Fog />
 			</AbsoluteFill>
 
-			<Hud sector={sectorAt(frame)} textTop={170} textBottom={330} />
+			<Hud sector={sectorAt(frame)} textTop={170} textBottom={330} hideFrom={END_CARD} />
 			<Vignette />
 			<Grain />
 			<CutFlashes />

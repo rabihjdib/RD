@@ -1,9 +1,9 @@
-"""Synthesize the 8s pulse score for the laser tag spot (120 BPM, beat = 15 frames @ 30fps)."""
+"""Synthesize the 10s pulse score for the laser tag spot (120 BPM, beat = 15 frames @ 30fps)."""
 import wave
 import numpy as np
 
 SR = 48000
-DUR = 8.0
+DUR = 10.0
 BPM = 120
 BEAT = 60 / BPM
 N = int(SR * DUR)
@@ -124,21 +124,29 @@ boom = rng.standard_normal(int(1.2 * SR))
 boom = lowpass(boom, 900) * env(len(boom), 0.35)
 place(boom, 6.5, 0.6)
 
-# End card: wide pad chord (A minor add9) with soft swell, plus a last hit at 7.0s.
-pl = 1.4
+# End card: wide pad chord (A minor add9) held under the logo and booking details.
+pl = 3.4
 n = int(pl * SR)
 tt = np.arange(n) / SR
 pad = np.zeros(n)
 for f in [110, 164.81, 220, 246.94, 329.63]:
     for d in (0.997, 1.003):
         pad += 2 * ((tt * f * d) % 1) - 1
-pad = lowpass(pad / 10, 1400) * np.minimum(1, tt / 0.08) * env(n, 0.7)
+pad = lowpass(pad / 10, 1400) * np.minimum(1, tt / 0.08) * env(n, 1.6)
 place(pad, 6.6, 0.5)
 place(kick(0.7, 1.1), 7.0, 0.7)
 place(zap(0.5, 1800, 120), 7.0, 0.2)
 
+# Soft heartbeat pulse under the end card, and a bright ping as the booking line lands.
+for t in np.arange(7.5, 9.4, BEAT):
+    place(kick(0.4, 0.6), t, 0.35)
+ping_n = int(1.2 * SR)
+pt = np.arange(ping_n) / SR
+ping = (np.sin(2 * np.pi * 1760 * pt) + 0.5 * np.sin(2 * np.pi * 2637 * pt)) * env(ping_n, 0.25)
+place(ping, 7.6, 0.12, pan=0.2)
+
 # Short fade at the very end, then master.
-fade = int(0.25 * SR)
+fade = int(0.6 * SR)
 out[-fade:] *= np.linspace(1, 0, fade)[:, None]
 out = np.tanh(out * 1.2)
 out /= np.max(np.abs(out)) / 0.89

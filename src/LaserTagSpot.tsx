@@ -10,7 +10,8 @@ import {Title} from './components/Title';
 import {C} from './theme';
 
 // 120 BPM score: one beat = 15 frames. Every cut lands on a beat or an eighth.
-export const SPOT_DURATION = 240;
+export const SPOT_DURATION = 300;
+export const END_CARD = 210;
 export const CUTS = [0, 30, 60, 90, 112, 135, 165, 195, 210];
 export const TAG = 195;
 const HERO_W = 760;
@@ -135,8 +136,8 @@ export const LaserTagSpot: React.FC = () => {
 				</Sequence>
 
 				{/* 09 End card */}
-				<Sequence from={210} durationInFrames={30}>
-					<Backdrop clip="corridor" from={210} />
+				<Sequence from={END_CARD} durationInFrames={SPOT_DURATION - END_CARD}>
+					<Backdrop clip="corridor" from={150} />
 					<Fog strength={1.6} />
 					<EndCard />
 				</Sequence>
@@ -144,7 +145,7 @@ export const LaserTagSpot: React.FC = () => {
 				<Fog />
 			</AbsoluteFill>
 
-			<Hud sector={sectorAt(frame)} />
+			<Hud sector={sectorAt(frame)} hideFrom={END_CARD} />
 			<Vignette />
 			<Grain />
 
