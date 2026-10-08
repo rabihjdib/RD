@@ -1,6 +1,6 @@
 import {AbsoluteFill, Audio, Easing, Img, interpolate, random, Sequence, spring, staticFile, useCurrentFrame, useVideoConfig} from 'remotion';
 import {BADGES, type Badge} from './data';
-import {INK, rushToFrame, sans, segmentAt, SEGMENTS, WORDS} from './timeline';
+import {BRONZE, CHARCOAL, CREAM, display, OLIVE, rushToFrame, segmentAt, SEGMENTS, WORDS} from './timeline';
 
 const clamp = {extrapolateLeft: 'clamp', extrapolateRight: 'clamp'} as const;
 
@@ -44,7 +44,7 @@ export const useCamera = (): React.CSSProperties => {
 
 const Flash: React.FC = () => {
 	const frame = useCurrentFrame();
-	return <AbsoluteFill style={{background: '#FFFFFF', opacity: interpolate(frame, [0, 5], [0.55, 0], clamp)}} />;
+	return <AbsoluteFill style={{background: CREAM, opacity: interpolate(frame, [0, 5], [0.55, 0], clamp)}} />;
 };
 
 export const CutTransitions: React.FC = () => (
@@ -85,7 +85,7 @@ const BadgePill: React.FC<{badge: Badge; hold: number}> = ({badge, hold}) => {
 					gap: 16,
 					padding: '12px 34px 12px 16px',
 					borderRadius: 999,
-					background: '#FFFFFF',
+					background: CREAM,
 					boxShadow: '0 18px 44px rgba(0,0,0,0.3)',
 					transform: `translateY(${(1 - enter) * -50}px) scale(${(0.5 + 0.5 * enter) * (0.85 + 0.15 * exit)})`,
 					opacity: exit,
@@ -95,11 +95,9 @@ const BadgePill: React.FC<{badge: Badge; hold: number}> = ({badge, hold}) => {
 				<div style={{position: 'relative'}}>
 					<span
 						style={{
-							fontFamily: sans,
-							fontWeight: 900,
-							fontSize: 48,
-							color: strike > 0.5 ? '#8A8A93' : INK,
-							textTransform: 'uppercase',
+							fontFamily: display,
+							fontSize: 52,
+							color: strike > 0.5 ? OLIVE : CHARCOAL,
 							whiteSpace: 'nowrap',
 							lineHeight: 1.25,
 						}}
@@ -115,7 +113,7 @@ const BadgePill: React.FC<{badge: Badge; hold: number}> = ({badge, hold}) => {
 								height: 8,
 								width: `calc(${strike * 100}% + 12px)`,
 								borderRadius: 4,
-								background: '#FF3B30',
+								background: BRONZE,
 								transform: 'rotate(-3deg)',
 							}}
 						/>
@@ -146,7 +144,7 @@ export const HighlightBadges: React.FC = () => {
 };
 
 // ---------------------------------------------------------------------------
-// Firefly field: glowing specks drifting up (brand motif, used on "spark" and the end card)
+// Firefly field: warm gold specks drifting up (brand motif, used on "spark" and the outro)
 // ---------------------------------------------------------------------------
 
 export const FireflyField: React.FC<{count?: number; duration: number; seed?: string}> = ({count = 26, duration, seed = 'luciole'}) => {
@@ -172,9 +170,9 @@ export const FireflyField: React.FC<{count?: number; duration: number; seed?: st
 							width: size,
 							height: size,
 							borderRadius: '50%',
-							background: '#FFF6B0',
+							background: CREAM,
 							opacity: blink,
-							boxShadow: `0 0 ${size * 1.2}px ${size * 0.6}px rgba(255,214,10,0.75), 0 0 ${size * 3}px ${size}px rgba(255,170,0,0.35)`,
+							boxShadow: `0 0 ${size * 1.2}px ${size * 0.6}px rgba(214,178,122,0.8), 0 0 ${size * 3}px ${size}px rgba(183,144,93,0.4)`,
 						}}
 					/>
 				);

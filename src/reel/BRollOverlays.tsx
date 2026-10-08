@@ -1,5 +1,5 @@
 import {AbsoluteFill, Audio, Img, interpolate, Sequence, spring, staticFile, useCurrentFrame, useVideoConfig} from 'remotion';
-import {INK, normalizeWord, sans, WORDS} from './timeline';
+import {CHARCOAL, CREAM, display, normalizeWord, SAND, WORDS} from './timeline';
 
 /**
  * Event-driven B-roll: when a caption word matches a trigger, a card pops in.
@@ -17,7 +17,6 @@ type Trigger = {
 	asset: string; // path under public/
 	label?: string;
 	fit?: 'contain' | 'cover';
-	tint?: [string, string]; // card background gradient for icon art
 	x: number; // card centre, 0..1 of the frame
 	y: number;
 	size?: number; // card width in px
@@ -28,15 +27,15 @@ type Trigger = {
 };
 
 const TRIGGERS: Trigger[] = [
-	{match: ['firefly'], asset: 'reel/broll/firefly.svg', label: 'Luciole', fit: 'cover', x: 0.5, y: 0.17, size: 360, tilt: -5, hold: 48, sfx: 'sparkle'},
-	{match: ['creativity'], asset: 'reel/icons/1f3a8.svg', label: 'Creativity', tint: ['#FFE3F1', '#FFD0A8'], x: 0.24, y: 0.47, tilt: -7},
-	{match: ['friends'], asset: 'reel/icons/1f9d1-200d-1f91d-200d-1f9d1.svg', label: 'Friends', tint: ['#DFF3FF', '#C7E3FF'], x: 0.76, y: 0.47, tilt: 6, hold: 30},
-	{match: ['break'], asset: 'reel/icons/1f6cb.svg', label: 'Break', tint: ['#EDE7FF', '#D7CCFF'], x: 0.78, y: 0.2, tilt: 6},
-	{match: ['بقهوتهم', 'coffee'], asset: 'reel/icons/2615.svg', label: 'Coffee', tint: ['#FFF1DC', '#F5D7AE'], x: 0.22, y: 0.2, tilt: -6},
-	{match: ['yummy'], asset: 'reel/icons/1f9c1.svg', label: 'Yummy', tint: ['#FFE6EE', '#FFD3DF'], x: 0.22, y: 0.2, tilt: -6, hold: 30},
-	{match: ['bites'], asset: 'reel/icons/1f36a.svg', label: 'Bites', tint: ['#FFF4D6', '#FFE2A8'], x: 0.78, y: 0.2, tilt: 7, hold: 30},
-	{match: ['create'], asset: 'reel/icons/1f9e9.svg', label: 'Create', tint: ['#E2F7E9', '#C4EED3'], x: 0.24, y: 0.17, tilt: -6, hold: 34},
-	{match: ['connect'], asset: 'reel/icons/1f496.svg', label: 'Connect', tint: ['#FFE3EC', '#FFC9D9'], x: 0.76, y: 0.17, tilt: 6, hold: 34},
+	{match: ['firefly'], asset: 'reel/broll/firefly.svg', label: 'Firefly', fit: 'cover', x: 0.5, y: 0.17, size: 360, tilt: -5, hold: 48, sfx: 'sparkle'},
+	{match: ['creativity'], asset: 'reel/icons/1f3a8.svg', label: 'Creativity', x: 0.24, y: 0.47, tilt: -7},
+	{match: ['friends'], asset: 'reel/icons/1f9d1-200d-1f91d-200d-1f9d1.svg', label: 'Friends', x: 0.76, y: 0.47, tilt: 6, hold: 30},
+	{match: ['break'], asset: 'reel/icons/1f6cb.svg', label: 'Break', x: 0.78, y: 0.2, tilt: 6},
+	{match: ['بقهوتهم', 'coffee'], asset: 'reel/icons/2615.svg', label: 'Coffee', x: 0.22, y: 0.2, tilt: -6},
+	{match: ['yummy'], asset: 'reel/icons/1f9c1.svg', label: 'Yummy', x: 0.22, y: 0.2, tilt: -6, hold: 30},
+	{match: ['bites'], asset: 'reel/icons/1f36a.svg', label: 'Bites', x: 0.78, y: 0.2, tilt: 7, hold: 30},
+	{match: ['create'], asset: 'reel/icons/1f9e9.svg', label: 'Create', x: 0.24, y: 0.17, tilt: -6, hold: 34},
+	{match: ['connect'], asset: 'reel/icons/1f496.svg', label: 'Connect', x: 0.76, y: 0.17, tilt: 6, hold: 34},
 ];
 
 type Event = Trigger & {start: number};
@@ -81,7 +80,7 @@ const Card: React.FC<{event: Event; hold: number}> = ({event, hold}) => {
 				padding: 18,
 				paddingBottom: event.label ? 12 : 18,
 				borderRadius: 40,
-				background: '#FFFFFF',
+				background: CREAM,
 				boxShadow: '0 24px 60px rgba(0,0,0,0.35), 0 6px 14px rgba(0,0,0,0.2)',
 				transform: `translateY(${bob}px) scale(${scale}) rotate(${rotate}deg)`,
 				opacity: exit,
@@ -96,7 +95,7 @@ const Card: React.FC<{event: Event; hold: number}> = ({event, hold}) => {
 					display: 'flex',
 					alignItems: 'center',
 					justifyContent: 'center',
-					background: event.tint ? `linear-gradient(145deg, ${event.tint[0]}, ${event.tint[1]})` : '#F3F3F3',
+					background: `linear-gradient(145deg, #F7F5EE, ${SAND})`,
 				}}
 			>
 				<Img
@@ -105,7 +104,7 @@ const Card: React.FC<{event: Event; hold: number}> = ({event, hold}) => {
 				/>
 			</div>
 			{event.label ? (
-				<div style={{fontFamily: sans, fontWeight: 900, fontSize: size * 0.13, color: INK, textAlign: 'center', marginTop: 6, lineHeight: 1.2}}>
+				<div style={{fontFamily: display, fontSize: size * 0.14, color: CHARCOAL, textAlign: 'center', marginTop: 6, lineHeight: 1.2}}>
 					{event.label}
 				</div>
 			) : null}

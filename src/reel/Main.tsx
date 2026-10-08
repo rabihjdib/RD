@@ -1,6 +1,6 @@
 import {AbsoluteFill, Audio, Freeze, OffthreadVideo, Sequence, staticFile} from 'remotion';
 import {BRollOverlays} from './BRollOverlays';
-import {EndCard, FollowBadge} from './Branding';
+import {Outro} from './Branding';
 import {MUSIC, MUSIC_VOLUME} from './data';
 import {CutTransitions, FireflyField, HighlightBadges, useCamera} from './Effects';
 import {Subtitles} from './Subtitles';
@@ -16,7 +16,7 @@ import {BODY_END, END_CARD_AT, END_HOLD_FRAMES, normalizeWord, REEL_DURATION, SE
  *   4. Keyword B-roll cards           (BRollOverlays.tsx)
  *   5. Highlight badges               (Effects.tsx)
  *   6. Captions, word by word         (Subtitles.tsx)
- *   7. Follow pill, then end card     (Branding.tsx)
+ *   7. Logo outro with WhatsApp + location (Branding.tsx)
  *
  * To re-edit: change CUTS / CAPTIONS / BADGES in data.ts. The duration, transitions,
  * caption timing and keyword pop-ups all follow from there.
@@ -34,7 +34,7 @@ const Footage: React.FC = () => {
 					<OffthreadVideo src={staticFile(s.src)} trimBefore={s.trimBefore} style={{width: '100%', height: '100%', objectFit: 'cover'}} />
 				</Sequence>
 			))}
-			{/* Hold the last frame (muted) under the end card. */}
+			{/* Hold the last frame (muted) under the logo outro. */}
 			<Sequence from={BODY_END} durationInFrames={END_HOLD_FRAMES}>
 				<Freeze frame={0}>
 					<OffthreadVideo src={staticFile(last.src)} trimBefore={last.trimBefore + last.duration - 1} muted style={{width: '100%', height: '100%', objectFit: 'cover'}} />
@@ -59,9 +59,8 @@ export const LucioleReel: React.FC = () => (
 		<BRollOverlays />
 		<HighlightBadges />
 		<Subtitles />
-		<FollowBadge />
 		<Sequence from={END_CARD_AT} durationInFrames={REEL_DURATION - END_CARD_AT} layout="none">
-			<EndCard />
+			<Outro />
 			<Audio src={staticFile('reel/sfx/sparkle.wav')} volume={0.5} />
 		</Sequence>
 		{MUSIC ? <Audio src={staticFile(MUSIC)} volume={MUSIC_VOLUME} /> : null}

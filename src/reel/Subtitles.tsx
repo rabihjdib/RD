@@ -1,11 +1,11 @@
 import {AbsoluteFill, interpolate, spring, useCurrentFrame, useVideoConfig} from 'remotion';
-import {END_CARD_AT, INK, PHRASES, sans, YELLOW, type TimedPhrase, type TimedWord} from './timeline';
+import {CHARCOAL, CREAM, END_CARD_AT, GOLD, PHRASES, sans, type TimedPhrase, type TimedWord} from './timeline';
 
 /**
  * Bilingual, word-by-word captions.
  *
  * Main line: the words as spoken, each one popping in on its own timestamp, the
- * current word in yellow. Under it, a smaller translation line in the other language.
+ * current word in the logo gold. Colours and fonts follow the LUCIOLE brand guidelines. Under it, a smaller translation line in the other language.
  * Caption data lives in data.ts (CAPTIONS); nothing here needs editing to re-time.
  *
  * Bidirectional text: each word is its own element, so the browser's bidi algorithm
@@ -58,7 +58,7 @@ const Word: React.FC<{word: TimedWord; size: number}> = ({word, size}) => {
 		<span
 			style={{
 				...wordStyle(word, size),
-				color: lit ? YELLOW : '#FFFFFF',
+				color: lit ? GOLD : CREAM,
 				transform: `translateY(${(1 - pop) * 26}px) scale(${scale}) rotate(${tilt}deg)`,
 				transformOrigin: '50% 80%',
 				opacity: Math.min(1, pop * 1.6),
@@ -72,13 +72,13 @@ const Word: React.FC<{word: TimedWord; size: number}> = ({word, size}) => {
 const wordStyle = (word: TimedWord, size: number): React.CSSProperties => ({
 	display: 'inline-block',
 	fontFamily: sans,
-	fontWeight: 900,
+	fontWeight: 700,
 	// Arabic glyphs read smaller than Latin caps at the same size.
 	fontSize: word.script === 'ar' ? size * 1.04 : size * 0.9,
 	lineHeight: 1.3,
 	textTransform: word.script === 'latin' ? 'uppercase' : undefined,
 	letterSpacing: word.script === 'latin' ? '0.01em' : undefined, // never space Arabic: it breaks the joins
-	WebkitTextStroke: `${Math.round(size * 0.16)}px ${INK}`,
+	WebkitTextStroke: `${Math.round(size * 0.15)}px ${CHARCOAL}`,
 	paintOrder: 'stroke fill',
 	textShadow: `0 ${size * 0.08}px 0 rgba(0,0,0,0.35), 0 ${size * 0.12}px ${size * 0.3}px rgba(0,0,0,0.45)`,
 	whiteSpace: 'nowrap',
@@ -118,8 +118,8 @@ const Page: React.FC<{phrase: TimedPhrase; until: number; fade: boolean}> = ({ph
 					marginTop: 14,
 					padding: '6px 26px 8px',
 					borderRadius: 22,
-					background: 'rgba(11,11,16,0.62)',
-					color: '#FFFFFF',
+					background: 'rgba(41,41,41,0.78)',
+					color: CREAM,
 					fontFamily: sans,
 					fontWeight: 700,
 					fontSize: 42,

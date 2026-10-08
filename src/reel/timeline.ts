@@ -1,16 +1,18 @@
 import {continueRender, delayRender, staticFile} from 'remotion';
 import {CAPTIONS, CUTS, END_HOLD, FPS, type Cut} from './data';
 
-// Fonts ship in public/fonts so renders never depend on reaching Google Fonts. Cairo
-// covers both scripts; unicodeRange lets one family name pick the right subset file.
+// Brand fonts (LUCIOLE brand guidelines) ship in public/fonts so renders never depend
+// on reaching a font CDN:
+//   Grown          display / headings
+//   Manrope Bold   Latin captions and body
+//   Arabic: the guidelines specify 29LT Azer (commercial, not in the repo). Cairo Bold
+//   stands in; to switch, drop the Azer file in public/fonts and point ARABIC_FONT at it.
 const ARABIC = 'U+0600-06FF, U+0750-077F, U+0870-088E, U+0890-0891, U+0898-08E1, U+08E3-08FF, U+200C-200E, U+2010-2011, U+204F, U+2E41, U+FB50-FDFF, U+FE70-FE74, U+FE76-FEFC';
-const LATIN = 'U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD';
+const ARABIC_FONT = 'fonts/Cairo-Arabic-700.woff2';
 const faces = [
-	new FontFace('Cairo', `url(${staticFile('fonts/Cairo-Arabic-900.woff2')}) format('woff2')`, {weight: '900', unicodeRange: ARABIC}),
-	new FontFace('Cairo', `url(${staticFile('fonts/Cairo-Latin-900.woff2')}) format('woff2')`, {weight: '900', unicodeRange: LATIN}),
-	new FontFace('Cairo', `url(${staticFile('fonts/Cairo-Arabic-700.woff2')}) format('woff2')`, {weight: '700', unicodeRange: ARABIC}),
-	new FontFace('Cairo', `url(${staticFile('fonts/Cairo-Latin-700.woff2')}) format('woff2')`, {weight: '700', unicodeRange: LATIN}),
-	new FontFace('Playfair Display', `url(${staticFile('fonts/PlayfairDisplay-700i.woff2')}) format('woff2')`, {weight: '700', style: 'italic'}),
+	new FontFace('Grown', `url(${staticFile('fonts/Grown-Regular.ttf')}) format('truetype')`, {weight: '400'}),
+	new FontFace('Manrope', `url(${staticFile('fonts/Manrope-Bold.ttf')}) format('truetype')`, {weight: '700'}),
+	new FontFace('LucioleArabic', `url(${staticFile(ARABIC_FONT)})`, {weight: '700', unicodeRange: ARABIC}),
 ];
 const handle = delayRender('Loading reel fonts');
 Promise.all(faces.map((f) => f.load()))
@@ -23,10 +25,17 @@ Promise.all(faces.map((f) => f.load()))
 		continueRender(handle);
 	});
 
-export const sans = 'Cairo, "Noto Sans Arabic", sans-serif';
-export const serif = '"Playfair Display", Georgia, serif';
-export const YELLOW = '#FFD60A';
-export const INK = '#0B0B10';
+/** Manrope for Latin, falling through to the Arabic face, so mixed lines need one stack. */
+export const sans = 'Manrope, LucioleArabic, sans-serif';
+export const display = 'Grown, Georgia, serif';
+
+// Brand palette (LUCIOLE brand guidelines, page 07)
+export const GOLD = '#b7905d';
+export const BRONZE = '#9a6b3a';
+export const OLIVE = '#8f7d60';
+export const SAND = '#cbc3a8';
+export const CREAM = '#edece3';
+export const CHARCOAL = '#292929';
 
 const isArabic = /[؀-ۿ]/;
 export const scriptOf = (text: string): 'ar' | 'latin' => (isArabic.test(text) ? 'ar' : 'latin');
@@ -124,5 +133,5 @@ export const normalizeWord = (text: string) =>
 		.replace(/[.,!?؟،:;"'“”]/g, '')
 		.trim();
 
-/** The end card comes up just after the last spoken word and runs through the hold. */
+/** The logo outro comes up just after the last spoken word and runs through the hold. */
 export const END_CARD_AT = Math.min(PHRASES[PHRASES.length - 1].end + 8, BODY_END);

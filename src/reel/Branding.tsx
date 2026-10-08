@@ -1,178 +1,124 @@
 import {AbsoluteFill, Easing, Img, interpolate, spring, staticFile, useCurrentFrame, useVideoConfig} from 'remotion';
 import {BRAND} from './data';
 import {FireflyField} from './Effects';
-import {END_CARD_AT, INK, REEL_DURATION, sans, serif, YELLOW} from './timeline';
+import {CHARCOAL, CREAM, display, END_CARD_AT, GOLD, REEL_DURATION, SAND, sans} from './timeline';
+
+/**
+ * Logo outro, styled on the LUCIOLE brand guidelines: the white wordmark with its gold
+ * star on charcoal, the master-brand tagline in Grown between thin gold rules, then
+ * the WhatsApp number and location. Text values live in data.ts BRAND; to change the
+ * logo, replace public/reel/brand/logo-white.png (keep a transparent background).
+ */
 
 const clamp = {extrapolateLeft: 'clamp', extrapolateRight: 'clamp'} as const;
 
-/** Round avatar: the brand initial with a firefly glow. Swap for the real logo with <Img>. */
-const Avatar: React.FC<{size: number}> = ({size}) => (
-	<div
-		style={{
-			width: size,
-			height: size,
-			borderRadius: '50%',
-			flexShrink: 0,
-			display: 'flex',
-			alignItems: 'center',
-			justifyContent: 'center',
-			background: 'radial-gradient(circle at 62% 70%, #FFF3A3 0%, #FFD60A 28%, #1C2238 62%)',
-			border: '3px solid #FFFFFF',
-			fontFamily: serif,
-			fontStyle: 'italic',
-			fontWeight: 700,
-			fontSize: size * 0.56,
-			color: '#FFFFFF',
-			textShadow: '0 2px 8px rgba(0,0,0,0.5)',
-		}}
-	>
-		{BRAND.name[0]}
-	</div>
+const LOGO_W = 780;
+const LOGO_RATIO = 404 / 838; // logo-white.png is 838x404
+const STAR: [number, number] = [0.524, 0.275]; // star centre inside the logo, 0..1
+
+// Material Icons "call" and "place" glyphs (24x24).
+const HANDSET =
+	'M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z';
+const PIN =
+	'M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z';
+
+const WhatsAppIcon: React.FC<{size: number}> = ({size}) => (
+	<svg width={size} height={size} viewBox="0 0 48 48">
+		<circle cx="24" cy="24" r="22.5" fill="none" stroke={GOLD} strokeWidth="2.5" />
+		<path d="M24 12a12 12 0 0 0-10.4 18L12 36l6.2-1.6A12 12 0 1 0 24 12z" fill="none" stroke={CREAM} strokeWidth="2.2" strokeLinejoin="round" />
+		<g transform="translate(17.2 17.2) scale(0.57)">
+			<path d={HANDSET} fill={CREAM} />
+		</g>
+	</svg>
 );
 
-const FollowButton: React.FC<{size: number; pulse: number}> = ({size, pulse}) => (
-	<div
-		style={{
-			display: 'flex',
-			alignItems: 'center',
-			gap: size * 0.25,
-			padding: `${size * 0.22}px ${size * 0.55}px`,
-			borderRadius: 999,
-			background: YELLOW,
-			color: INK,
-			fontFamily: sans,
-			fontWeight: 900,
-			fontSize: size,
-			lineHeight: 1,
-			transform: `scale(${pulse})`,
-		}}
-	>
-		<Img src={staticFile('reel/icons/1f514.svg')} style={{width: size * 0.95, height: size * 0.95}} />
-		Follow
-	</div>
+const PinIcon: React.FC<{size: number}> = ({size}) => (
+	<svg width={size} height={size} viewBox="0 0 48 48">
+		<circle cx="24" cy="24" r="22.5" fill="none" stroke={GOLD} strokeWidth="2.5" />
+		<g transform="translate(12 11) scale(1)">
+			<path d={PIN} fill={CREAM} />
+		</g>
+	</svg>
 );
 
-/**
- * Small follow pill that slides in after the hook and stays until the end card, with
- * a nudge every few seconds. Sits bottom left, above Instagram's caption block.
- */
-export const FollowBadge: React.FC = () => {
-	const frame = useCurrentFrame();
-	const {fps} = useVideoConfig();
-	const IN = 45;
-	if (frame < IN || frame >= END_CARD_AT) return null;
+const rise = (frame: number, at: number) => interpolate(frame, [at, at + 10], [0, 1], {...clamp, easing: Easing.out(Easing.cubic)});
 
-	const enter = spring({frame: frame - IN, fps, config: {damping: 14, stiffness: 120}});
-	const out = interpolate(frame, [END_CARD_AT - 8, END_CARD_AT], [1, 0], clamp);
-	const beat = (frame - IN) % 150; // every 5s
-	const pulse = 1 + 0.12 * Math.sin(interpolate(beat, [90, 108], [0, Math.PI], clamp));
-
-	return (
-		<div
-			style={{
-				position: 'absolute',
-				left: 48,
-				top: 1478,
-				display: 'flex',
-				alignItems: 'center',
-				gap: 16,
-				padding: '10px 12px 10px 10px',
-				borderRadius: 999,
-				background: 'rgba(14,14,20,0.66)',
-				border: '1.5px solid rgba(255,255,255,0.18)',
-				boxShadow: '0 12px 30px rgba(0,0,0,0.3)',
-				transform: `translateX(${(1 - enter) * -460}px)`,
-				opacity: out,
-			}}
-		>
-			<Avatar size={68} />
-			<div style={{display: 'flex', flexDirection: 'column', marginRight: 6}}>
-				<span style={{fontFamily: serif, fontStyle: 'italic', fontWeight: 700, fontSize: 34, color: '#FFFFFF', lineHeight: 1.05}}>{BRAND.name}</span>
-				<span style={{fontFamily: sans, fontWeight: 700, fontSize: 22, color: 'rgba(255,255,255,0.75)', lineHeight: 1.3}}>{BRAND.handle}</span>
-			</div>
-			<FollowButton size={30} pulse={pulse} />
+const ContactRow: React.FC<{icon: React.ReactNode; label: string; value: string; extra?: string; show: number}> = ({icon, label, value, extra, show}) => (
+	<div style={{display: 'flex', alignItems: 'center', gap: 28, opacity: show, transform: `translateY(${(1 - show) * 24}px)`}}>
+		{icon}
+		<div style={{display: 'flex', flexDirection: 'column'}}>
+			<span style={{fontFamily: sans, fontWeight: 700, fontSize: 24, letterSpacing: '0.24em', color: SAND, textTransform: 'uppercase', lineHeight: 1.4}}>{label}</span>
+			<span style={{fontFamily: sans, fontWeight: 700, fontSize: 64, color: CREAM, lineHeight: 1.1, display: 'flex', alignItems: 'baseline', gap: 22}}>
+				{value}
+				{extra ? (
+					<span lang="ar" style={{direction: 'rtl', fontSize: 44, color: SAND}}>
+						{extra}
+					</span>
+				) : null}
+			</span>
 		</div>
-	);
-};
+	</div>
+);
 
-/** End card over the frozen last frame: wordmark, tagline in both languages, follow CTA. */
-export const EndCard: React.FC = () => {
+export const Outro: React.FC = () => {
 	const frame = useCurrentFrame();
 	const {fps} = useVideoConfig();
-	const duration = REEL_DURATION - END_CARD_AT;
-	const t = frame; // mounted in a Sequence starting at END_CARD_AT
+	const duration = REEL_DURATION - END_CARD_AT; // mounted in a Sequence starting at END_CARD_AT
 
-	const dim = interpolate(t, [0, 12], [0, 1], {...clamp, easing: Easing.out(Easing.cubic)});
-	const logo = spring({frame: t - 4, fps, config: {damping: 12, stiffness: 110}});
-	const line = interpolate(t, [12, 22], [0, 1], clamp);
-	const lineAr = interpolate(t, [16, 26], [0, 1], clamp);
-	const cta = spring({frame: t - 20, fps, config: {damping: 10, stiffness: 160}});
-	const pulse = 1 + 0.05 * Math.sin(Math.max(0, t - 34) / 4);
-	const glow = 24 + 10 * Math.sin(t / 6);
+	const dim = interpolate(frame, [0, 14], [0, 1], {...clamp, easing: Easing.out(Easing.cubic)});
+	const logo = spring({frame: frame - 6, fps, config: {damping: 16, stiffness: 90}});
+	const logoBlur = interpolate(logo, [0, 1], [14, 0]);
+	const star = interpolate(frame, [14, 24, 40], [0, 1, 0.55], clamp) + 0.12 * Math.sin(frame / 5) * (frame > 40 ? 1 : 0);
+	const rules = interpolate(frame, [18, 34], [0, 1], {...clamp, easing: Easing.inOut(Easing.cubic)});
+	const tagline = rise(frame, 20);
+	const phone = rise(frame, 30);
+	const place = rise(frame, 36);
+
+	const logoH = LOGO_W * LOGO_RATIO;
 
 	return (
 		<AbsoluteFill>
-			<AbsoluteFill
-				style={{
-					opacity: dim,
-					background: 'linear-gradient(180deg, rgba(12,14,28,0.35) 0%, rgba(12,14,28,0.78) 45%, rgba(12,14,28,0.9) 100%)',
-					backdropFilter: `blur(${dim * 10}px)`,
-				}}
-			/>
-			<FireflyField duration={duration} count={34} seed="end" />
-			<AbsoluteFill style={{alignItems: 'center', justifyContent: 'center', paddingBottom: 220, paddingRight: 60}}>
-				<div
-					style={{
-						fontFamily: serif,
-						fontStyle: 'italic',
-						fontWeight: 700,
-						fontSize: 200,
-						color: '#FFFFFF',
-						lineHeight: 1,
-						textShadow: `0 0 ${glow}px rgba(255,214,10,0.65), 0 8px 30px rgba(0,0,0,0.45)`,
-						transform: `scale(${0.7 + 0.3 * logo})`,
-						opacity: Math.min(1, logo * 1.5),
-					}}
-				>
-					{BRAND.name}
+			<AbsoluteFill style={{background: CHARCOAL, opacity: dim * 0.9, backdropFilter: `blur(${dim * 14}px)`}} />
+			<FireflyField duration={duration} count={30} seed="outro" />
+			<AbsoluteFill style={{alignItems: 'center', justifyContent: 'center', paddingBottom: 140}}>
+				<div style={{position: 'relative', width: LOGO_W, height: logoH}}>
+					{/* Warm bloom behind the star as it "lights up". */}
+					<div
+						style={{
+							position: 'absolute',
+							left: STAR[0] * LOGO_W - 160,
+							top: STAR[1] * logoH - 160,
+							width: 320,
+							height: 320,
+							borderRadius: '50%',
+							background: 'radial-gradient(circle, rgba(214,178,122,0.75) 0%, rgba(183,144,93,0.25) 40%, rgba(183,144,93,0) 70%)',
+							opacity: star,
+							transform: `scale(${0.6 + 0.6 * star})`,
+						}}
+					/>
+					<Img
+						src={staticFile('reel/brand/logo-white.png')}
+						style={{
+							position: 'absolute',
+							inset: 0,
+							width: LOGO_W,
+							height: logoH,
+							opacity: Math.min(1, logo * 1.4),
+							transform: `scale(${0.9 + 0.1 * logo})`,
+							filter: `blur(${logoBlur}px)`,
+						}}
+					/>
 				</div>
-				<div
-					style={{
-						marginTop: 34,
-						fontFamily: sans,
-						fontWeight: 900,
-						fontSize: 50,
-						color: '#FFFFFF',
-						opacity: line,
-						transform: `translateY(${(1 - line) * 16}px)`,
-					}}
-				>
-					{BRAND.tagline}
+
+				<div style={{display: 'flex', alignItems: 'center', gap: 22, marginTop: 34}}>
+					<div style={{width: 90 * rules, height: 2, background: GOLD}} />
+					<span style={{fontFamily: display, fontSize: 46, color: CREAM, opacity: tagline, whiteSpace: 'nowrap'}}>{BRAND.tagline}</span>
+					<div style={{width: 90 * rules, height: 2, background: GOLD}} />
 				</div>
-				<div
-					lang="ar"
-					style={{
-						direction: 'rtl',
-						marginTop: 6,
-						fontFamily: sans,
-						fontWeight: 700,
-						fontSize: 46,
-						color: YELLOW,
-						opacity: lineAr,
-						transform: `translateY(${(1 - lineAr) * 16}px)`,
-					}}
-				>
-					{BRAND.taglineAr}
-				</div>
-				<div style={{marginTop: 64, transform: `scale(${cta * pulse})`, opacity: Math.min(1, cta * 1.4)}}>
-					<div style={{display: 'flex', alignItems: 'center', gap: 22, padding: '14px 18px 14px 14px', borderRadius: 999, background: 'rgba(255,255,255,0.12)', border: '2px solid rgba(255,255,255,0.3)'}}>
-						<Avatar size={96} />
-						<span style={{fontFamily: sans, fontWeight: 900, fontSize: 44, color: '#FFFFFF'}}>{BRAND.handle}</span>
-						<FollowButton size={44} pulse={1} />
-					</div>
-				</div>
-				<div lang="ar" style={{direction: 'rtl', marginTop: 22, fontFamily: sans, fontWeight: 700, fontSize: 38, color: 'rgba(255,255,255,0.85)', opacity: cta}}>
-					تابعونا لتعرفوا أكتر
+
+				<div style={{display: 'flex', flexDirection: 'column', gap: 40, marginTop: 110, alignItems: 'flex-start'}}>
+					<ContactRow icon={<WhatsAppIcon size={96} />} label="WhatsApp" value={BRAND.whatsapp} show={phone} />
+					<ContactRow icon={<PinIcon size={96} />} label="Location" value={BRAND.location} extra={BRAND.locationAr} show={place} />
 				</div>
 			</AbsoluteFill>
 		</AbsoluteFill>

@@ -1,17 +1,17 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400">
   <defs>
     <radialGradient id="glow" cx="50%" cy="50%" r="50%">
-      <stop offset="0" stop-color="#FFF7B0" stop-opacity="1"/>
-      <stop offset="0.35" stop-color="#FFE14D" stop-opacity="0.85"/>
-      <stop offset="1" stop-color="#FFB300" stop-opacity="0"/>
+      <stop offset="0" stop-color="#F6EBD6" stop-opacity="1"/>
+      <stop offset="0.35" stop-color="#D6B27A" stop-opacity="0.85"/>
+      <stop offset="1" stop-color="#B7905D" stop-opacity="0"/>
     </radialGradient>
     <linearGradient id="wing" x1="0" y1="0" x2="0" y2="1">
       <stop offset="0" stop-color="#FFFFFF" stop-opacity="0.85"/>
-      <stop offset="1" stop-color="#CFE8FF" stop-opacity="0.35"/>
+      <stop offset="1" stop-color="#CBC3A8" stop-opacity="0.35"/>
     </linearGradient>
   </defs>
-  <rect width="400" height="400" fill="#141A2E"/>
-  <g fill="#FFE14D">
+  <rect width="400" height="400" fill="#292929"/>
+  <g fill="#D6B27A">
     <circle cx="60" cy="70" r="3"/><circle cx="330" cy="60" r="2.5"/><circle cx="350" cy="300" r="3.5"/>
     <circle cx="48" cy="320" r="2.5"/><circle cx="300" cy="170" r="2"/><circle cx="90" cy="210" r="2"/>
   </g>
@@ -19,11 +19,11 @@
   <g transform="rotate(-28 200 200)">
     <ellipse cx="160" cy="150" rx="74" ry="30" fill="url(#wing)" transform="rotate(-28 160 150)"/>
     <ellipse cx="248" cy="150" rx="74" ry="30" fill="url(#wing)" transform="rotate(28 248 150)"/>
-    <ellipse cx="204" cy="196" rx="34" ry="62" fill="#2B2F3A"/>
-    <ellipse cx="204" cy="258" rx="30" ry="36" fill="#FFF3A3"/>
-    <circle cx="204" cy="126" r="26" fill="#2B2F3A"/>
+    <ellipse cx="204" cy="196" rx="34" ry="62" fill="#1E1E1E"/>
+    <ellipse cx="204" cy="258" rx="30" ry="36" fill="#F1DFC0"/>
+    <circle cx="204" cy="126" r="26" fill="#1E1E1E"/>
     <circle cx="194" cy="120" r="6" fill="#fff"/><circle cx="214" cy="120" r="6" fill="#fff"/>
-    <path d="M194 104 Q180 70 160 64" stroke="#2B2F3A" stroke-width="5" fill="none" stroke-linecap="round"/>
-    <path d="M214 104 Q228 70 248 64" stroke="#2B2F3A" stroke-width="5" fill="none" stroke-linecap="round"/>
+    <path d="M194 104 Q180 70 160 64" stroke="#1E1E1E" stroke-width="5" fill="none" stroke-linecap="round"/>
+    <path d="M214 104 Q228 70 248 64" stroke="#1E1E1E" stroke-width="5" fill="none" stroke-linecap="round"/>
   </g>
 </svg>

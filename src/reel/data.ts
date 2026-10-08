@@ -45,8 +45,8 @@ export const CUTS: Cut[] = [
 	{rush: 6, src: 'reel/rush6.mp4', from: 0.6, to: 4.55, focus: [0.5, 0.3]}, // duo outro
 ];
 
-/** Seconds the last frame is held (frozen, muted) under the end card. */
-export const END_HOLD = 1.5;
+/** Seconds the last frame is held (frozen, muted) under the logo outro. */
+export const END_HOLD = 2.6;
 
 // ---------------------------------------------------------------------------
 // 2. CAPTIONS
@@ -175,14 +175,16 @@ export const BADGES: Badge[] = [
 ];
 
 // ---------------------------------------------------------------------------
-// 4. BRAND (Branding.tsx)
+// 4. BRAND OUTRO (Branding.tsx)
 // ---------------------------------------------------------------------------
-// TODO before publishing: confirm the real Instagram handle.
+// Logo file: public/reel/brand/logo-white.png (white wordmark + gold star, for dark
+// backgrounds). Colours and fonts come from the LUCIOLE brand guidelines.
 export const BRAND = {
 	name: 'Luciole',
-	handle: '@luciole',
-	tagline: 'They create. You pause & connect.',
-	taglineAr: 'هنّي بيبدعوا، وإنتو بترتاحوا',
+	tagline: 'They Create You Pause & Connect',
+	whatsapp: '81 540 282',
+	location: 'Jounieh',
+	locationAr: 'جونيه',
 };
 
 /** Optional music bed, e.g. 'reel/music.mp3'. Kept low under the voices. */
