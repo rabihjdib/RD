@@ -1,0 +1,26 @@
+{
+  "name": "yammine-market-weekly-deals",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Yammine Market Mansourieh: 4 vertical promo variants for the weekly in-store deals campaign, built with Remotion",
+  "scripts": {
+    "studio": "remotion studio",
+    "music": "python3 scripts/make_music.py",
+    "render:general": "remotion render src/index.ts WeeklyDeals-General out/yammine-general-raw.mp4 && scripts/master.sh out/yammine-general-raw.mp4 out/yammine-general.mp4",
+    "render:beverages": "remotion render src/index.ts WeeklyDeals-Beverages out/yammine-beverages-raw.mp4 && scripts/master.sh out/yammine-beverages-raw.mp4 out/yammine-beverages.mp4",
+    "render:fresh": "remotion render src/index.ts WeeklyDeals-Fresh out/yammine-fresh-raw.mp4 && scripts/master.sh out/yammine-fresh-raw.mp4 out/yammine-fresh.mp4",
+    "render:flash": "remotion render src/index.ts WeeklyDeals-FlashSale out/yammine-flash-sale-raw.mp4 && scripts/master.sh out/yammine-flash-sale-raw.mp4 out/yammine-flash-sale.mp4",
+    "render:all": "npm run render:general && npm run render:beverages && npm run render:fresh && npm run render:flash",
+    "typecheck": "tsc"
+  },
+  "dependencies": {
+    "@remotion/cli": "4.0.534",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "remotion": "4.0.534"
+  },
+  "devDependencies": {
+    "@types/react": "^18.3.12",
+    "typescript": "^5.6.3"
+  }
+}
