@@ -10,7 +10,7 @@ import {CREAM, display, GOLD, SAND, sans} from './timeline';
  *
  * Swap the photo: replace public/reel/cover/frame.jpg (any 1080x1920 frame). iPhone
  * footage is HDR (HLG), so tone-map it or the colours come out flat:
- *   ffmpeg -ss 5.7 -i IMG_3766.mov -frames:v 1 -q:v 2 -vf "zscale=t=linear:npl=203,format=gbrpf32le,zscale=p=bt709,\
+ *   ffmpeg -ss 7.25 -i IMG_3766.mov -frames:v 1 -q:v 2 -vf "zscale=t=linear:npl=203,format=gbrpf32le,zscale=p=bt709,\
  *     tonemap=tonemap=mobius:param=0.5:desat=0,zscale=t=bt709:m=bt709:r=tv,scale=1080:1920:force_original_aspect_ratio=increase,\
  *     crop=1080:1920,format=yuvj420p" public/reel/cover/frame.jpg
  */
