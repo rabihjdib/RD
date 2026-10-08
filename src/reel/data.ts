@@ -18,10 +18,13 @@ export const HEIGHT = 1920;
 // rush, list it twice with the pause left out (see rush 2 and rush 4).
 //
 // To use your own footage: drop files in public/reel/ (any name), point `src` at them
-// and set from/to. Phone .mov files (HEVC, rotated) play badly in Chromium, so
-// transcode first, e.g.
-//   ffmpeg -i IMG_1234.mov -vf "scale=1080:1920:force_original_aspect_ratio=increase,crop=1080:1920,fps=30" \
-//     -c:v libx264 -crf 20 -af loudnorm=I=-14:TP=-1.5 -c:a aac public/reel/rush1.mp4
+// and set from/to. Phone .mov files (HEVC, rotated, HDR) play badly in Chromium and
+// look flat without tone mapping, so transcode first, e.g.
+//   ffmpeg -i IMG_1234.mov -vf "zscale=t=linear:npl=203,format=gbrpf32le,zscale=p=bt709,\
+//     tonemap=tonemap=mobius:param=0.5:desat=0,zscale=t=bt709:m=bt709:r=tv,\
+//     scale=1080:1920:force_original_aspect_ratio=increase,crop=1080:1920,fps=30,format=yuv420p" \
+//     -c:v libx264 -crf 20 -an public/reel/rush1.mp4
+// then add the cleaned voice with scripts/isolate_voice.sh IMG_1234.mov public/reel/rush1.mp4
 //
 // `focus` is where the speaker's face sits (0..1 of the frame) so punch-ins zoom
 // towards it instead of the frame centre.

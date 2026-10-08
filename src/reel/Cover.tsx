@@ -8,8 +8,11 @@ import {CREAM, display, GOLD, SAND, sans} from './timeline';
  * Instagram crops covers to 3:4 (1080x1440, y 240-1680) in the profile grid, so the
  * logo and headline stay inside that band.
  *
- * Swap the photo: replace public/reel/cover/frame.jpg (any 1080x1920 frame), e.g.
- *   ffmpeg -ss 5.7 -i IMG_3766.mov -frames:v 1 -q:v 2 public/reel/cover/frame.jpg
+ * Swap the photo: replace public/reel/cover/frame.jpg (any 1080x1920 frame). iPhone
+ * footage is HDR (HLG), so tone-map it or the colours come out flat:
+ *   ffmpeg -ss 5.7 -i IMG_3766.mov -frames:v 1 -q:v 2 -vf "zscale=t=linear:npl=203,format=gbrpf32le,zscale=p=bt709,\
+ *     tonemap=tonemap=mobius:param=0.5:desat=0,zscale=t=bt709:m=bt709:r=tv,scale=1080:1920:force_original_aspect_ratio=increase,\
+ *     crop=1080:1920,format=yuvj420p" public/reel/cover/frame.jpg
  */
 
 export const COVER = {
@@ -24,7 +27,7 @@ export const LucioleCover: React.FC = () => (
 	<AbsoluteFill style={{backgroundColor: CREAM}}>
 		<Img
 			src={staticFile('reel/cover/frame.jpg')}
-			style={{position: 'absolute', left: 0, top: PHOTO_SHIFT, width: 1080, height: 1920, objectFit: 'cover', filter: 'contrast(1.04) saturate(0.96)'}}
+			style={{position: 'absolute', left: 0, top: PHOTO_SHIFT, width: 1080, height: 1920, objectFit: 'cover'}}
 		/>
 
 		{/* Cream band with the dark logo */}
