@@ -187,6 +187,12 @@ export const BRAND = {
 	locationAr: 'جونيه',
 };
 
-/** Optional music bed, e.g. 'reel/music.mp3'. Kept low under the voices. */
-export const MUSIC: string | null = null;
-export const MUSIC_VOLUME = 0.12;
+// ---------------------------------------------------------------------------
+// 5. MUSIC BED (Main.tsx)
+// ---------------------------------------------------------------------------
+// Original kids-style track from scripts/make_reel_music.py (license-free). To use a
+// licensed track instead, drop it in public/reel/music/ and change MUSIC; the ducking
+// below still applies. Set MUSIC to null for voice only.
+//   speech: level under the voices   gaps: between phrases   outro: over the logo
+export const MUSIC: string | null = 'reel/music/luciole-kids-bed.mp3';
+export const MUSIC_LEVELS = {speech: 0.13, gaps: 0.4, outro: 0.85};

@@ -1,7 +1,7 @@
-import {AbsoluteFill, Audio, Freeze, OffthreadVideo, Sequence, staticFile} from 'remotion';
+import {AbsoluteFill, Audio, Freeze, interpolate, OffthreadVideo, Sequence, staticFile} from 'remotion';
 import {BRollOverlays} from './BRollOverlays';
 import {Outro} from './Branding';
-import {MUSIC, MUSIC_VOLUME} from './data';
+import {MUSIC, MUSIC_LEVELS} from './data';
 import {CutTransitions, FireflyField, HighlightBadges, useCamera} from './Effects';
 import {Subtitles} from './Subtitles';
 import {BODY_END, END_CARD_AT, END_HOLD_FRAMES, normalizeWord, REEL_DURATION, SEGMENTS, WORDS} from './timeline';
@@ -17,6 +17,7 @@ import {BODY_END, END_CARD_AT, END_HOLD_FRAMES, normalizeWord, REEL_DURATION, SE
  *   5. Highlight badges               (Effects.tsx)
  *   6. Captions, word by word         (Subtitles.tsx)
  *   7. Logo outro with WhatsApp + location (Branding.tsx)
+ *   8. Kids music bed, ducked under every spoken word
  *
  * To re-edit: change CUTS / CAPTIONS / BADGES in data.ts. The duration, transitions,
  * caption timing and keyword pop-ups all follow from there.
@@ -46,6 +47,25 @@ const Footage: React.FC = () => {
 
 const SPARK = WORDS.find((w) => normalizeWord(w.text) === 'spark');
 
+// Music ducking: a per-frame level that dips under every caption word (so re-timing the
+// captions moves the ducking too), lifts between phrases and swells under the outro.
+const MUSIC_CURVE: number[] = (() => {
+	const speaking = new Array(REEL_DURATION).fill(0);
+	for (const w of WORDS) {
+		for (let f = Math.max(0, w.start - 4); f <= Math.min(REEL_DURATION - 1, w.end + 6); f++) speaking[f] = 1;
+	}
+	// Fast duck (about 3 frames), slow release (about 10 frames) so the music breathes.
+	const curve: number[] = [];
+	let duck = speaking[0];
+	for (let f = 0; f < REEL_DURATION; f++) {
+		duck += (speaking[f] - duck) * (speaking[f] > duck ? 0.45 : 0.12);
+		const body = MUSIC_LEVELS.gaps + (MUSIC_LEVELS.speech - MUSIC_LEVELS.gaps) * duck;
+		const swell = interpolate(f, [END_CARD_AT, END_CARD_AT + 12], [0, 1], {extrapolateLeft: 'clamp', extrapolateRight: 'clamp'});
+		curve.push(body + (MUSIC_LEVELS.outro - body) * swell);
+	}
+	return curve;
+})();
+
 export const LucioleReel: React.FC = () => (
 	<AbsoluteFill style={{backgroundColor: '#000'}}>
 		<Footage />
@@ -63,7 +83,7 @@ export const LucioleReel: React.FC = () => (
 			<Outro />
 			<Audio src={staticFile('reel/sfx/sparkle.wav')} volume={0.5} />
 		</Sequence>
-		{MUSIC ? <Audio src={staticFile(MUSIC)} volume={MUSIC_VOLUME} /> : null}
+		{MUSIC ? <Audio src={staticFile(MUSIC)} volume={(f) => MUSIC_CURVE[Math.min(f, REEL_DURATION - 1)]} /> : null}
 	</AbsoluteFill>
 );
 

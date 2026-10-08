@@ -8,7 +8,8 @@
     "render": "remotion render src/index.ts LaserTagSpot out/laser-tag-spot.mp4",
     "still": "remotion still src/index.ts LaserTagSpot out/still.png",
     "render:vertical": "remotion render src/index.ts LaserTagSpotVertical out/laser-tag-spot-9x16.mp4",
-    "render:reel": "remotion render src/index.ts LucioleReel out/luciole-reel.mp4",
+    "render:reel": "remotion render src/index.ts LucioleReel out/luciole-reel-raw.mp4 && npm run master:reel",
+    "master:reel": "ffmpeg -v error -y -i out/luciole-reel-raw.mp4 -c:v copy -af loudnorm=I=-14:TP=-1:LRA=9 -c:a aac -b:a 192k -ar 48000 -movflags +faststart out/luciole-reel.mp4",
     "still:reel": "remotion still src/index.ts LucioleReel out/reel-still.png"
   },
   "dependencies": {
