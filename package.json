@@ -7,7 +7,9 @@
     "studio": "remotion studio",
     "render": "remotion render src/index.ts LaserTagSpot out/laser-tag-spot.mp4",
     "still": "remotion still src/index.ts LaserTagSpot out/still.png",
-    "render:vertical": "remotion render src/index.ts LaserTagSpotVertical out/laser-tag-spot-9x16.mp4"
+    "render:vertical": "remotion render src/index.ts LaserTagSpotVertical out/laser-tag-spot-9x16.mp4",
+    "render:reel": "remotion render src/index.ts LucioleReel out/luciole-reel.mp4",
+    "still:reel": "remotion still src/index.ts LucioleReel out/reel-still.png"
   },
   "dependencies": {
     "@remotion/cli": "^4.0.534",

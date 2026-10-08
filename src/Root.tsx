@@ -1,6 +1,8 @@
 import {Composition} from 'remotion';
 import {LaserTagSpot, SPOT_DURATION} from './LaserTagSpot';
 import {LaserTagSpotVertical, VERTICAL_SIZE} from './LaserTagSpotVertical';
+import {LucioleReel, REEL_DURATION} from './reel/Main';
+import {FPS, HEIGHT, WIDTH} from './reel/data';
 
 export const RemotionRoot: React.FC = () => (
 	<>
@@ -19,5 +21,6 @@ export const RemotionRoot: React.FC = () => (
 			fps={30}
 			{...VERTICAL_SIZE}
 		/>
+		<Composition id="LucioleReel" component={LucioleReel} durationInFrames={REEL_DURATION} fps={FPS} width={WIDTH} height={HEIGHT} />
 	</>
 );
