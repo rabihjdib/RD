@@ -15,6 +15,8 @@
     "render:atelier": "remotion render src/index.ts AtelierTour out/atelier-tour-raw.mp4 && ffmpeg -v error -y -i out/atelier-tour-raw.mp4 -c:v copy -bsf:v h264_metadata=colour_primaries=1:transfer_characteristics=1:matrix_coefficients=1 -af loudnorm=I=-14:TP=-1:LRA=9 -c:a aac -b:a 192k -ar 48000 -movflags +faststart out/atelier-tour.mp4",
     "render:birthday": "remotion render src/index.ts BirthdayReel out/birthday-reel-raw.mp4 && ffmpeg -v error -y -i out/birthday-reel-raw.mp4 -c:v copy -bsf:v h264_metadata=colour_primaries=1:transfer_characteristics=1:matrix_coefficients=1 -af loudnorm=I=-14:TP=-1:LRA=9 -c:a aac -b:a 192k -ar 48000 -movflags +faststart out/birthday-reel.mp4",
     "cover:halloween": "remotion still src/index.ts HalloweenCover out/halloween-cover.png",
+    "cover:birthday": "remotion still src/index.ts BirthdayCover out/birthday-cover.png",
+    "cover:atelier": "remotion still src/index.ts AtelierCover out/atelier-cover.png",
     "render:halloween": "remotion render src/index.ts HalloweenReel out/halloween-reel-raw.mp4 && ffmpeg -v error -y -i out/halloween-reel-raw.mp4 -c:v copy -bsf:v h264_metadata=colour_primaries=1:transfer_characteristics=1:matrix_coefficients=1 -af loudnorm=I=-14:TP=-1:LRA=9 -c:a aac -b:a 192k -ar 48000 -movflags +faststart out/halloween-reel.mp4"
   },
   "dependencies": {
