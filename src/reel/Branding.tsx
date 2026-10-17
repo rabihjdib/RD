@@ -60,10 +60,13 @@ const ContactRow: React.FC<{icon: React.ReactNode; label: string; value: string;
 	</div>
 );
 
-export const Outro: React.FC = () => {
+/**
+ * `duration` is the outro length in frames (it is mounted in a Sequence of that length);
+ * `note` is an optional line above the contact details, e.g. event dates.
+ */
+export const Outro: React.FC<{duration?: number; note?: string}> = ({duration = REEL_DURATION - END_CARD_AT, note}) => {
 	const frame = useCurrentFrame();
 	const {fps} = useVideoConfig();
-	const duration = REEL_DURATION - END_CARD_AT; // mounted in a Sequence starting at END_CARD_AT
 
 	const dim = interpolate(frame, [0, 14], [0, 1], {...clamp, easing: Easing.out(Easing.cubic)});
 	const logo = spring({frame: frame - 6, fps, config: {damping: 16, stiffness: 90}});
@@ -116,7 +119,13 @@ export const Outro: React.FC = () => {
 					<div style={{width: 90 * rules, height: 2, background: GOLD}} />
 				</div>
 
-				<div style={{display: 'flex', flexDirection: 'column', gap: 40, marginTop: 110, alignItems: 'flex-start'}}>
+				{note ? (
+					<div style={{marginTop: 70, fontFamily: sans, fontWeight: 700, fontSize: 40, letterSpacing: '0.04em', color: GOLD, opacity: tagline, transform: `translateY(${(1 - tagline) * 16}px)`}}>
+						{note}
+					</div>
+				) : null}
+
+				<div style={{display: 'flex', flexDirection: 'column', gap: 40, marginTop: note ? 60 : 110, alignItems: 'flex-start'}}>
 					<ContactRow icon={<WhatsAppIcon size={96} />} label="WhatsApp" value={BRAND.whatsapp} show={phone} />
 					<ContactRow icon={<PinIcon size={96} />} label="Location" value={BRAND.location} extra={BRAND.locationAr} show={place} />
 				</div>
