@@ -1,6 +1,7 @@
 import {Composition, Still} from 'remotion';
 import {LaserTagSpot, SPOT_DURATION} from './LaserTagSpot';
 import {LaserTagSpotVertical, VERTICAL_SIZE} from './LaserTagSpotVertical';
+import {ATELIER_DURATION, AtelierTour} from './atelier/Main';
 import {BirthdayReel, REEL_DURATION as BIRTHDAY_DURATION} from './birthday/Main';
 import {HalloweenCover} from './halloween/Cover';
 import {HalloweenReel, REEL_DURATION as HALLOWEEN_DURATION} from './halloween/Main';
@@ -30,5 +31,6 @@ export const RemotionRoot: React.FC = () => (
 		<Composition id="HalloweenReel" component={HalloweenReel} durationInFrames={HALLOWEEN_DURATION} fps={FPS} width={WIDTH} height={HEIGHT} />
 		<Still id="HalloweenCover" component={HalloweenCover} width={WIDTH} height={HEIGHT} />
 		<Composition id="BirthdayReel" component={BirthdayReel} durationInFrames={BIRTHDAY_DURATION} fps={FPS} width={WIDTH} height={HEIGHT} />
+		<Composition id="AtelierTour" component={AtelierTour} durationInFrames={ATELIER_DURATION} fps={FPS} width={WIDTH} height={HEIGHT} />
 	</>
 );
