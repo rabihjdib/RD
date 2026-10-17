@@ -14,6 +14,8 @@
  *   h5 IMG_4781  how to book / WhatsApp
  *   b1 IMG_4756  B-roll: kids in the space (silent)
  *   b2 IMG_4755  B-roll: kids at the shelves (silent)
+ *   w1 IMG_4820  B-roll: Wood Wizard workshop, wide (silent)
+ *   w2 IMG_4826  B-roll: Wood Wizard workshop, hammering close-up (silent)
  */
 
 export const FPS = 30;
@@ -49,7 +51,10 @@ export type BRoll = {src: string; from: number; duration: number; at: {clip: str
 export const BROLL: BRoll[] = [
 	{src: 'b1', from: 0.0, duration: 1.5, at: {clip: 'h1', sec: 4.65}}, // "three wonderful days"
 	{src: 'b2', from: 0.3, duration: 2.6, at: {clip: 'h3', sec: 2.45}}, // "their own outfit..."
-	{src: 'b1', from: 13.0, duration: 2.1, at: {clip: 'h4', sec: 3.95}}, // "a wood workshop for the kids"
+	// Wood Wizard workshop footage over "We're teaming up with Wood Wizard, a wood workshop for the kids"
+	{src: 'w1', from: 0.3, duration: 1.45, at: {clip: 'h4', sec: 2.5}}, // instructor with the kids at the benches
+	{src: 'w2', from: 0.1, duration: 1.1, at: {clip: 'h4', sec: 3.95}}, // close-up: hammering
+	{src: 'w1', from: 6.6, duration: 1.0, at: {clip: 'h4', sec: 5.05}}, // rows of kids building, into the next cut
 ];
 
 // ---------------------------------------------------------------------------

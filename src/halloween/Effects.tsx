@@ -130,9 +130,12 @@ export const Badges: React.FC = () => (
 // Icon pops beside her when a key word is said (data.ts ICON_POPS)
 // ---------------------------------------------------------------------------
 
+// Each pop holds 36 frames but never crosses into the next clip.
 const POPS = ICON_POPS.flatMap((p) => {
 	const w = WORDS.find((x) => normalizeWord(x.text) === p.word);
-	return w ? [{...p, start: w.start}] : [];
+	if (!w) return [];
+	const seg = segmentAt(w.start);
+	return [{...p, start: w.start, hold: Math.max(12, Math.min(36, seg.start + seg.duration - w.start))}];
 });
 
 const IconCard: React.FC<{icon: string; x: number; y: number; tilt: number; hold: number}> = ({icon, x, y, tilt, hold}) => {
@@ -168,8 +171,8 @@ const IconCard: React.FC<{icon: string; x: number; y: number; tilt: number; hold
 export const IconPops: React.FC = () => (
 	<>
 		{POPS.map((p) => (
-			<Sequence key={p.word} from={p.start} durationInFrames={36} layout="none">
-				<IconCard icon={p.icon} x={p.x} y={p.y} tilt={p.tilt} hold={36} />
+			<Sequence key={p.word} from={p.start} durationInFrames={p.hold} layout="none">
+				<IconCard icon={p.icon} x={p.x} y={p.y} tilt={p.tilt} hold={p.hold} />
 			</Sequence>
 		))}
 	</>
