@@ -24,6 +24,7 @@ rng = np.random.default_rng(3)
 ap = argparse.ArgumentParser()
 ap.add_argument('--duration', type=float, default=32.37)
 ap.add_argument('--outro', type=float, default=28.87)
+ap.add_argument('--out', default=None, help='output path (default: public/reel/music/luciole-kids-bed.mp3)')
 args = ap.parse_args()
 
 # Fit the tempo (around 108 BPM) so whole bars fill the time before the outro.
@@ -188,7 +189,7 @@ out = out[: int(SR * args.duration)]
 out /= np.max(np.abs(out)) + 1e-9
 out *= 0.9
 
-dest = os.path.join(os.path.dirname(__file__), '..', 'public', 'reel', 'music', 'luciole-kids-bed.mp3')
+dest = args.out or os.path.join(os.path.dirname(__file__), '..', 'public', 'reel', 'music', 'luciole-kids-bed.mp3')
 os.makedirs(os.path.dirname(dest), exist_ok=True)
 with tempfile.NamedTemporaryFile(suffix='.wav', delete=False) as tmp:
     with wave.open(tmp.name, 'wb') as w:

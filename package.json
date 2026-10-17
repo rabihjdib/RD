@@ -12,6 +12,7 @@
     "master:reel": "ffmpeg -v error -y -i out/luciole-reel-raw.mp4 -c:v copy -bsf:v h264_metadata=colour_primaries=1:transfer_characteristics=1:matrix_coefficients=1 -af loudnorm=I=-14:TP=-1:LRA=9 -c:a aac -b:a 192k -ar 48000 -movflags +faststart out/luciole-reel.mp4",
     "still:reel": "remotion still src/index.ts LucioleReel out/reel-still.png",
     "cover:reel": "remotion still src/index.ts LucioleCover out/luciole-cover.png",
+    "render:birthday": "remotion render src/index.ts BirthdayReel out/birthday-reel-raw.mp4 && ffmpeg -v error -y -i out/birthday-reel-raw.mp4 -c:v copy -bsf:v h264_metadata=colour_primaries=1:transfer_characteristics=1:matrix_coefficients=1 -af loudnorm=I=-14:TP=-1:LRA=9 -c:a aac -b:a 192k -ar 48000 -movflags +faststart out/birthday-reel.mp4",
     "cover:halloween": "remotion still src/index.ts HalloweenCover out/halloween-cover.png",
     "render:halloween": "remotion render src/index.ts HalloweenReel out/halloween-reel-raw.mp4 && ffmpeg -v error -y -i out/halloween-reel-raw.mp4 -c:v copy -bsf:v h264_metadata=colour_primaries=1:transfer_characteristics=1:matrix_coefficients=1 -af loudnorm=I=-14:TP=-1:LRA=9 -c:a aac -b:a 192k -ar 48000 -movflags +faststart out/halloween-reel.mp4"
   },

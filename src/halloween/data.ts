@@ -98,7 +98,7 @@ export type Badge = {clip: string; at: number; duration: number; icon: string; t
 
 export const BADGES: Badge[] = [
 	{clip: 'h1', at: 0.1, duration: 2.5, icon: '1f383', text: 'Halloween at Luciole'},
-	{clip: 'h1', at: 6.6, duration: 2.85, icon: '1f4c5', text: 'Oct 30 to Nov 1'},
+	{clip: 'h1', at: 6.6, duration: 2.85, icon: '1f5d3', text: 'Oct 30 to Nov 1'},
 	{clip: 'h2', at: 2.4, duration: 1.6, icon: '1f3ad', text: 'Outfits are on us'},
 	{clip: 'h4', at: 2.0, duration: 1.9, icon: '1fab5', text: 'Wood Wizard workshop'},
 	{clip: 'h5', at: 3.95, duration: 1.5, icon: '1f4ac', text: 'WhatsApp 81 540 282'},
