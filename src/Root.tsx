@@ -3,7 +3,7 @@ import {LaserTagSpot, SPOT_DURATION} from './LaserTagSpot';
 import {LaserTagSpotVertical, VERTICAL_SIZE} from './LaserTagSpotVertical';
 import {HalloweenReel, REEL_DURATION as HALLOWEEN_DURATION} from './halloween/Main';
 import {LucioleCover} from './reel/Cover';
-import {PRE_OPENING_COVERS, PreOpeningCover} from './reel/PreOpeningCovers';
+import {COVER_SERIES, ReelCover} from './reel/ReelCovers';
 import {LucioleReel, REEL_DURATION} from './reel/Main';
 import {FPS, HEIGHT, WIDTH} from './reel/data';
 
@@ -26,16 +26,18 @@ export const RemotionRoot: React.FC = () => (
 		/>
 		<Composition id="LucioleReel" component={LucioleReel} durationInFrames={REEL_DURATION} fps={FPS} width={WIDTH} height={HEIGHT} />
 		<Still id="LucioleCover" component={LucioleCover} width={WIDTH} height={HEIGHT} />
-		{PRE_OPENING_COVERS.map((cover) => (
-			<Still
-				key={cover.n}
-				id={`LucioleCover${String(cover.n).padStart(2, '0')}`}
-				component={PreOpeningCover}
-				defaultProps={cover}
-				width={WIDTH}
-				height={HEIGHT}
-			/>
-		))}
+		{COVER_SERIES.flatMap(({prefix, covers}) =>
+			covers.map((cover) => (
+				<Still
+					key={`${prefix}${cover.n}`}
+					id={`${prefix}${String(cover.n).padStart(2, '0')}`}
+					component={ReelCover}
+					defaultProps={cover}
+					width={WIDTH}
+					height={HEIGHT}
+				/>
+			)),
+		)}
 		<Composition id="HalloweenReel" component={HalloweenReel} durationInFrames={HALLOWEEN_DURATION} fps={FPS} width={WIDTH} height={HEIGHT} />
 	</>
 );
