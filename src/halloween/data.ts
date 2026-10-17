@@ -35,7 +35,7 @@ export const CUTS: Cut[] = [
 	{clip: 'h2', from: 0.0, to: 4.0, focus: [0.5, 0.3]},
 	{clip: 'h3', from: 0.0, to: 5.15, focus: [0.5, 0.3]},
 	{clip: 'h4', from: 1.72, to: 6.1, focus: [0.5, 0.3]}, // trims a stray off-camera comment
-	{clip: 'h5', from: 0.1, to: 5.45, focus: [0.5, 0.3], questionGain: 0.6}, // question was 5 dB hot
+	{clip: 'h5', from: 0.1, to: 5.95, focus: [0.5, 0.3], questionGain: 0.6}, // question was 5 dB hot; runs past the last digit (5.6s)
 ];
 
 /** Seconds the last frame is held (frozen, muted) under the logo outro. */
@@ -86,7 +86,7 @@ export const CAPTIONS: Phrase[] = [
 
 	{clip: 'h5', speaker: 'q', start: 0.2, end: 1.0, text: 'How do we book?'},
 	{clip: 'h5', speaker: 'a', start: 1.4, end: 3.6, text: 'You can book on *WhatsApp'},
-	{clip: 'h5', speaker: 'a', start: 3.95, end: 5.3, text: '*81 *540 *282'},
+	{clip: 'h5', speaker: 'a', start: 3.95, end: 5.65, text: '*81 *540 *282'},
 ];
 
 // ---------------------------------------------------------------------------
