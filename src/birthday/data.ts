@@ -14,7 +14,7 @@
  *   t5 IMG_4684  "Book 3 weeks ahead, and leave the rest to us"
  *   p_room  IMG_4859  party room, balloon arch     p_show  IMG_4963  science show
  *   p_watch IMG_4962  kids watching                p_craft IMG_4943  workshop
- *   p_cake  IMG_5018  cake and the hug              p_buffet IMG_5049 buffet close-up
+ *   p_cake  IMG_5018  cake and the hug              p_space IMG_4912  buffet and full room
  *   buffet-photo.jpg  the buffet spread (still photo)
  *   p_sing  IMG_5019  everyone singing             p_food  IMG_5051  buffet
  */
@@ -55,9 +55,9 @@ export type BRoll = {src: string; from: number; duration: number; at: {clip: str
 export const BROLL: BRoll[] = [
 	{src: 'p_food', from: 2.0, duration: 1.5, at: {clip: 't2', sec: 2.6}}, // parents relaxing at the buffet
 	// "The whole place is booked just for you": the workshop, then the buffet
-	{src: 'p_craft', from: 3.5, duration: 0.8, at: {clip: 't3', sec: 0.9}}, // kids at the craft table
-	{src: 'buffet-photo.jpg', from: 0, duration: 1.0, at: {clip: 't3', sec: 1.7}}, // the whole buffet spread (photo, slow push-in)
-	{src: 'p_buffet', from: 1.0, duration: 0.9, at: {clip: 't3', sec: 2.7}}, // close-up: guests serving themselves
+	{src: 'p_craft', from: 3.5, duration: 0.7, at: {clip: 't3', sec: 0.9}}, // kids at the craft table
+	{src: 'p_space', from: 1.85, duration: 1.25, at: {clip: 't3', sec: 1.6}}, // moving along the buffet, the full room behind
+	{src: 'buffet-photo.jpg', from: 0, duration: 0.75, at: {clip: 't3', sec: 2.85}}, // the whole buffet spread (photo, slow push-in)
 	{src: 'p_room', from: 5.0, duration: 1.5, at: {clip: 't4', sec: 2.7}}, // balloon arch and science table
 ];
 
