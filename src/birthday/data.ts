@@ -14,8 +14,9 @@
  *   t5 IMG_4684  "Book 3 weeks ahead, and leave the rest to us"
  *   p_room  IMG_4859  party room, balloon arch     p_show  IMG_4963  science show
  *   p_watch IMG_4962  kids watching                p_craft IMG_4943  workshop
- *   p_space IMG_4912  buffet and full room
- *   p_sing  IMG_5019  everyone singing             p_food  IMG_5051  buffet
+ *   p_space IMG_4912  buffet and full room        p_salad IMG_5063  salad bar
+ *   p_kidsfood IMG_5064  kids at the buffet
+ *   p_sing  IMG_5019  everyone singing
  */
 
 export const FPS = 30;
@@ -32,7 +33,7 @@ export type Cut = {clip: string; from: number; to: number; focus: [number, numbe
 export const CUTS: Cut[] = [
 	{clip: 't1', from: 0.25, to: 2.32, focus: [0.5, 0.25]}, // hook
 	{clip: 't2', from: 1.42, to: 4.17, focus: [0.5, 0.25]},
-	{clip: 't3', from: 0.0, to: 3.1, focus: [0.45, 0.3]}, // runs into her pause so the workshop and buffet shots breathe
+	{clip: 't3', from: 0.0, to: 3.6, focus: [0.45, 0.3]}, // runs into her pause so the workshop and buffet shots breathe
 	{clip: 't4', from: 1.2, to: 4.25, focus: [0.5, 0.3]},
 	// party montage
 	{clip: 'p_show', from: 6.9, to: 8.9, focus: [0.5, 0.4], volume: 1, duckMusic: true}, // "one, two, three!"
@@ -51,10 +52,11 @@ export const END_HOLD = 3.0;
 export type BRoll = {src: string; from: number; duration: number; at: {clip: string; sec: number}};
 
 export const BROLL: BRoll[] = [
-	{src: 'p_food', from: 2.0, duration: 1.5, at: {clip: 't2', sec: 2.6}}, // parents relaxing at the buffet
+	{src: 'p_salad', from: 1.6, duration: 1.5, at: {clip: 't2', sec: 2.6}}, // a guest serving herself at the salad bar
 	// "The whole place is booked just for you": the workshop, then the buffet
 	{src: 'p_craft', from: 3.5, duration: 0.7, at: {clip: 't3', sec: 0.9}}, // kids at the craft table
-	{src: 'p_space', from: 1.85, duration: 1.5, at: {clip: 't3', sec: 1.6}}, // moving along the buffet, the full room behind
+	{src: 'p_space', from: 1.85, duration: 1.1, at: {clip: 't3', sec: 1.6}}, // moving along the buffet, the full room behind
+	{src: 'p_kidsfood', from: 7.35, duration: 0.9, at: {clip: 't3', sec: 2.7}}, // kids and parents at the buffet
 	{src: 'p_room', from: 5.0, duration: 1.5, at: {clip: 't4', sec: 2.7}}, // balloon arch and science table
 ];
 
