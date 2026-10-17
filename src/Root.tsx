@@ -2,6 +2,7 @@ import {Composition, Still} from 'remotion';
 import {LaserTagSpot, SPOT_DURATION} from './LaserTagSpot';
 import {LaserTagSpotVertical, VERTICAL_SIZE} from './LaserTagSpotVertical';
 import {HalloweenReel, REEL_DURATION as HALLOWEEN_DURATION} from './halloween/Main';
+import {BirthdayCover} from './reel/BirthdayCover';
 import {LucioleCover} from './reel/Cover';
 import {COVER_SERIES, ReelCover} from './reel/ReelCovers';
 import {LucioleReel, REEL_DURATION} from './reel/Main';
@@ -26,6 +27,7 @@ export const RemotionRoot: React.FC = () => (
 		/>
 		<Composition id="LucioleReel" component={LucioleReel} durationInFrames={REEL_DURATION} fps={FPS} width={WIDTH} height={HEIGHT} />
 		<Still id="LucioleCover" component={LucioleCover} width={WIDTH} height={HEIGHT} />
+		<Still id="LucioleBirthdayCover" component={BirthdayCover} width={WIDTH} height={HEIGHT} />
 		{COVER_SERIES.flatMap(({prefix, covers}) =>
 			covers.map((cover) => (
 				<Still
