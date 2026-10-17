@@ -5,11 +5,13 @@ import {AtelierCover} from './atelier/Cover';
 import {ATELIER_DURATION, AtelierTour} from './atelier/Main';
 import {BirthdayCover} from './birthday/Cover';
 import {BirthdayReel, REEL_DURATION as BIRTHDAY_DURATION} from './birthday/Main';
+import {FindUsCover} from './findus/Cover';
 import {HalloweenCover} from './halloween/Cover';
 import {HalloweenReel, REEL_DURATION as HALLOWEEN_DURATION} from './halloween/Main';
 import {LucioleCover} from './reel/Cover';
 import {LucioleReel, REEL_DURATION} from './reel/Main';
 import {FPS, HEIGHT, WIDTH} from './reel/data';
+import {TourCover} from './tour/Cover';
 
 export const RemotionRoot: React.FC = () => (
 	<>
@@ -36,5 +38,7 @@ export const RemotionRoot: React.FC = () => (
 		<Still id="BirthdayCover" component={BirthdayCover} width={WIDTH} height={HEIGHT} />
 		<Composition id="AtelierTour" component={AtelierTour} durationInFrames={ATELIER_DURATION} fps={FPS} width={WIDTH} height={HEIGHT} />
 		<Still id="AtelierCover" component={AtelierCover} width={WIDTH} height={HEIGHT} />
+		<Still id="FindUsCover" component={FindUsCover} width={WIDTH} height={HEIGHT} />
+		<Still id="TourCover" component={TourCover} width={WIDTH} height={HEIGHT} />
 	</>
 );
