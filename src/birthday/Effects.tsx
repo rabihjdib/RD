@@ -63,13 +63,21 @@ export const CutTransitions: React.FC = () => (
 // B-roll cutaways (picture only; the host keeps talking underneath)
 // ---------------------------------------------------------------------------
 
+// `src` is a clip name in public/birthday/ (video, muted) or an image file name ending in
+// .jpg/.png, which gets a slow push-in so a still photo still feels alive.
+const isImage = (src: string) => /\.(jpe?g|png)$/i.test(src);
+
 const Cutaway: React.FC<{src: string; trimBefore: number; frames: number}> = ({src, trimBefore, frames}) => {
 	const frame = useCurrentFrame();
-	const scale = interpolate(frame, [0, frames], [1.06, 1.0], clamp);
+	const scale = isImage(src) ? interpolate(frame, [0, frames], [1.0, 1.08], clamp) : interpolate(frame, [0, frames], [1.06, 1.0], clamp);
 	return (
 		<AbsoluteFill style={{overflow: 'hidden', backgroundColor: '#000'}}>
 			<AbsoluteFill style={{transform: `scale(${scale})`}}>
-				<OffthreadVideo src={staticFile(`birthday/${src}.mp4`)} trimBefore={trimBefore} muted style={{width: '100%', height: '100%', objectFit: 'cover'}} />
+				{isImage(src) ? (
+					<Img src={staticFile(`birthday/${src}`)} style={{width: '100%', height: '100%', objectFit: 'cover'}} />
+				) : (
+					<OffthreadVideo src={staticFile(`birthday/${src}.mp4`)} trimBefore={trimBefore} muted style={{width: '100%', height: '100%', objectFit: 'cover'}} />
+				)}
 			</AbsoluteFill>
 		</AbsoluteFill>
 	);
