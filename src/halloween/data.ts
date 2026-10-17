@@ -5,8 +5,9 @@
  * shows for that file). timeline.ts maps them onto the edit, so trims and reorders
  * never mean re-timing captions, B-roll or badges.
  *
- * Clips in public/halloween/ (transcoded from the iPhone originals with HDR tone mapping
- * only, no grading; talking clips carry the cleaned voice from scripts/isolate_voice.sh):
+ * Clips in public/halloween/ are converted with scripts/dv_convert.sh, which applies each
+ * clip's own Dolby Vision metadata the way an iPhone displays it (no grading). Talking
+ * clips carry the cleaned voice from scripts/isolate_voice.sh:
  *   h1 IMG_4767  Halloween this year? / three days, Oct 30 to Nov 1
  *   h2 IMG_4769  costume? / the outfit is on us
  *   h3 IMG_4771  how? / kids create their own outfit

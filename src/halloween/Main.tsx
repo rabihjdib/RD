@@ -6,7 +6,7 @@ import {Subtitles} from './Subtitles';
 import {BODY_END, END_CARD_AT, END_HOLD_FRAMES, QUESTION_SPANS, REEL_DURATION, SEGMENTS, WORDS} from './timeline';
 
 /**
- * Luciole Halloween reel, 1080x1920 @ 30fps. Original colours (HDR tone mapping only).
+ * Luciole Halloween reel, 1080x1920 @ 30fps. Original colours (Dolby Vision conversion, no grading).
  *
  * Layer order, bottom to top:
  *   1. Talking cuts (picture + cleaned voice) under the camera moves
