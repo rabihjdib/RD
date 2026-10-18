@@ -19,6 +19,7 @@
     "carousel:umbrella": "remotion still src/index.ts UmbrellaCarousel out/carousel/umbrella-panorama.png && for n in 1 2 3 4; do remotion still src/index.ts UmbrellaSlide$n out/carousel/umbrella-slide-$n.png || exit 1; done",
     "carousel:build": "remotion still src/index.ts BuildCarousel out/carousel/build-panorama.png && for n in 1 2 3 4; do remotion still src/index.ts BuildSlide$n out/carousel/build-slide-$n.png || exit 1; done",
     "carousel:team": "remotion still src/index.ts TeamCarousel out/carousel/team-panorama.png && for n in 1 2 3 4 5; do remotion still src/index.ts TeamSlide$n out/carousel/team-slide-$n.png || exit 1; done",
+    "carousel:proud": "remotion still src/index.ts ProudCarousel out/carousel/proud-panorama.png && for n in 1 2 3 4; do remotion still src/index.ts ProudSlide$n out/carousel/proud-slide-$n.png || exit 1; done",
     "post:spark": "remotion still src/index.ts SparkPost out/posts/luciole-spark-of-the-future.png",
     "posts:quotes": "for n in 1 2 3 4; do remotion still src/index.ts QuotePost$n out/posts/luciole-quote-$n.png || exit 1; done",
     "render:halloween": "remotion render src/index.ts HalloweenReel out/halloween-reel-raw.mp4 && ffmpeg -v error -y -i out/halloween-reel-raw.mp4 -c:v copy -bsf:v h264_metadata=colour_primaries=1:transfer_characteristics=1:matrix_coefficients=1 -af loudnorm=I=-14:TP=-1:LRA=9 -c:a aac -b:a 192k -ar 48000 -movflags +faststart out/halloween-reel.mp4"
