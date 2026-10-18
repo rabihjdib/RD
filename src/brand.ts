@@ -10,6 +10,9 @@ const ARABIC = 'U+0600-06FF, U+0750-077F, U+0870-088E, U+0890-0891, U+0898-08E1,
 const ARABIC_FONT = 'fonts/Cairo-Arabic-700.woff2';
 const faces = [
 	new FontFace('Grown', `url(${staticFile('fonts/Grown-Regular.ttf')}) format('truetype')`, {weight: '400'}),
+	// Grown's comma and apostrophe are tiny dots that read as full stops at headline size,
+	// so those two characters come from Manrope instead.
+	new FontFace('Grown', `url(${staticFile('fonts/Manrope-Bold.ttf')}) format('truetype')`, {weight: '400', unicodeRange: 'U+002C, U+2019'}),
 	new FontFace('Manrope', `url(${staticFile('fonts/Manrope-Bold.ttf')}) format('truetype')`, {weight: '700'}),
 	new FontFace('LucioleArabic', `url(${staticFile(ARABIC_FONT)})`, {weight: '700', unicodeRange: ARABIC}),
 ];
