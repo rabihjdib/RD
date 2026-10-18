@@ -7,6 +7,7 @@ import {PROUD_SLIDES, ProudPanorama, ProudSlide} from './carousel/ProudCarousel'
 import {LaserTagSpot, SPOT_DURATION} from './LaserTagSpot';
 import {LaserTagSpotVertical, VERTICAL_SIZE} from './LaserTagSpotVertical';
 import {HalloweenReel, REEL_DURATION as HALLOWEEN_DURATION} from './halloween/Main';
+import {HeartPost} from './posts/HeartPost';
 import {LovePost} from './posts/LovePost';
 import {QUOTES, QuotePost} from './posts/QuotePosts';
 import {POST_H, POST_W, SparkPost} from './posts/SparkPost';
@@ -42,6 +43,7 @@ export const RemotionRoot: React.FC = () => (
 		))}
 		<Still id="SparkPost" component={SparkPost} width={POST_W} height={POST_H} />
 		<Still id="LovePost" component={LovePost} width={POST_W} height={POST_H} />
+		<Still id="HeartPost" component={HeartPost} width={POST_W} height={POST_H} />
 		{QUOTES.map((_, i) => (
 			<Still key={i} id={`QuotePost${i + 1}`} component={QuotePost} defaultProps={{index: i}} width={POST_W} height={POST_H} />
 		))}
