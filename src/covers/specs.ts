@@ -13,6 +13,7 @@ import type {CoverSpec} from './BrandCover';
  *   welcome    Reel09 Welcome Atelier  11.7s   boys at the building games (no caption)
  *   hours      Reel07 Hours Booking v3 0.0s    host smiling at the counter, first frame (no caption)
  *   atelier-wall  our AtelierTour (IMG_4535 at 2.3s, Dolby Vision conversion as in scripts/dv_convert.sh), the artwork wall
+ *   brunch     our BrunchReel (IMG_4863 at 0.3s, Dolby Vision conversion), the pastry tower by the window
  */
 export const COVERS: CoverSpec[] = [
 	{
@@ -105,5 +106,18 @@ export const COVERS: CoverSpec[] = [
 		title: 'L’Atelier at',
 		plate: {top: 1360, icon: '2728', kicker: 'Paint, build, play', text: 'Every child is a spark'},
 		line: 'A creative corner for little artists',
+	},
+	{
+		id: 'BrunchCover',
+		photo: 'brunch.jpg',
+		shift: 260,
+		title: 'Brunch at',
+		badge: {
+			icon: '2615',
+			top: 600,
+			side: 'left',
+			lines: [{text: 'Post-gym', small: true}, {text: 'Coffee'}, {text: '& brunch', small: true}],
+		},
+		line: 'Salad bar every day',
 	},
 ];
