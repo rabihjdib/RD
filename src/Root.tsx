@@ -9,6 +9,7 @@ import {BIRTHDAY_SLIDES, BirthdayPanorama, BirthdaySlide} from './carousel/Birth
 import {SETUP_SLIDES, SetupPanorama, SetupSlide} from './carousel/SetupCarousel';
 import {SCIENCE_SLIDES, SciencePanorama, ScienceSlide} from './carousel/ScienceCarousel';
 import {DISCOVER_SLIDES, DiscoverPanorama, DiscoverSlide} from './carousel/DiscoverCarousel';
+import {LITTLE_SLIDES, LittlePanorama, LittleSlide} from './carousel/LittleCarousel';
 import {BUFFET_SLIDES, BuffetPanorama, BuffetSlide} from './carousel/BuffetCarousel';
 import {LaserTagSpot, SPOT_DURATION} from './LaserTagSpot';
 import {LaserTagSpotVertical, VERTICAL_SIZE} from './LaserTagSpotVertical';
@@ -104,6 +105,10 @@ export const RemotionRoot: React.FC = () => (
 		<Still id="DiscoverCarousel" component={DiscoverPanorama} width={SLIDE_W * DISCOVER_SLIDES} height={SLIDE_H} />
 		{Array.from({length: DISCOVER_SLIDES}, (_, i) => (
 			<Still key={i} id={`DiscoverSlide${i + 1}`} component={DiscoverSlide} defaultProps={{index: i}} width={SLIDE_W} height={SLIDE_H} />
+		))}
+		<Still id="LittleCarousel" component={LittlePanorama} width={SLIDE_W * LITTLE_SLIDES} height={SLIDE_H} />
+		{Array.from({length: LITTLE_SLIDES}, (_, i) => (
+			<Still key={i} id={`LittleSlide${i + 1}`} component={LittleSlide} defaultProps={{index: i}} width={SLIDE_W} height={SLIDE_H} />
 		))}
 		{COVER_SERIES.flatMap(({prefix, covers}) =>
 			covers.map((cover) => (
