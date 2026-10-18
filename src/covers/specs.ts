@@ -14,6 +14,7 @@ import type {CoverSpec} from './BrandCover';
  *   hours      Reel07 Hours Booking v3 0.0s    host smiling at the counter, first frame (no caption)
  *   atelier-wall  our AtelierTour (IMG_4535 at 2.3s, Dolby Vision conversion as in scripts/dv_convert.sh), the artwork wall
  *   brunch     our BrunchReel (IMG_4863 at 0.3s, Dolby Vision conversion), the pastry tower by the window
+ *   cafe       our CafeReel (IMG_4541 at 2.0s, Dolby Vision conversion), the espresso machine
  */
 export const COVERS: CoverSpec[] = [
 	{
@@ -119,5 +120,18 @@ export const COVERS: CoverSpec[] = [
 			lines: [{text: 'Post-gym', small: true}, {text: 'Coffee'}, {text: '& brunch', small: true}],
 		},
 		line: 'Salad bar every day',
+	},
+	{
+		id: 'CafeCover',
+		photo: 'cafe.jpg',
+		shift: 60,
+		title: 'Coffee at',
+		badge: {
+			icon: '2615',
+			top: 1100,
+			side: 'right',
+			lines: [{text: 'Full menu', small: true}, {text: 'Coffee'}, {text: '& tea', small: true}],
+		},
+		line: 'High-end coffee grains',
 	},
 ];

@@ -18,7 +18,9 @@ export type BeatReelConfig = {
 	beat: number; // seconds per beat, matching the music bed
 	shots: BeatShot[]; // `clip` is the path under public/ without .mp4
 	titles: BeatTitle[];
-	whooshAt?: number; // shot index that gets a whoosh on its cut
+	whooshAt?: number[]; // shot indexes that get a whoosh on their cut
+	sfx?: {shot: number; offset: number; src: string; volume: number}[]; // offset in seconds into the shot
+	titleSfx?: {src: string; volume: number}; // plays as each title appears
 	outro: number; // seconds of logo outro after the last shot
 	outroNote: string;
 	music: string;
@@ -75,16 +77,26 @@ export const BeatReel: React.FC<{config: BeatReelConfig}> = ({config}) => {
 					<OffthreadVideo src={staticFile(`${last.clip}.mp4`)} trimBefore={last.trimBefore + last.duration - 1} muted style={{width: '100%', height: '100%', objectFit: 'cover'}} />
 				</Freeze>
 			</Sequence>
-			{config.whooshAt !== undefined ? (
-				<Sequence from={segments[config.whooshAt].start - 6} durationInFrames={14}>
+			{config.whooshAt?.map((i) => (
+				<Sequence key={`whoosh-${i}`} from={segments[i].start - 6} durationInFrames={14}>
 					<Audio src={staticFile('reel/sfx/whoosh.wav')} volume={0.3} />
 				</Sequence>
-			) : null}
+			))}
+			{config.sfx?.map((e) => (
+				<Sequence key={`${e.src}-${e.shot}-${e.offset}`} from={segments[e.shot].start + Math.round(e.offset * config.fps)}>
+					<Audio src={staticFile(e.src)} volume={e.volume} />
+				</Sequence>
+			))}
 			{config.titles.map((t) => {
 				const frames = beatFrame(t.beats);
 				return (
 					<Sequence key={t.text} from={segments[t.shot].start} durationInFrames={frames} layout="none">
 						<TitleCard text={t.text} kicker={t.kicker} frames={frames} />
+						{config.titleSfx ? (
+							<Sequence from={2} layout="none">
+								<Audio src={staticFile(config.titleSfx.src)} volume={config.titleSfx.volume} />
+							</Sequence>
+						) : null}
 					</Sequence>
 				);
 			})}

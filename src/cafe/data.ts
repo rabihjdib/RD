@@ -4,8 +4,8 @@ import type {BeatReelConfig, BeatShot, BeatTitle} from '../beat/BeatReel';
  * Café tour reel: a music-driven walk around Luciole's café, cut on the beat, with titles for
  * the message (full coffee & tea menu, high-end coffee grains, the best barista).
  *
- * Every shot lasts a whole number of beats so cuts land on the music; the bed from
- * scripts/make_reel_music.py has 12 bars at 109.1 BPM before the outro (0.55 s per beat).
+ * Every shot lasts a whole number of beats so cuts land on the music; the lo-fi bossa bed from
+ * scripts/make_cafe_music.py has 12 bars at 109.1 BPM before the outro (0.55 s per beat).
  *
  * Clips are converted with scripts/dv_convert.sh (each clip's own Dolby Vision metadata, no
  * grading), lighting shots then through scripts/deflicker.sh, and play silent.
@@ -46,9 +46,18 @@ export const CAFE: BeatReelConfig = {
 	beat: 0.55,
 	shots: SHOTS,
 	titles: TITLES,
-	whooshAt: 6, // into the room
+	whooshAt: [1, 4, 6], // onto the machine, the tea shelf and the room
+	// Machine sounds from scripts/make_cafe_sfx.py, timed to the shots.
+	sfx: [
+		{shot: 1, offset: 0.3, src: 'cafe/sfx/steam.wav', volume: 0.33}, // steam wand on the espresso machine
+		{shot: 2, offset: 0.0, src: 'cafe/sfx/grind.wav', volume: 0.5}, // grinder full of beans
+		{shot: 3, offset: 1.4, src: 'cafe/sfx/steam.wav', volume: 0.22}, // barista at the machine
+		{shot: 3, offset: 4.3, src: 'cafe/sfx/clink.wav', volume: 0.45}, // cup on its saucer
+		{shot: 4, offset: 0.6, src: 'cafe/sfx/clink.wav', volume: 0.3}, // teacups
+	],
+	titleSfx: {src: 'cafe/sfx/chime.wav', volume: 0.3},
 	outro: 3.0,
 	outroNote: 'Luciole Café · Coffee & tea',
-	music: 'cafe/music/cafe-bed.mp3',
-	musicLevels: {body: 0.8, outro: 0.85},
+	music: 'cafe/music/cafe-bed.mp3', // scripts/make_cafe_music.py
+	musicLevels: {body: 0.7, outro: 0.85},
 };

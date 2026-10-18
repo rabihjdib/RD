@@ -53,7 +53,7 @@ export const BRUNCH: BeatReelConfig = {
 	beat: 0.55, // seconds per beat (about 109 BPM)
 	shots: SHOTS,
 	titles: TITLES,
-	whooshAt: 11, // into L'Atelier
+	whooshAt: [11], // into L'Atelier
 	outro: 3.0, // logo outro, last frame frozen underneath
 	outroNote: 'Salad bar daily · Brunch at Luciole',
 	music: 'brunch/music/brunch-bed.mp3',
