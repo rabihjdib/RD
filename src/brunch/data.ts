@@ -7,7 +7,8 @@
  * from scripts/make_reel_music.py (16 bars at 109.1 BPM before the outro).
  *
  * Clips are converted with scripts/dv_convert.sh (each clip's own Dolby Vision metadata, no
- * grading) and play silent. `clip` is the path under public/ without .mp4:
+ * grading), then scripts/deflicker.sh (the room lights pulse on camera), and play silent.
+ * `clip` is the path under public/ without .mp4:
  *   brunch/b_wide IMG_4863   brunch/b_pan IMG_4864     brunch/b_cups IMG_4865
  *   brunch/b_wraps IMG_4867  brunch/b_drinks IMG_4868  brunch/b_pastry IMG_4871
  *   brunch/b_sand IMG_4872   brunch/b_room IMG_4912    brunch/b_salad1 IMG_5049
