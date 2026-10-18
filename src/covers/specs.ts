@@ -12,6 +12,7 @@ import type {CoverSpec} from './BrandCover';
  *   safety     Reel08 Safety v2        18.7s   behind the locked gate; band and plate cover its captions
  *   welcome    Reel09 Welcome Atelier  11.7s   boys at the building games (no caption)
  *   hours      Reel07 Hours Booking v3 0.0s    host smiling at the counter, first frame (no caption)
+ *   atelier-wall  our AtelierTour (IMG_4535 at 2.3s, Dolby Vision conversion as in scripts/dv_convert.sh), the artwork wall
  */
 export const COVERS: CoverSpec[] = [
 	{
@@ -96,5 +97,13 @@ export const COVERS: CoverSpec[] = [
 			footer: 'Closed Mondays',
 		},
 		line: 'Book on WhatsApp 81 540 282',
+	},
+	{
+		id: 'AtelierWallCover',
+		photo: 'atelier-wall.jpg',
+		shift: 150,
+		title: 'L’Atelier at',
+		plate: {top: 1360, icon: '2728', kicker: 'Paint, build, play', text: 'Every child is a spark'},
+		line: 'A creative corner for little artists',
 	},
 ];
