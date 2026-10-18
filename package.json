@@ -16,6 +16,7 @@
     "covers:softopening": "for n in 01 02 03 04 05 06 07 08; do remotion still src/index.ts LucioleSoftCover$n out/covers/luciole-softopening-$n.png || exit 1; done",
     "cover:chef-mazen": "remotion still src/index.ts LucioleFeatureCover01 out/covers/luciole-chef-mazen.png",
     "carousel:atelier": "remotion still src/index.ts AtelierCarousel out/carousel/atelier-panorama.png && for n in 1 2 3 4; do remotion still src/index.ts AtelierSlide$n out/carousel/atelier-slide-$n.png || exit 1; done",
+    "carousel:umbrella": "remotion still src/index.ts UmbrellaCarousel out/carousel/umbrella-panorama.png && for n in 1 2 3 4; do remotion still src/index.ts UmbrellaSlide$n out/carousel/umbrella-slide-$n.png || exit 1; done",
     "render:halloween": "remotion render src/index.ts HalloweenReel out/halloween-reel-raw.mp4 && ffmpeg -v error -y -i out/halloween-reel-raw.mp4 -c:v copy -bsf:v h264_metadata=colour_primaries=1:transfer_characteristics=1:matrix_coefficients=1 -af loudnorm=I=-14:TP=-1:LRA=9 -c:a aac -b:a 192k -ar 48000 -movflags +faststart out/halloween-reel.mp4"
   },
   "dependencies": {

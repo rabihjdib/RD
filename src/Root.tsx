@@ -1,5 +1,6 @@
 import {Composition, Still} from 'remotion';
 import {AtelierPanorama, AtelierSlide, SLIDE_H, SLIDE_W, SLIDES} from './carousel/AtelierCarousel';
+import {UMBRELLA_SLIDES, UmbrellaPanorama, UmbrellaSlide} from './carousel/UmbrellaCarousel';
 import {LaserTagSpot, SPOT_DURATION} from './LaserTagSpot';
 import {LaserTagSpotVertical, VERTICAL_SIZE} from './LaserTagSpotVertical';
 import {HalloweenReel, REEL_DURATION as HALLOWEEN_DURATION} from './halloween/Main';
@@ -32,6 +33,10 @@ export const RemotionRoot: React.FC = () => (
 		<Still id="AtelierCarousel" component={AtelierPanorama} width={SLIDE_W * SLIDES} height={SLIDE_H} />
 		{Array.from({length: SLIDES}, (_, i) => (
 			<Still key={i} id={`AtelierSlide${i + 1}`} component={AtelierSlide} defaultProps={{index: i}} width={SLIDE_W} height={SLIDE_H} />
+		))}
+		<Still id="UmbrellaCarousel" component={UmbrellaPanorama} width={SLIDE_W * UMBRELLA_SLIDES} height={SLIDE_H} />
+		{Array.from({length: UMBRELLA_SLIDES}, (_, i) => (
+			<Still key={i} id={`UmbrellaSlide${i + 1}`} component={UmbrellaSlide} defaultProps={{index: i}} width={SLIDE_W} height={SLIDE_H} />
 		))}
 		{COVER_SERIES.flatMap(({prefix, covers}) =>
 			covers.map((cover) => (
