@@ -17,7 +17,7 @@ type Line = {text: string; small?: boolean; gold?: boolean};
 export type CoverSpec = {
 	id: string;
 	photo: string; // in public/covers/
-	shift: number; // px the photo is lowered so the band clears faces
+	shift: number; // px the photo is lowered so the band clears faces (negative raises it, e.g. to hide a top caption)
 	title: string;
 	titleSize?: number;
 	badge?: {icon: string; lines: Line[]; top: number; side: 'left' | 'right'};
@@ -66,7 +66,7 @@ export const BrandCover: React.FC<{spec: CoverSpec}> = ({spec}) => {
 	const {badge, plate} = spec;
 	return (
 		<AbsoluteFill style={{backgroundColor: CREAM}}>
-			<Img src={staticFile(`covers/${spec.photo}`)} style={{position: 'absolute', left: 0, top: spec.shift, width: 1080, height: 1920, objectFit: 'cover'}} />
+			<Img src={staticFile(`covers/${spec.photo}`)} style={{position: 'absolute', left: 0, top: spec.shift, width: 1080, height: 1920 - Math.min(0, spec.shift), objectFit: 'cover'}} />
 
 			{/* Cream title band */}
 			<AbsoluteFill

@@ -7,11 +7,11 @@ import type {CoverSpec} from './BrandCover';
  *
  *   findus     Reel04 How To Find Us   15.65s  walking past the round building (no caption)
  *   atelier02  Reel02 Atelier          24.2s   plate covers "And the kids go home"
- *   bistro     Reel03 Bistro Cafe      5.2s    pouring coffee at the window (no caption)
- *   members    Reel06 Memberships      27.1s   plate covers "Which spark is yours?"
+ *   bistro     Reel03 Bistro Cafe      4.13s   smiling to camera at the window (no caption)
+ *   members    Reel06 Memberships      3.75s   smiling; band hides the top caption, plate the bottom one
  *   safety     Reel08 Safety v2        18.7s   behind the locked gate; band and plate cover its captions
  *   welcome    Reel09 Welcome Atelier  11.7s   boys at the building games (no caption)
- *   hours      Reel07 Hours Booking v3 18.9s   both hosts at the counter (no caption)
+ *   hours      Reel07 Hours Booking v3 0.0s    host smiling at the counter, first frame (no caption)
  */
 export const COVERS: CoverSpec[] = [
 	{
@@ -52,10 +52,10 @@ export const COVERS: CoverSpec[] = [
 	{
 		id: 'MembershipsCover',
 		photo: 'members.jpg',
-		shift: 250,
+		shift: -60,
 		title: 'Memberships at',
 		titleSize: 76,
-		plate: {top: 1170, minHeight: 330, icon: '2728', kicker: 'Explorer or Innovator?', text: 'Which spark is yours?'},
+		plate: {top: 1075, icon: '2728', kicker: 'Explorer or Innovator?', text: 'Which spark is yours?'},
 		line: 'Every visit leaves a mark',
 	},
 	{
@@ -83,10 +83,10 @@ export const COVERS: CoverSpec[] = [
 	{
 		id: 'HoursCover',
 		photo: 'hours.jpg',
-		shift: 0,
+		shift: 100,
 		title: 'Visit',
 		plate: {
-			top: 1270,
+			top: 1240,
 			kicker: 'Save this before you visit',
 			rows: [
 				{label: 'Café & Bistro', value: ['Tue to Sun', '8am to 10pm']},
