@@ -1,4 +1,5 @@
 import {Composition, Still} from 'remotion';
+import {AtelierPanorama, AtelierSlide, SLIDE_H, SLIDE_W, SLIDES} from './carousel/AtelierCarousel';
 import {LaserTagSpot, SPOT_DURATION} from './LaserTagSpot';
 import {LaserTagSpotVertical, VERTICAL_SIZE} from './LaserTagSpotVertical';
 import {HalloweenReel, REEL_DURATION as HALLOWEEN_DURATION} from './halloween/Main';
@@ -28,6 +29,10 @@ export const RemotionRoot: React.FC = () => (
 		<Composition id="LucioleReel" component={LucioleReel} durationInFrames={REEL_DURATION} fps={FPS} width={WIDTH} height={HEIGHT} />
 		<Still id="LucioleCover" component={LucioleCover} width={WIDTH} height={HEIGHT} />
 		<Still id="LucioleBirthdayCover" component={BirthdayCover} width={WIDTH} height={HEIGHT} />
+		<Still id="AtelierCarousel" component={AtelierPanorama} width={SLIDE_W * SLIDES} height={SLIDE_H} />
+		{Array.from({length: SLIDES}, (_, i) => (
+			<Still key={i} id={`AtelierSlide${i + 1}`} component={AtelierSlide} defaultProps={{index: i}} width={SLIDE_W} height={SLIDE_H} />
+		))}
 		{COVER_SERIES.flatMap(({prefix, covers}) =>
 			covers.map((cover) => (
 				<Still
