@@ -16,14 +16,9 @@
  *   brunch/b_salad3 IMG_5063 atelier/* from the L'Atelier tour
  */
 
-export const FPS = 30;
+import type {BeatReelConfig, BeatShot, BeatTitle} from '../beat/BeatReel';
 
-/** Seconds per beat (about 109 BPM). */
-export const BEAT = 0.55;
-
-export type Shot = {clip: string; from: number; beats: number; focus?: [number, number]; sparkle?: boolean};
-
-export const SHOTS: Shot[] = [
+const SHOTS: BeatShot[] = [
 	{clip: 'brunch/b_wide', from: 1.0, beats: 4, sparkle: true}, // pastry tiers into the buffet
 	{clip: 'brunch/b_pastry', from: 2.5, beats: 4},
 	{clip: 'brunch/b_drinks', from: 2.0, beats: 4},
@@ -42,9 +37,7 @@ export const SHOTS: Shot[] = [
 ];
 
 // Titles, placed by shot index and lasting `beats` (they may span several shots).
-export type Title = {shot: number; beats: number; text: string; kicker?: string};
-
-export const TITLES: Title[] = [
+const TITLES: BeatTitle[] = [
 	{shot: 0, beats: 4, kicker: 'Luciole Café & Bistro', text: 'Brunch is served'},
 	{shot: 1, beats: 8, kicker: 'After your gym', text: 'Morning coffee & breakfast'},
 	{shot: 3, beats: 6, text: 'Brunch with your friends'},
@@ -54,9 +47,15 @@ export const TITLES: Title[] = [
 	{shot: 13, beats: 10, kicker: 'Birthdays, gatherings & more', text: 'For your special events too'},
 ];
 
-/** Seconds of logo outro after the last shot (last frame frozen underneath). */
-export const OUTRO = 3.0;
-export const OUTRO_NOTE = 'Salad bar daily · Brunch at Luciole';
-
-export const MUSIC = 'brunch/music/brunch-bed.mp3';
-export const MUSIC_LEVELS = {body: 0.8, outro: 0.85};
+export const BRUNCH: BeatReelConfig = {
+	id: 'brunch',
+	fps: 30,
+	beat: 0.55, // seconds per beat (about 109 BPM)
+	shots: SHOTS,
+	titles: TITLES,
+	whooshAt: 11, // into L'Atelier
+	outro: 3.0, // logo outro, last frame frozen underneath
+	outroNote: 'Salad bar daily · Brunch at Luciole',
+	music: 'brunch/music/brunch-bed.mp3',
+	musicLevels: {body: 0.8, outro: 0.85},
+};
