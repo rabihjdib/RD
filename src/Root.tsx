@@ -4,6 +4,7 @@ import {LaserTagSpotVertical, VERTICAL_SIZE} from './LaserTagSpotVertical';
 import {AtelierCover} from './atelier/Cover';
 import {ATELIER_DURATION, AtelierTour} from './atelier/Main';
 import {BirthdayCover} from './birthday/Cover';
+import {BRUNCH_DURATION, BrunchReel} from './brunch/Main';
 import {BirthdayReel, REEL_DURATION as BIRTHDAY_DURATION} from './birthday/Main';
 import {BrandCover} from './covers/BrandCover';
 import {COVERS} from './covers/specs';
@@ -39,6 +40,7 @@ export const RemotionRoot: React.FC = () => (
 		<Still id="BirthdayCover" component={BirthdayCover} width={WIDTH} height={HEIGHT} />
 		<Composition id="AtelierTour" component={AtelierTour} durationInFrames={ATELIER_DURATION} fps={FPS} width={WIDTH} height={HEIGHT} />
 		<Still id="AtelierCover" component={AtelierCover} width={WIDTH} height={HEIGHT} />
+		<Composition id="BrunchReel" component={BrunchReel} durationInFrames={BRUNCH_DURATION} fps={FPS} width={WIDTH} height={HEIGHT} />
 		<Still id="TourCover" component={TourCover} width={WIDTH} height={HEIGHT} />
 		{COVERS.map((spec) => (
 			<Still key={spec.id} id={spec.id} component={BrandCover} defaultProps={{spec}} width={WIDTH} height={HEIGHT} />

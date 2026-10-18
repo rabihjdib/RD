@@ -41,7 +41,7 @@ const Shot: React.FC<{seg: (typeof SEGMENTS)[number]}> = ({seg}) => {
 	);
 };
 
-const TitleCard: React.FC<{text: string; kicker?: string; frames: number}> = ({text, kicker, frames}) => {
+export const TitleCard: React.FC<{text: string; kicker?: string; frames: number}> = ({text, kicker, frames}) => {
 	const frame = useCurrentFrame();
 	const {fps} = useVideoConfig();
 	const enter = spring({frame: frame - 2, fps, config: {damping: 18, stiffness: 150}});
