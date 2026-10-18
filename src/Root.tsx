@@ -5,6 +5,7 @@ import {BUILD_SLIDES, BuildPanorama, BuildSlide} from './carousel/BuildCarousel'
 import {LaserTagSpot, SPOT_DURATION} from './LaserTagSpot';
 import {LaserTagSpotVertical, VERTICAL_SIZE} from './LaserTagSpotVertical';
 import {HalloweenReel, REEL_DURATION as HALLOWEEN_DURATION} from './halloween/Main';
+import {QUOTES, QuotePost} from './posts/QuotePosts';
 import {POST_H, POST_W, SparkPost} from './posts/SparkPost';
 import {BirthdayCover} from './reel/BirthdayCover';
 import {LucioleCover} from './reel/Cover';
@@ -37,6 +38,9 @@ export const RemotionRoot: React.FC = () => (
 			<Still key={i} id={`AtelierSlide${i + 1}`} component={AtelierSlide} defaultProps={{index: i}} width={SLIDE_W} height={SLIDE_H} />
 		))}
 		<Still id="SparkPost" component={SparkPost} width={POST_W} height={POST_H} />
+		{QUOTES.map((_, i) => (
+			<Still key={i} id={`QuotePost${i + 1}`} component={QuotePost} defaultProps={{index: i}} width={POST_W} height={POST_H} />
+		))}
 		<Still id="UmbrellaCarousel" component={UmbrellaPanorama} width={SLIDE_W * UMBRELLA_SLIDES} height={SLIDE_H} />
 		{Array.from({length: UMBRELLA_SLIDES}, (_, i) => (
 			<Still key={i} id={`UmbrellaSlide${i + 1}`} component={UmbrellaSlide} defaultProps={{index: i}} width={SLIDE_W} height={SLIDE_H} />
