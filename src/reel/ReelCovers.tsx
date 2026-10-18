@@ -6,6 +6,7 @@ import {CHARCOAL, CREAM, display, GOLD, SAND, sans} from '../brand';
  * a set in the profile grid, plus one small graphic per reel lifted from its script.
  *   preopening   "Luciole Pre-Opening Scripts" (8 reels)
  *   softopening  "LUCIOLE Soft Opening Reels Scripts v2" (8 reels)
+ *   features     one-off covers (people, menu), photo named by `photo`, no numbering
  *
  * Instagram crops covers to 3:4 (1080x1440, y 240-1680) in the grid, so the logo,
  * headline and graphic stay inside that band; the footer line sits below it.
@@ -15,7 +16,7 @@ import {CHARCOAL, CREAM, display, GOLD, SAND, sans} from '../brand';
  * Headline words wrapped in *asterisks* render in gold.
  */
 
-type Series = 'preopening' | 'softopening';
+type Series = 'preopening' | 'softopening' | 'features';
 
 type Motif =
 	| {kind: 'progress'}
@@ -29,6 +30,7 @@ type Motif =
 	| {kind: 'pill'; text: string}
 	| {kind: 'cards'; items: [string, string]}
 	| {kind: 'info'; rows: [string, string][]}
+	| {kind: 'menu'; meals: string[]; styles: string[]}
 	| {kind: 'tape'}
 	| {kind: 'quote'}
 	| {kind: 'none'};
@@ -44,11 +46,13 @@ export type ReelCoverProps = {
 	zoom: number;
 	originX: number; // 0..1, anchor for the zoom
 	originY: number;
+	photo?: string; // file in public/reel/cover/<series>/, defaults to reel-0N.jpg
 };
 
 const FOOTER: Record<Series, string> = {
 	preopening: 'Opening soon in Jounieh souks',
 	softopening: 'Now open in Jounieh souks',
+	features: 'Luciole café & bistro · Jounieh souks',
 };
 
 const frame = {zoom: 1, originX: 0.5, originY: 0.3};
@@ -75,9 +79,26 @@ export const SOFT_OPENING_COVERS: ReelCoverProps[] = [
 	{series: 'softopening', n: 8, kicker: 'Safety at Luciole', headline: ['What we do so you', 'can truly *relax*'], size: 96, motif: {kind: 'list', items: ['CCTV', 'Safe sockets', 'Corner guards', 'Window locks']}, shift: 110, ...frame},
 ];
 
+export const FEATURE_COVERS: ReelCoverProps[] = [
+	{
+		series: 'features',
+		n: 1,
+		photo: 'chef-mazen.jpg',
+		kicker: 'The chef behind our menu',
+		headline: ['Meet Chef', '*Mazen*'],
+		size: 128,
+		motif: {kind: 'menu', meals: ['Breakfast', 'Lunch', 'Dinner'], styles: ['Healthy menu', 'Salad bar', 'French bistro']},
+		shift: 10,
+		...frame,
+	},
+];
+
+const COUNT: Record<Series, number> = {preopening: PRE_OPENING_COVERS.length, softopening: SOFT_OPENING_COVERS.length, features: 0};
+
 export const COVER_SERIES = [
 	{prefix: 'LucioleCover', covers: PRE_OPENING_COVERS},
 	{prefix: 'LucioleSoftCover', covers: SOFT_OPENING_COVERS},
+	{prefix: 'LucioleFeatureCover', covers: FEATURE_COVERS},
 ];
 
 const pad = (n: number) => String(n).padStart(2, '0');
@@ -294,18 +315,25 @@ const MotifBelow: React.FC<{motif: Motif}> = ({motif}) => {
 			return <Cards items={motif.items} />;
 		case 'info':
 			return <Info rows={motif.rows} />;
+		case 'menu':
+			return (
+				<>
+					<List items={motif.meals} />
+					<Chips items={motif.styles} />
+				</>
+			);
 		default:
 			return null;
 	}
 };
 
 // Taller graphics start the text block higher so it all stays inside the grid crop.
-const TEXT_TOP: Partial<Record<Motif['kind'], number>> = {quote: 1110, cards: 1130, info: 1130};
+const TEXT_TOP: Partial<Record<Motif['kind'], number>> = {quote: 1110, cards: 1130, info: 1130, menu: 1150};
 
-export const ReelCover: React.FC<ReelCoverProps> = ({series, n, kicker, headline, size, motif, shift, zoom, originX, originY}) => (
+export const ReelCover: React.FC<ReelCoverProps> = ({series, n, kicker, headline, size, motif, shift, zoom, originX, originY, photo}) => (
 	<AbsoluteFill style={{backgroundColor: CREAM, overflow: 'hidden'}}>
 		<Img
-			src={staticFile(`reel/cover/${series}/reel-${pad(n)}.jpg`)}
+			src={staticFile(`reel/cover/${series}/${photo ?? `reel-${pad(n)}.jpg`}`)}
 			style={{
 				position: 'absolute',
 				left: 0,
@@ -353,10 +381,14 @@ export const ReelCover: React.FC<ReelCoverProps> = ({series, n, kicker, headline
 		{/* Below the grid crop: only seen when the reel opens full screen. */}
 		<AbsoluteFill style={{top: 1752, alignItems: 'center'}}>
 			<div style={{display: 'flex', alignItems: 'center', gap: 18, fontFamily: sans, fontWeight: 700, fontSize: 24, letterSpacing: '0.24em', textTransform: 'uppercase', color: 'rgba(237,236,227,0.7)'}}>
-				<span style={{color: GOLD}}>
-					{pad(n)} / {pad(series === 'preopening' ? PRE_OPENING_COVERS.length : SOFT_OPENING_COVERS.length)}
-				</span>
-				<Img src={staticFile('reel/brand/star.png')} style={{width: 26}} />
+				{COUNT[series] > 0 && (
+					<>
+						<span style={{color: GOLD}}>
+							{pad(n)} / {pad(COUNT[series])}
+						</span>
+						<Img src={staticFile('reel/brand/star.png')} style={{width: 26}} />
+					</>
+				)}
 				<span>{FOOTER[series]}</span>
 			</div>
 		</AbsoluteFill>
