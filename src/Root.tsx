@@ -5,6 +5,7 @@ import {BUILD_SLIDES, BuildPanorama, BuildSlide} from './carousel/BuildCarousel'
 import {TEAM_SLIDES, TeamPanorama, TeamSlide} from './carousel/TeamCarousel';
 import {PROUD_SLIDES, ProudPanorama, ProudSlide} from './carousel/ProudCarousel';
 import {WOOD_SLIDES, WoodPanorama, WoodSlide} from './carousel/WoodCarousel';
+import {BIRTHDAY_SLIDES, BirthdayPanorama, BirthdaySlide} from './carousel/BirthdayCarousel';
 import {LaserTagSpot, SPOT_DURATION} from './LaserTagSpot';
 import {LaserTagSpotVertical, VERTICAL_SIZE} from './LaserTagSpotVertical';
 import {HalloweenReel, REEL_DURATION as HALLOWEEN_DURATION} from './halloween/Main';
@@ -71,6 +72,10 @@ export const RemotionRoot: React.FC = () => (
 		<Still id="WoodCarousel" component={WoodPanorama} width={SLIDE_W * WOOD_SLIDES} height={SLIDE_H} />
 		{Array.from({length: WOOD_SLIDES}, (_, i) => (
 			<Still key={i} id={`WoodSlide${i + 1}`} component={WoodSlide} defaultProps={{index: i}} width={SLIDE_W} height={SLIDE_H} />
+		))}
+		<Still id="BirthdayCarousel" component={BirthdayPanorama} width={SLIDE_W * BIRTHDAY_SLIDES} height={SLIDE_H} />
+		{Array.from({length: BIRTHDAY_SLIDES}, (_, i) => (
+			<Still key={i} id={`BirthdaySlide${i + 1}`} component={BirthdaySlide} defaultProps={{index: i}} width={SLIDE_W} height={SLIDE_H} />
 		))}
 		{COVER_SERIES.flatMap(({prefix, covers}) =>
 			covers.map((cover) => (

@@ -21,6 +21,7 @@
     "carousel:team": "remotion still src/index.ts TeamCarousel out/carousel/team-panorama.png && for n in 1 2 3 4 5; do remotion still src/index.ts TeamSlide$n out/carousel/team-slide-$n.png || exit 1; done",
     "carousel:proud": "remotion still src/index.ts ProudCarousel out/carousel/proud-panorama.png && for n in 1 2 3 4; do remotion still src/index.ts ProudSlide$n out/carousel/proud-slide-$n.png || exit 1; done",
     "carousel:wood": "remotion still src/index.ts WoodCarousel out/carousel/wood-panorama.png && for n in 1 2 3 4 5 6; do remotion still src/index.ts WoodSlide$n out/carousel/wood-slide-$n.png || exit 1; done",
+    "carousel:birthday": "remotion still src/index.ts BirthdayCarousel out/carousel/birthday-panorama.png && for n in 1 2 3 4 5 6 7 8; do remotion still src/index.ts BirthdaySlide$n out/carousel/birthday-slide-$n.png || exit 1; done",
     "post:spark": "remotion still src/index.ts SparkPost out/posts/luciole-spark-of-the-future.png",
     "post:love": "remotion still src/index.ts LovePost out/posts/luciole-your-kids-are-our-kids.png",
     "post:heart": "remotion still src/index.ts HeartPost out/posts/luciole-and-we-love-luciole.png",
