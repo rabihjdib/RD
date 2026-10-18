@@ -13,6 +13,7 @@ import {HeartPost} from './posts/HeartPost';
 import {LovePost} from './posts/LovePost';
 import {MomDiscoverPost} from './posts/MomDiscoverPost';
 import {PretendPost} from './posts/PretendPost';
+import {SmilePost} from './posts/SmilePost';
 import {QUOTES, QuotePost} from './posts/QuotePosts';
 import {POST_H, POST_W, SparkPost} from './posts/SparkPost';
 import {BirthdayCover} from './reel/BirthdayCover';
@@ -50,6 +51,7 @@ export const RemotionRoot: React.FC = () => (
 		<Still id="HeartPost" component={HeartPost} width={POST_W} height={POST_H} />
 		<Still id="PretendPost" component={PretendPost} width={POST_W} height={POST_H} />
 		<Still id="MomDiscoverPost" component={MomDiscoverPost} width={POST_W} height={POST_H} />
+		<Still id="SmilePost" component={SmilePost} width={POST_W} height={POST_H} />
 		{QUOTES.map((_, i) => (
 			<Still key={i} id={`QuotePost${i + 1}`} component={QuotePost} defaultProps={{index: i}} width={POST_W} height={POST_H} />
 		))}
