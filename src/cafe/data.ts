@@ -8,7 +8,8 @@ import type {BeatReelConfig, BeatShot, BeatTitle} from '../beat/BeatReel';
  * scripts/make_reel_music.py has 12 bars at 109.1 BPM before the outro (0.55 s per beat).
  *
  * Clips are converted with scripts/dv_convert.sh (each clip's own Dolby Vision metadata, no
- * grading) and play silent. `clip` is the path under public/ without .mp4:
+ * grading), lighting shots then through scripts/deflicker.sh, and play silent.
+ * `clip` is the path under public/ without .mp4:
  *   cafe/c_wall IMG_4534 ("Créer des souvenirs, une tasse à la fois")   cafe/c_chandelier IMG_4538
  *   cafe/c_sconces IMG_4539   cafe/c_lamps IMG_4540   cafe/c_machine IMG_4541   cafe/c_teashelf IMG_4542
  *   cafe/c_teas1 IMG_4543 (grinder and beans)   cafe/c_teas2 IMG_4544 (tea domes)
@@ -18,8 +19,8 @@ import type {BeatReelConfig, BeatShot, BeatTitle} from '../beat/BeatReel';
 const SHOTS: BeatShot[] = [
 	{clip: 'cafe/c_wall', from: 0.0, beats: 4, sparkle: true}, // the café's own motto on the wall
 	{clip: 'cafe/c_machine', from: 0.5, beats: 8}, // along the espresso machine to the grinders
-	{clip: 'cafe/c_teas1', from: 0.0, beats: 4}, // grinder full of beans
-	{clip: 'cafe/c_barista', from: 1.2, beats: 8}, // barista at the machine
+	{clip: 'cafe/c_teas1', from: 0.0, beats: 2}, // grinder full of beans (before the pan to the tea domes)
+	{clip: 'cafe/c_barista', from: 0.9, beats: 10}, // barista at the machine
 	{clip: 'cafe/c_teashelf', from: 0.0, beats: 4}, // teapots and tea tins
 	{clip: 'cafe/c_teas2', from: 1.5, beats: 6}, // tea domes
 	{clip: 'cafe/c_chandelier', from: 0.5, beats: 4},
@@ -30,10 +31,10 @@ const SHOTS: BeatShot[] = [
 
 // Titles, placed by shot index and lasting `beats` (they may span several shots).
 const TITLES: BeatTitle[] = [
-	{shot: 0, beats: 4, kicker: 'Créer des souvenirs, une tasse à la fois', text: 'Making memories, one cup at a time'},
+	{shot: 0, beats: 4, kicker: 'Luciole Café', text: 'Making memories, one cup at a time'},
 	{shot: 1, beats: 8, kicker: 'For coffee & tea fans', text: 'A full menu'},
-	{shot: 2, beats: 4, kicker: 'Only the finest', text: 'High-end coffee grains'},
-	{shot: 3, beats: 8, kicker: 'Every cup crafted by', text: 'The best barista'},
+	{shot: 2, beats: 2, kicker: 'Only the finest', text: 'High-end coffee grains'},
+	{shot: 3, beats: 10, kicker: 'Every cup crafted by', text: 'The best barista'},
 	{shot: 4, beats: 10, kicker: 'For tea lovers', text: 'Our tea selection'},
 	{shot: 6, beats: 8, kicker: 'Welcome to', text: 'Luciole Café'},
 	{shot: 9, beats: 6, kicker: 'Coffee, tea & a moment for you', text: 'Your pause starts here'},
