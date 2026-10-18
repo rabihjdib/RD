@@ -24,6 +24,7 @@
     "carousel:birthday": "remotion still src/index.ts BirthdayCarousel out/carousel/birthday-panorama.png && for n in 1 2 3 4 5 6 7 8; do remotion still src/index.ts BirthdaySlide$n out/carousel/birthday-slide-$n.png || exit 1; done",
     "carousel:setup": "remotion still src/index.ts SetupCarousel out/carousel/setup-panorama.png && for n in 1 2 3 4 5; do remotion still src/index.ts SetupSlide$n out/carousel/setup-slide-$n.png || exit 1; done",
     "carousel:science": "remotion still src/index.ts ScienceCarousel out/carousel/science-panorama.png && for n in 1 2 3 4 5; do remotion still src/index.ts ScienceSlide$n out/carousel/science-slide-$n.png || exit 1; done",
+    "carousel:buffet": "remotion still src/index.ts BuffetCarousel out/carousel/buffet-panorama.png && for n in 1 2 3 4 5 6 7; do remotion still src/index.ts BuffetSlide$n out/carousel/buffet-slide-$n.png || exit 1; done",
     "post:spark": "remotion still src/index.ts SparkPost out/posts/luciole-spark-of-the-future.png",
     "post:love": "remotion still src/index.ts LovePost out/posts/luciole-your-kids-are-our-kids.png",
     "post:heart": "remotion still src/index.ts HeartPost out/posts/luciole-and-we-love-luciole.png",
