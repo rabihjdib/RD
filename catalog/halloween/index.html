@@ -29,19 +29,19 @@ body { background: #888; font-family: Manrope, sans-serif; font-weight: 700; col
 .bat path { fill: var(--charcoal); stroke: var(--gold); stroke-width: 1.6; stroke-linejoin: round; }
 .dark .bat path { fill: #111; }
 
-/* ---------- Page 1: cover ---------- */
-.cover-photo { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 50% 62%; }
-.cover-band { position: absolute; inset: 0; background: linear-gradient(180deg, var(--cream) 0, var(--cream) 205px, rgba(237,236,227,0.75) 240px, rgba(237,236,227,0) 290px); }
-.cover-title { position: absolute; top: 70px; left: 0; right: 0; display: flex; flex-direction: column; align-items: center; }
+/* ---------- Page 1: cover (illustrated night scene) ---------- */
+.cover { background: radial-gradient(ellipse at 50% 42%, #3a332a 0%, #262320 45%, #1a1a1a 100%); color: var(--cream); }
+.cover-art { position: absolute; inset: 0; }
+.cover-title { position: absolute; top: 74px; left: 0; right: 0; display: flex; flex-direction: column; align-items: center; }
 .cover-title .row { display: flex; align-items: flex-end; gap: 16px; }
-.cover-title .row span { font-size: 54px; line-height: 1; padding-bottom: 10px; }
+.cover-title .row span { font-size: 54px; line-height: 1; padding-bottom: 10px; color: var(--cream); }
 .cover-title .row img { width: 205px; }
-.cover-title .sub { margin-top: 12px; font-size: 12px; letter-spacing: 0.32em; text-transform: uppercase; color: var(--gold); }
-.badge { position: absolute; top: 330px; right: 40px; width: 150px; padding: 16px 0 18px; border-radius: 22px; background: rgba(41,41,41,0.9); border: 2.5px solid var(--gold); box-shadow: 0 14px 34px rgba(0,0,0,0.3); display: flex; flex-direction: column; align-items: center; transform: rotate(4deg); color: var(--cream); }
-.badge img { width: 46px; height: 46px; margin-bottom: 6px; }
-.badge .d { font-family: Grown, serif; font-weight: 400; font-size: 38px; line-height: 1.05; }
-.badge .to { font-size: 12px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--sand); line-height: 1.6; }
-.cover-foot { position: absolute; left: 0; right: 0; bottom: 0; padding: 120px 48px 46px; background: linear-gradient(180deg, rgba(41,41,41,0) 0, rgba(41,41,41,0.88) 110px, rgba(41,41,41,0.96) 100%); color: var(--cream); text-align: center; }
+.cover-title .sub { margin-top: 14px; font-size: 12px; letter-spacing: 0.32em; text-transform: uppercase; color: var(--gold); }
+.badge { position: absolute; top: 300px; right: 54px; width: 142px; padding: 14px 0 16px; border-radius: 22px; background: var(--cream); border: 2.5px solid var(--gold); box-shadow: 0 14px 34px rgba(0,0,0,0.45); display: flex; flex-direction: column; align-items: center; transform: rotate(5deg); color: var(--charcoal); }
+.badge img { width: 42px; height: 42px; margin-bottom: 4px; }
+.badge .d { font-family: Grown, serif; font-weight: 400; font-size: 36px; line-height: 1.05; }
+.badge .to { font-size: 12px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--gold); line-height: 1.6; }
+.cover-foot { position: absolute; left: 0; right: 0; bottom: 56px; text-align: center; color: var(--cream); }
 .cover-foot .line { font-size: 34px; line-height: 1.15; }
 .cover-foot .line .em { color: var(--gold); }
 .cover-foot .meta { margin-top: 16px; font-size: 12px; letter-spacing: 0.28em; text-transform: uppercase; color: var(--sand); }
@@ -135,16 +135,125 @@ body { background: #888; font-family: Manrope, sans-serif; font-weight: 700; col
 </svg>
 
 <!-- ===================== PAGE 1: COVER ===================== -->
-<section class="page">
-	<img class="cover-photo" src="../../public/halloween/cover/frame.jpg" alt="">
-	<div class="cover-band"></div>
+<!-- All graphics, no photos: a moonlit Luciole arch with pumpkins, a ghost, bats, a web and fireflies. -->
+<section class="page cover">
+	<svg class="cover-art" viewBox="0 0 794 1123" width="794" height="1123">
+		<defs>
+			<radialGradient id="moonGlow" cx="50%" cy="50%" r="50%">
+				<stop offset="0" stop-color="#f6ebd6" stop-opacity="0.55"/>
+				<stop offset="0.45" stop-color="#d6b27a" stop-opacity="0.22"/>
+				<stop offset="1" stop-color="#b7905d" stop-opacity="0"/>
+			</radialGradient>
+			<linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
+				<stop offset="0" stop-color="#3b352c"/>
+				<stop offset="1" stop-color="#1c1b19"/>
+			</linearGradient>
+			<radialGradient id="lantern" cx="50%" cy="55%" r="60%">
+				<stop offset="0" stop-color="#ffe3a3"/>
+				<stop offset="1" stop-color="#f0a640"/>
+			</radialGradient>
+			<radialGradient id="firefly" cx="50%" cy="50%" r="50%">
+				<stop offset="0" stop-color="#fff6e2"/>
+				<stop offset="0.25" stop-color="#f1d49c" stop-opacity="0.9"/>
+				<stop offset="1" stop-color="#b7905d" stop-opacity="0"/>
+			</radialGradient>
+			<clipPath id="archClip"><path d="M147 862 L147 508 A250 250 0 0 1 647 508 L647 862 Z"/></clipPath>
+
+			<!-- Jack-o'-lantern in muted bronze tones -->
+			<symbol id="pumpkin" viewBox="0 0 200 170">
+				<path d="M96 34 C93 20 98 9 110 3 L117 10 C108 15 105 23 107 35 Z" fill="#6f7a45"/>
+				<path d="M110 14 C124 6 138 8 146 16 C134 15 124 19 116 26 Z" fill="#7f8a52"/>
+				<ellipse cx="60" cy="102" rx="54" ry="62" fill="#a85a26"/>
+				<ellipse cx="140" cy="102" rx="54" ry="62" fill="#a85a26"/>
+				<ellipse cx="100" cy="102" rx="52" ry="67" fill="#c8742f"/>
+				<path d="M100 36 C86 70 86 134 100 168 M100 36 C114 70 114 134 100 168" fill="none" stroke="#a85a26" stroke-width="3"/>
+				<path d="M58 84 L82 84 L70 64 Z M118 84 L142 84 L130 64 Z" fill="url(#lantern)"/>
+				<path d="M92 104 L108 104 L100 92 Z" fill="url(#lantern)"/>
+				<path d="M52 118 Q100 150 148 118 L136 122 L130 132 L120 126 L110 136 L100 128 L90 136 L80 126 L70 132 L64 122 Z" fill="url(#lantern)"/>
+			</symbol>
+
+			<!-- Friendly ghost -->
+			<symbol id="ghost" viewBox="0 0 120 150">
+				<path d="M60 4 C28 4 10 30 10 62 L10 132 Q20 120 30 132 Q40 144 50 132 Q60 120 70 132 Q80 144 90 132 Q100 120 110 132 L110 62 C110 30 92 4 60 4 Z" fill="#f3efe4" stroke="#cbc3a8" stroke-width="2"/>
+				<ellipse cx="44" cy="58" rx="7" ry="10" fill="#292929"/>
+				<ellipse cx="76" cy="58" rx="7" ry="10" fill="#292929"/>
+				<ellipse cx="60" cy="84" rx="9" ry="7" fill="#292929"/>
+				<circle cx="32" cy="74" r="6" fill="#f2c4b4" opacity="0.7"/>
+				<circle cx="88" cy="74" r="6" fill="#f2c4b4" opacity="0.7"/>
+			</symbol>
+
+			<!-- Wrapped sweet -->
+			<symbol id="candy" viewBox="0 0 80 40">
+				<path d="M20 20 L4 8 L6 20 L4 32 Z M60 20 L76 8 L74 20 L76 32 Z" fill="#b7905d"/>
+				<circle cx="40" cy="20" r="16" fill="#edece3" stroke="#b7905d" stroke-width="2.5"/>
+				<path d="M28 12 Q40 20 30 30 M40 5 Q50 20 40 35 M52 12 Q44 22 54 30" fill="none" stroke="#c8742f" stroke-width="3"/>
+			</symbol>
+		</defs>
+
+		<!-- Spider web in the top-left corner, with a little spider on its thread -->
+		<g fill="none" stroke="#b7905d" stroke-opacity="0.6" stroke-width="1.4">
+			<path d="M0 0 L190 40 M0 0 L160 120 M0 0 L105 175 M0 0 L40 195"/>
+			<path d="M48 10 Q38 32 40 49 Q24 52 10 50"/>
+			<path d="M95 20 Q78 58 81 98 Q50 102 20 100"/>
+			<path d="M142 30 Q118 84 120 146 Q74 152 30 148"/>
+		</g>
+		<line x1="122" y1="146" x2="122" y2="232" stroke="#b7905d" stroke-opacity="0.7" stroke-width="1.2"/>
+		<g transform="translate(122 240)" stroke="#b7905d" stroke-width="1.6" fill="none">
+			<path d="M-6 -2 L-16 -10 M-6 2 L-17 2 M-6 5 L-15 13 M6 -2 L16 -10 M6 2 L17 2 M6 5 L15 13"/>
+			<circle r="8" fill="#111" stroke="#b7905d"/>
+			<circle cx="-3" cy="-1" r="1.5" fill="#f6ebd6" stroke="none"/><circle cx="3" cy="-1" r="1.5" fill="#f6ebd6" stroke="none"/>
+		</g>
+
+		<!-- Stars -->
+		<g fill="#d6b27a">
+			<circle cx="70" cy="330" r="2"/><circle cx="700" cy="250" r="2.4"/><circle cx="740" cy="520" r="1.8"/>
+			<circle cx="60" cy="640" r="2.2"/><circle cx="96" cy="470" r="1.5"/><circle cx="720" cy="700" r="1.6"/>
+			<circle cx="40" cy="820" r="1.8"/><circle cx="760" cy="860" r="2"/><circle cx="250" cy="215" r="1.6"/><circle cx="560" cy="220" r="1.8"/>
+		</g>
+
+		<!-- The arch: a moonlit window onto the scene -->
+		<g clip-path="url(#archClip)">
+			<rect x="147" y="258" width="500" height="604" fill="url(#sky)"/>
+			<circle cx="397" cy="470" r="240" fill="url(#moonGlow)"/>
+			<circle cx="397" cy="470" r="122" fill="#f3e9d2"/>
+			<circle cx="357" cy="436" r="18" fill="#e6d9bc"/><circle cx="436" cy="500" r="26" fill="#e6d9bc"/><circle cx="420" cy="420" r="10" fill="#e6d9bc"/><circle cx="370" cy="520" r="12" fill="#e6d9bc"/>
+			<g fill="#f6ebd6" opacity="0.8"><circle cx="210" cy="360" r="1.8"/><circle cx="590" cy="340" r="2"/><circle cx="560" cy="610" r="1.6"/><circle cx="230" cy="600" r="1.6"/></g>
+			<!-- Bats crossing the moon -->
+			<svg x="300" y="400" width="90" height="54" viewBox="0 0 100 60"><use href="#bat" fill="#1a1a1a" stroke="#b7905d" stroke-width="1.6"/></svg>
+			<svg x="430" y="372" width="60" height="36" viewBox="0 0 100 60"><use href="#bat" fill="#1a1a1a" stroke="#b7905d" stroke-width="1.6"/></svg>
+			<svg x="470" y="540" width="44" height="26" viewBox="0 0 100 60"><use href="#bat" fill="#1a1a1a" stroke="#b7905d" stroke-width="1.6"/></svg>
+			<!-- Ghost drifting on the left -->
+			<g transform="rotate(-8 230 600)"><use href="#ghost" x="178" y="540" width="104" height="130"/></g>
+			<!-- Rolling hills -->
+			<path d="M147 742 Q260 688 380 726 Q500 764 647 704 L647 862 L147 862 Z" fill="#141414"/>
+			<path d="M147 790 Q300 744 440 784 Q560 816 647 778 L647 862 L147 862 Z" fill="#0f0f0f"/>
+			<!-- Pumpkins and sweets on the hill -->
+			<use href="#pumpkin" x="238" y="690" width="170" height="145"/>
+			<use href="#pumpkin" x="402" y="728" width="120" height="102"/>
+			<use href="#pumpkin" x="520" y="752" width="86" height="73"/>
+			<use href="#candy" x="186" y="806" width="56" height="28"/>
+			<use href="#candy" x="586" y="826" width="44" height="22"/>
+		</g>
+		<!-- Gold arch outline, with the inner line used across Luciole's archways -->
+		<path d="M147 862 L147 508 A250 250 0 0 1 647 508 L647 862 Z" fill="none" stroke="#b7905d" stroke-width="4"/>
+		<path d="M163 846 L163 508 A234 234 0 0 1 631 508 L631 846 Z" fill="none" stroke="#b7905d" stroke-opacity="0.55" stroke-width="1.5"/>
+
+		<!-- Bats outside the arch -->
+		<svg x="60" y="380" width="84" height="50" viewBox="0 0 100 60" style="overflow:visible"><use href="#bat" fill="#111" stroke="#b7905d" stroke-width="1.6" transform="rotate(-14 50 30)"/></svg>
+		<svg x="676" y="606" width="64" height="38" viewBox="0 0 100 60" style="overflow:visible"><use href="#bat" fill="#111" stroke="#b7905d" stroke-width="1.6" transform="rotate(12 50 30)"/></svg>
+
+		<!-- Fireflies (a luciole is a firefly) -->
+		<g>
+			<circle cx="104" cy="560" r="16" fill="url(#firefly)"/><circle cx="700" cy="400" r="13" fill="url(#firefly)"/>
+			<circle cx="690" cy="800" r="18" fill="url(#firefly)"/><circle cx="96" cy="880" r="12" fill="url(#firefly)"/>
+			<circle cx="610" cy="232" r="10" fill="url(#firefly)"/>
+		</g>
+	</svg>
+
 	<div class="cover-title">
-		<div class="row"><span class="display">Halloween at</span><img src="../../public/reel/brand/logo-dark.png" alt="Luciole"></div>
+		<div class="row"><span class="display">Halloween at</span><img src="../../public/reel/brand/logo-white.png" alt="Luciole"></div>
 		<div class="sub">Events catalog · Ages 2 to 12</div>
 	</div>
-	<svg class="bat" viewBox="0 0 100 60" width="70" height="42" style="left:44px;top:60px;transform:rotate(-12deg)"><use href="#bat"/></svg>
-	<svg class="bat" viewBox="0 0 100 60" width="54" height="32" style="right:52px;top:96px;transform:rotate(14deg)"><use href="#bat"/></svg>
-	<svg class="bat" viewBox="0 0 100 60" width="40" height="24" style="right:118px;top:58px;transform:rotate(-6deg)"><use href="#bat"/></svg>
 
 	<div class="badge">
 		<img src="../../public/halloween/icons/1f383.svg" alt="">
