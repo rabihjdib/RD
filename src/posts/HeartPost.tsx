@@ -14,7 +14,7 @@ import {POST_H, POST_W} from './SparkPost';
 
 const SHIRT_RED = '#a3192b';
 
-const Heart: React.FC<{size: number}> = ({size}) => (
+export const Heart: React.FC<{size: number}> = ({size}) => (
 	<svg width={size} height={size * 0.9} viewBox="0 0 100 90" style={{display: 'inline-block', verticalAlign: '-0.08em', margin: '0 0.18em'}}>
 		<path d="M50 88 C 20 66, 0 48, 0 26 C 0 11, 11 0, 26 0 C 37 0, 45 6, 50 15 C 55 6, 63 0, 74 0 C 89 0, 100 11, 100 26 C 100 48, 80 66, 50 88 Z" fill={SHIRT_RED} />
 	</svg>
