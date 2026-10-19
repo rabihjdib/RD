@@ -1,0 +1,266 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>L'Atelier at Luciole</title>
+<!--
+  L'Atelier catalog (age groups, activities, the space, services and prices), A4
+  portrait, printed to PDF with headless Chromium:
+    npm run catalog:atelier   ->  out/catalog/luciole-atelier-catalog.pdf
+  Photos are downscaled copies in img/ (from public/carousel, public/posts and frames
+  of the B-roll in public/halloween). Prices live in the "Services & prices" table on
+  page 5: any row without a confirmed price reads "On request".
+-->
+<style>
+@font-face { font-family: 'Grown'; src: url('../../public/fonts/Grown-Regular.ttf') format('truetype'); }
+@font-face { font-family: 'Grown'; src: url('../../public/fonts/Manrope-Bold.ttf') format('truetype'); unicode-range: U+002C, U+2019; }
+@font-face { font-family: 'Manrope'; src: url('../../public/fonts/Manrope-Bold.ttf') format('truetype'); font-weight: 700; }
+
+:root { --gold: #b7905d; --bronze: #9a6b3a; --sand: #cbc3a8; --cream: #edece3; --charcoal: #292929; --olive: #8f7d60; --sage: #a9b394; --ink-soft: rgba(41,41,41,0.72); }
+@page { size: A4; margin: 0; }
+* { box-sizing: border-box; margin: 0; padding: 0; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+body { background: #888; font-family: Manrope, sans-serif; font-weight: 700; color: var(--charcoal); }
+.page { width: 210mm; height: 297mm; position: relative; overflow: hidden; background: var(--cream); break-after: page; page-break-after: always; }
+.page:last-child { break-after: auto; page-break-after: auto; }
+.display { font-family: Grown, Georgia, serif; font-weight: 400; }
+.kicker { font-size: 11.5px; letter-spacing: 0.3em; text-transform: uppercase; color: var(--gold); }
+.em { color: var(--bronze); }
+.abs { position: absolute; }
+.head { position: absolute; top: 44px; left: 48px; right: 48px; display: flex; justify-content: space-between; align-items: flex-start; }
+.head .logo { width: 120px; }
+.head .pageno { font-size: 11px; letter-spacing: 0.3em; color: rgba(41,41,41,0.5); padding-top: 10px; }
+.title { position: absolute; top: 108px; left: 48px; right: 48px; }
+.title h2 { margin-top: 8px; font-size: 40px; line-height: 1.05; }
+.title p { margin-top: 10px; font-size: 13px; line-height: 1.55; color: var(--ink-soft); max-width: 620px; }
+.arch { border-radius: 999px 999px 18px 18px; overflow: hidden; border: 2.5px solid var(--gold); box-shadow: 0 14px 30px rgba(41,41,41,0.18); }
+.tile { border-radius: 18px; overflow: hidden; border: 2px solid var(--gold); box-shadow: 0 12px 26px rgba(41,41,41,0.16); position: relative; }
+.arch img, .tile img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.tile .cap { position: absolute; left: 10px; bottom: 10px; padding: 6px 12px; border-radius: 999px; background: rgba(237,236,227,0.94); font-size: 10.5px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--charcoal); }
+.foot { position: absolute; left: 48px; right: 48px; bottom: 40px; display: flex; justify-content: space-between; align-items: center; padding: 15px 22px; border-radius: 18px; background: var(--charcoal); color: var(--cream); }
+.foot .big { font-family: Grown, serif; font-weight: 400; font-size: 21px; }
+.foot .big .em { color: var(--gold); }
+.foot .wa { font-size: 12px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--gold); text-align: right; line-height: 1.6; }
+
+/* Bricks, as in the atelier carousel */
+.brick { position: absolute; border-radius: 6px; box-shadow: 0 6px 12px rgba(0,0,0,0.18); border: 2px solid #fff; }
+.brick::before, .brick::after { content: ''; position: absolute; top: -9px; width: 34%; height: 9px; border-radius: 4px 4px 0 0; background: inherit; border: 2px solid #fff; border-bottom: none; }
+.brick::before { left: 10%; } .brick::after { right: 10%; }
+
+/* Page 1: cover */
+.cover .logo { position: absolute; top: 56px; left: 0; right: 0; margin: 0 auto; width: 200px; }
+.cover .t { position: absolute; top: 150px; left: 0; right: 0; text-align: center; }
+.cover h1 { margin-top: 10px; font-size: 70px; line-height: 1.0; }
+.cover .lead { margin: 16px auto 0; width: 540px; font-size: 14px; line-height: 1.55; color: var(--ink-soft); }
+.cover .hero { position: absolute; top: 410px; left: 132px; width: 530px; height: 530px; border-width: 3px; }
+.cover .hero2 { position: absolute; top: 422px; left: 116px; width: 562px; height: 534px; border-radius: 999px 999px 26px 26px; border: 1.5px solid rgba(183,144,93,0.6); }
+.age-badge { position: absolute; top: 800px; right: 58px; width: 150px; height: 150px; border-radius: 50%; background: var(--charcoal); color: var(--cream); border: 3px solid var(--gold); display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; transform: rotate(-6deg); box-shadow: 0 14px 30px rgba(0,0,0,0.3); }
+.age-badge .s { font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--sand); }
+.age-badge .p { font-family: Grown, serif; font-weight: 400; font-size: 40px; line-height: 1.05; color: var(--gold); }
+.cover .bottom { position: absolute; bottom: 48px; left: 0; right: 0; text-align: center; font-size: 12px; letter-spacing: 0.28em; text-transform: uppercase; color: var(--gold); }
+
+/* Page 2: the space */
+.space { position: absolute; top: 250px; left: 48px; right: 48px; height: 700px; display: grid; grid-template-columns: 1fr 1fr 1fr; grid-template-rows: 1.15fr 1fr; gap: 12px; }
+.space .tile:nth-child(1) { grid-column: span 2; }
+
+/* Page 3: age groups */
+.ages { position: absolute; top: 240px; left: 48px; right: 48px; display: flex; gap: 14px; }
+.age { flex: 1; border-radius: 22px; overflow: hidden; background: rgba(255,255,255,0.7); border: 2px solid var(--gold); }
+.age .ph { height: 330px; }
+.age .ph img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.age .b { padding: 16px 16px 18px; }
+.age .range { display: inline-block; padding: 5px 12px; border-radius: 999px; background: var(--charcoal); color: var(--gold); font-size: 11px; letter-spacing: 0.16em; text-transform: uppercase; }
+.age .n { margin-top: 10px; font-family: Grown, serif; font-weight: 400; font-size: 24px; line-height: 1.05; }
+.age .d { margin-top: 6px; font-size: 11px; line-height: 1.5; color: var(--ink-soft); }
+.age ul { list-style: none; margin-top: 10px; }
+.age li { position: relative; padding-left: 16px; font-size: 11px; line-height: 1.4; margin-bottom: 6px; }
+.age li::before { content: ''; position: absolute; left: 0; top: 4px; width: 8px; height: 8px; border-radius: 50%; background: var(--gold); }
+.note-ages { position: absolute; top: 950px; left: 48px; right: 48px; text-align: center; font-family: Grown, serif; font-weight: 400; font-size: 20px; }
+
+/* Page 4: activities */
+.acts { position: absolute; top: 230px; left: 48px; right: 48px; display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; }
+.act { border-radius: 16px; overflow: hidden; background: rgba(255,255,255,0.7); border: 1.5px solid rgba(183,144,93,0.55); }
+.act .ph { height: 128px; }
+.act .ph img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.act .ic { height: 128px; display: flex; align-items: center; justify-content: center; background: var(--charcoal); }
+.act .ic img { width: 58px; height: 58px; }
+.act .b { padding: 10px 13px 12px; }
+.act .h { font-family: Grown, serif; font-weight: 400; font-size: 17px; line-height: 1.1; }
+.act .s { margin-top: 4px; font-size: 10px; line-height: 1.45; color: var(--ink-soft); }
+.act .a { margin-top: 6px; font-size: 9.5px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--gold); }
+
+/* Page 5: services & prices */
+.prices { position: absolute; top: 236px; left: 48px; right: 48px; border-collapse: separate; border-spacing: 0; border-radius: 18px; overflow: hidden; border: 1.5px solid rgba(183,144,93,0.6); width: calc(100% - 96px); }
+.prices th { background: var(--charcoal); color: var(--cream); font-size: 10px; letter-spacing: 0.22em; text-transform: uppercase; padding: 12px 16px; text-align: left; font-weight: 700; }
+.prices td { padding: 13px 16px; background: rgba(255,255,255,0.65); border-top: 1px solid rgba(183,144,93,0.3); vertical-align: top; font-size: 11.5px; line-height: 1.45; }
+.prices td.s { width: 44%; }
+.prices td.s .n { font-family: Grown, serif; font-weight: 400; font-size: 17px; color: var(--charcoal); }
+.prices td.s .d { margin-top: 3px; font-size: 10.5px; color: var(--ink-soft); }
+.prices td.a { color: var(--ink-soft); white-space: nowrap; }
+.prices td.p { text-align: right; white-space: nowrap; font-family: Grown, serif; font-weight: 400; font-size: 19px; color: var(--bronze); }
+.prices td.p.req { font-family: Manrope, sans-serif; font-weight: 700; font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--gold); }
+.goodtoknow { position: absolute; top: 880px; left: 48px; right: 48px; display: flex; gap: 12px; }
+.goodtoknow div { flex: 1; padding: 12px 14px; border-radius: 14px; border: 1.5px dashed var(--gold); font-size: 10.5px; line-height: 1.45; color: var(--ink-soft); }
+.goodtoknow b { display: block; font-family: Grown, serif; font-weight: 400; font-size: 15px; color: var(--charcoal); margin-bottom: 3px; }
+
+/* Page 6: back cover */
+.back { background: var(--charcoal); color: var(--cream); display: flex; flex-direction: column; align-items: center; text-align: center; }
+.back .logo { margin-top: 90px; width: 210px; }
+.back h2 { margin-top: 26px; font-size: 54px; line-height: 1.04; }
+.back h2 .em { color: var(--gold); }
+.back .row { margin-top: 34px; display: flex; gap: 14px; }
+.back .row .arch { width: 200px; height: 250px; border-width: 3px; }
+.back .cta { margin-top: 36px; display: flex; align-items: center; gap: 14px; padding: 16px 32px; border-radius: 999px; background: var(--gold); color: var(--charcoal); }
+.back .cta img { width: 26px; height: 26px; }
+.back .cta span { font-family: Grown, serif; font-weight: 400; font-size: 26px; }
+.info { margin-top: 32px; display: grid; grid-template-columns: 1fr 1fr 1fr; width: 640px; border-top: 1px solid rgba(183,144,93,0.5); }
+.info div { padding: 16px 10px 0; font-size: 11.5px; line-height: 1.55; color: rgba(237,236,227,0.8); }
+.info b { display: block; font-weight: 700; font-size: 10px; letter-spacing: 0.26em; text-transform: uppercase; color: var(--gold); margin-bottom: 6px; }
+.back .web { margin-top: 26px; font-size: 12px; letter-spacing: 0.28em; text-transform: uppercase; color: var(--sand); }
+</style>
+</head>
+<body>
+
+<!-- ===================== PAGE 1: COVER ===================== -->
+<section class="page cover">
+	<img class="logo" src="../../public/reel/brand/logo-dark.png" alt="Luciole">
+	<div class="t">
+		<div class="kicker">Kids&rsquo; atelier · Jounieh Souks</div>
+		<h1 class="display">L&rsquo;Atelier</h1>
+		<p class="lead">Hands-on workshops and play, in small groups led by our team. No screens, just their imagination doing the work.<br><b style="color:var(--charcoal)">They create. You pause &amp; connect.</b></p>
+	</div>
+	<div class="hero2"></div>
+	<div class="hero arch"><img src="img/umbrella-group.jpg" style="object-position:50% 50%" alt=""></div>
+	<span class="brick" style="left:52px;top:460px;width:70px;height:34px;background:#d2483c;transform:rotate(-14deg)"></span>
+	<span class="brick" style="left:78px;top:540px;width:56px;height:28px;background:#f0c23b;transform:rotate(10deg)"></span>
+	<span class="brick" style="left:46px;top:620px;width:62px;height:30px;background:#3a62c4;transform:rotate(-6deg)"></span>
+	<span class="brick" style="right:62px;top:470px;width:64px;height:31px;background:#3c8a54;transform:rotate(12deg)"></span>
+	<span class="brick" style="right:84px;top:560px;width:52px;height:26px;background:#d2483c;transform:rotate(-10deg)"></span>
+	<div class="age-badge"><span class="s">Ages</span><span class="p">2 to 12</span></div>
+	<div class="bottom">Luciole · Jounieh Souks · WhatsApp 81 540 282</div>
+</section>
+
+<!-- ===================== PAGE 2: THE SPACE ===================== -->
+<section class="page">
+	<div class="head"><img class="logo" src="../../public/reel/brand/logo-dark.png" alt="Luciole"><span class="pageno">L&rsquo;ATELIER · 02</span></div>
+	<div class="title">
+		<div class="kicker">Inside L&rsquo;Atelier</div>
+		<h2 class="display">A space made for <span class="em">little hands</span>.</h2>
+		<p>Bright rooms, kid-height tables, shelves full of materials and games, and our café and bistro just steps away so parents can stay close.</p>
+	</div>
+	<div class="space">
+		<div class="tile"><img src="img/alcove.jpg" style="object-position:50% 45%" alt=""><span class="cap">The atelier</span></div>
+		<div class="tile"><img src="img/aprons.jpg" style="object-position:40% 45%" alt=""><span class="cap">Materials wall</span></div>
+		<div class="tile"><img src="img/games-room.jpg" style="object-position:50% 35%" alt=""><span class="cap">Games wall</span></div>
+		<div class="tile"><img src="img/building.jpg" style="object-position:50% 50%" alt=""><span class="cap">Building table</span></div>
+		<div class="tile"><img src="img/hallway.jpg" style="object-position:50% 40%" alt=""><span class="cap">To the café</span></div>
+	</div>
+	<div class="foot"><div class="big">Come and see it <span class="em">for yourself.</span></div><div class="wa">WhatsApp<br>81 540 282</div></div>
+</section>
+
+<!-- ===================== PAGE 3: AGE GROUPS ===================== -->
+<section class="page">
+	<div class="head"><img class="logo" src="../../public/reel/brand/logo-dark.png" alt="Luciole"><span class="pageno">L&rsquo;ATELIER · 03</span></div>
+	<div class="title">
+		<div class="kicker">Age groups</div>
+		<h2 class="display">Something for every <span class="em">age</span>.</h2>
+		<p>Activities are matched to each age so every child is challenged, never bored, and always proud of what they make.</p>
+	</div>
+	<div class="ages">
+		<div class="age">
+			<div class="ph"><img src="img/little.jpg" style="object-position:55% 30%" alt=""></div>
+			<div class="b">
+				<span class="range">Ages 2 to 4</span>
+				<div class="n">Little explorers</div>
+				<div class="d">First discoveries through touch, sound and colour, with a parent welcome to stay alongside.</div>
+				<ul><li>Sensory play</li><li>Music &amp; movement</li><li>Clay &amp; first painting</li><li>Stay &amp; play</li></ul>
+			</div>
+		</div>
+		<div class="age">
+			<div class="ph"><img src="img/makers.jpg" style="object-position:50% 30%" alt=""></div>
+			<div class="b">
+				<span class="range">Ages 5 to 8</span>
+				<div class="n">Young makers</div>
+				<div class="d">Hands-on projects they finish themselves and proudly take home.</div>
+				<ul><li>Arts &amp; crafts</li><li>Science experiments</li><li>Little chefs</li><li>Lego &amp; building</li></ul>
+			</div>
+		</div>
+		<div class="age">
+			<div class="ph"><img src="img/creators.jpg" style="object-position:50% 40%" alt=""></div>
+			<div class="b">
+				<span class="range">Ages 9 to 12</span>
+				<div class="n">Creators</div>
+				<div class="d">Bigger challenges that build focus, problem solving and confidence.</div>
+				<ul><li>STEM &amp; engineering</li><li>Wood workshop</li><li>Jewelry &amp; design</li><li>Strategy &amp; board games</li></ul>
+			</div>
+		</div>
+	</div>
+	<div class="note-ages">Small groups, <span class="em">led by our trained team.</span></div>
+	<div class="foot"><div class="big">Not sure which group fits? <span class="em">Ask us.</span></div><div class="wa">WhatsApp<br>81 540 282</div></div>
+</section>
+
+<!-- ===================== PAGE 4: ACTIVITIES ===================== -->
+<section class="page">
+	<div class="head"><img class="logo" src="../../public/reel/brand/logo-dark.png" alt="Luciole"><span class="pageno">L&rsquo;ATELIER · 04</span></div>
+	<div class="title">
+		<div class="kicker">Activities</div>
+		<h2 class="display">Make, move and <span class="em">discover</span>.</h2>
+	</div>
+	<div class="acts">
+		<div class="act"><div class="ph"><img src="img/crafts.jpg" style="object-position:50% 45%" alt=""></div><div class="b"><div class="h">Arts &amp; crafts</div><div class="s">Painting, clay, collage and recycled-material projects.</div><div class="a">All ages</div></div></div>
+		<div class="act"><div class="ph"><img src="img/science.jpg" style="object-position:50% 40%" alt=""></div><div class="b"><div class="h">Science &amp; STEM</div><div class="s">Slime, volcanoes, magnets and fog: safe experiments for every &ldquo;why?&rdquo;.</div><div class="a">Ages 4 and up</div></div></div>
+		<div class="act"><div class="ph"><img src="img/build.jpg" style="object-position:50% 50%" alt=""></div><div class="b"><div class="h">Building &amp; engineering</div><div class="s">Lego, magnetic tiles and cities built piece by piece.</div><div class="a">Ages 4 and up</div></div></div>
+		<div class="act"><div class="ph"><img src="img/wood.jpg" style="object-position:50% 40%" alt=""></div><div class="b"><div class="h">Wood workshop</div><div class="s">Real tools, safely guided, with our partners Wood Wizard.</div><div class="a">Ages 6 and up</div></div></div>
+		<div class="act"><div class="ph"><img src="img/design.jpg" style="object-position:50% 40%" alt=""></div><div class="b"><div class="h">Design &amp; customize</div><div class="s">Umbrellas, bags and accessories they design and use every day.</div><div class="a">Ages 5 and up</div></div></div>
+		<div class="act"><div class="ph"><img src="img/paint.jpg" style="object-position:35% 45%" alt=""></div><div class="b"><div class="h">Glitter &amp; face art</div><div class="s">Glitter tattoos and face painting with skin-safe colours.</div><div class="a">All ages</div></div></div>
+		<div class="act"><div class="ic"><img src="../../public/reel/icons/1f9c1.svg" alt=""></div><div class="b"><div class="h">Little chefs</div><div class="s">Kid-sized cooking and baking: manakish, cookies and pizza.</div><div class="a">Ages 4 and up</div></div></div>
+		<div class="act"><div class="ph"><img src="img/sensory.jpg" style="object-position:50% 40%" alt=""></div><div class="b"><div class="h">Sensory play</div><div class="s">Textures, clay, sand and light play for toddlers.</div><div class="a">Ages 2 to 4</div></div></div>
+		<div class="act"><div class="ph"><img src="img/games.jpg" style="object-position:50% 40%" alt=""></div><div class="b"><div class="h">Games &amp; puzzles</div><div class="s">Board games, ball runs and the giant games wall.</div><div class="a">All ages</div></div></div>
+	</div>
+	<div class="foot"><div class="big">New seasonal workshops <span class="em">every season.</span></div><div class="wa">WhatsApp<br>81 540 282</div></div>
+</section>
+
+<!-- ===================== PAGE 5: SERVICES & PRICES ===================== -->
+<section class="page">
+	<div class="head"><img class="logo" src="../../public/reel/brand/logo-dark.png" alt="Luciole"><span class="pageno">L&rsquo;ATELIER · 05</span></div>
+	<div class="title">
+		<div class="kicker">Services &amp; prices</div>
+		<h2 class="display">Choose how your family <span class="em">uses Luciole</span>.</h2>
+	</div>
+	<table class="prices">
+		<tr><th>Service</th><th>Ages</th><th style="text-align:right">Price</th></tr>
+		<tr><td class="s"><div class="n">Supervised drop-off play</div><div class="d">Leave your child with our team by the hour: work, errands, a doctor&rsquo;s visit or a date night.</div></td><td class="a">3 to 12</td><td class="p req">On request</td></tr>
+		<tr><td class="s"><div class="n">Stay &amp; play</div><div class="d">Play together with your little one. Ideal for toddlers and first visits.</div></td><td class="a">2 to 12</td><td class="p req">On request</td></tr>
+		<tr><td class="s"><div class="n">Scheduled workshops</div><div class="d">A weekly timetable of themed sessions by age group. Book a single class or a full term.</div></td><td class="a">2 to 12</td><td class="p req">On request</td></tr>
+		<tr><td class="s"><div class="n">Memberships: Explorer &amp; Innovator</div><div class="d">For regular visits, matched to who your child is.</div></td><td class="a">2 to 12</td><td class="p req">On request</td></tr>
+		<tr><td class="s"><div class="n">Holiday camps</div><div class="d">Full or half days in summer, winter and Easter breaks, with a new theme every week.</div></td><td class="a">3 to 12</td><td class="p req">On request</td></tr>
+		<tr><td class="s"><div class="n">School &amp; nursery visits</div><div class="d">Group outings with a workshop matched to the curriculum.</div></td><td class="a">Groups</td><td class="p req">On request</td></tr>
+		<tr><td class="s"><div class="n">Birthday parties</div><div class="d">Venue, kids&rsquo; meal and a workshop in one booking. See our birthday packages.</div></td><td class="a">2 to 12</td><td class="p">From $20 / child</td></tr>
+	</table>
+	<div class="goodtoknow">
+		<div><b>Small groups</b>Every session is led by a trained animator.</div>
+		<div><b>Take it home</b>Children keep what they make.</div>
+		<div><b>Book ahead</b>We confirm every booking personally on WhatsApp.</div>
+	</div>
+	<div class="foot"><div class="big">Prices and timetable <span class="em">on WhatsApp.</span></div><div class="wa">WhatsApp<br>81 540 282</div></div>
+</section>
+
+<!-- ===================== PAGE 6: BACK COVER ===================== -->
+<section class="page back">
+	<img class="logo" src="../../public/reel/brand/logo-white.png" alt="Luciole">
+	<h2 class="display">They create.<br><span class="em">You pause &amp; connect.</span></h2>
+	<div class="row">
+		<div class="arch"><img src="img/proud.jpg" style="object-position:50% 25%" alt=""></div>
+		<div class="arch"><img src="img/smile.jpg" style="object-position:55% 25%" alt=""></div>
+		<div class="arch"><img src="img/creator.jpg" style="object-position:62% 30%" alt=""></div>
+	</div>
+	<div class="cta"><img src="../../public/halloween/icons/1f4f1.svg" alt=""><span>Book on WhatsApp · +961 81 540 282</span></div>
+	<div class="info">
+		<div><b>Find us</b>Chiha Building, 1st floor<br>Jounieh Souks, Keserwan</div>
+		<div><b>Opening hours</b>Tue to Fri · 10 am to 10 pm<br>Sat &amp; Sun · 9 am to midnight<br>Monday · closed</div>
+		<div><b>Follow</b>@luciole.lebanon<br>Instagram · TikTok · Facebook</div>
+	</div>
+	<div class="web">luciolelebanon.com</div>
+</section>
+
+</body>
+</html>
