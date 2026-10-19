@@ -1,0 +1,267 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Halloween at Luciole</title>
+<!--
+  Halloween events catalog, A4 portrait, printed to PDF with headless Chromium:
+    npm run catalog:halloween   ->  out/catalog/luciole-halloween-catalog.pdf
+  Assets come straight from public/ (brand fonts, logo, Halloween icons and photos).
+-->
+<style>
+@font-face { font-family: 'Grown'; src: url('../../public/fonts/Grown-Regular.ttf') format('truetype'); }
+/* Grown's comma and apostrophe read as full stops, so those come from Manrope. */
+@font-face { font-family: 'Grown'; src: url('../../public/fonts/Manrope-Bold.ttf') format('truetype'); unicode-range: U+002C, U+2019; }
+@font-face { font-family: 'Manrope'; src: url('../../public/fonts/Manrope-Bold.ttf') format('truetype'); font-weight: 700; }
+
+:root {
+	--gold: #b7905d; --bronze: #9a6b3a; --sand: #cbc3a8; --cream: #edece3; --charcoal: #292929; --ink-soft: rgba(41,41,41,0.72);
+}
+@page { size: A4; margin: 0; }
+* { box-sizing: border-box; margin: 0; padding: 0; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+body { background: #888; font-family: Manrope, sans-serif; font-weight: 700; color: var(--charcoal); }
+.page { width: 210mm; height: 297mm; position: relative; overflow: hidden; background: var(--cream); page-break-after: always; break-after: page; }
+.page:last-child { page-break-after: auto; break-after: auto; }
+.display { font-family: Grown, Georgia, serif; font-weight: 400; }
+.kicker { font-size: 11.5px; letter-spacing: 0.3em; text-transform: uppercase; color: var(--gold); }
+.em { color: var(--bronze); }
+.bat { position: absolute; }
+.bat path { fill: var(--charcoal); stroke: var(--gold); stroke-width: 1.6; stroke-linejoin: round; }
+.dark .bat path { fill: #111; }
+
+/* ---------- Page 1: cover ---------- */
+.cover-photo { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 50% 62%; }
+.cover-band { position: absolute; inset: 0; background: linear-gradient(180deg, var(--cream) 0, var(--cream) 205px, rgba(237,236,227,0.75) 240px, rgba(237,236,227,0) 290px); }
+.cover-title { position: absolute; top: 70px; left: 0; right: 0; display: flex; flex-direction: column; align-items: center; }
+.cover-title .row { display: flex; align-items: flex-end; gap: 16px; }
+.cover-title .row span { font-size: 54px; line-height: 1; padding-bottom: 10px; }
+.cover-title .row img { width: 205px; }
+.cover-title .sub { margin-top: 12px; font-size: 12px; letter-spacing: 0.32em; text-transform: uppercase; color: var(--gold); }
+.badge { position: absolute; top: 330px; right: 40px; width: 150px; padding: 16px 0 18px; border-radius: 22px; background: rgba(41,41,41,0.9); border: 2.5px solid var(--gold); box-shadow: 0 14px 34px rgba(0,0,0,0.3); display: flex; flex-direction: column; align-items: center; transform: rotate(4deg); color: var(--cream); }
+.badge img { width: 46px; height: 46px; margin-bottom: 6px; }
+.badge .d { font-family: Grown, serif; font-weight: 400; font-size: 38px; line-height: 1.05; }
+.badge .to { font-size: 12px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--sand); line-height: 1.6; }
+.cover-foot { position: absolute; left: 0; right: 0; bottom: 0; padding: 120px 48px 46px; background: linear-gradient(180deg, rgba(41,41,41,0) 0, rgba(41,41,41,0.88) 110px, rgba(41,41,41,0.96) 100%); color: var(--cream); text-align: center; }
+.cover-foot .line { font-size: 34px; line-height: 1.15; }
+.cover-foot .line .em { color: var(--gold); }
+.cover-foot .meta { margin-top: 16px; font-size: 12px; letter-spacing: 0.28em; text-transform: uppercase; color: var(--sand); }
+
+/* ---------- Shared event-page parts ---------- */
+.head { position: absolute; top: 46px; left: 48px; right: 48px; display: flex; justify-content: space-between; align-items: flex-start; }
+.head .logo { width: 120px; }
+.head .pageno { font-size: 11px; letter-spacing: 0.3em; color: rgba(41,41,41,0.5); padding-top: 10px; }
+.title { position: absolute; top: 112px; left: 48px; right: 48px; }
+.title h1 { margin-top: 8px; font-size: 44px; line-height: 1.04; }
+.pills { margin-top: 16px; display: flex; gap: 10px; flex-wrap: wrap; }
+.pill { display: inline-flex; align-items: center; gap: 8px; padding: 8px 16px; border-radius: 999px; font-size: 13px; background: var(--charcoal); color: var(--cream); }
+.pill img { width: 18px; height: 18px; }
+.pill.light { background: rgba(255,255,255,0.7); color: var(--charcoal); border: 1.5px solid var(--gold); }
+
+.program { list-style: none; display: grid; grid-template-columns: 1fr 1fr; gap: 12px 14px; }
+.program li { display: flex; align-items: center; gap: 12px; padding: 12px 14px; border-radius: 16px; background: rgba(255,255,255,0.62); border: 1px solid rgba(183,144,93,0.35); }
+.program .n { font-size: 10px; letter-spacing: 0.2em; color: var(--gold); }
+.program img { width: 34px; height: 34px; flex: none; }
+.program .t { font-family: Grown, serif; font-weight: 400; font-size: 19px; line-height: 1.1; }
+.program .s { margin-top: 3px; font-size: 10.5px; line-height: 1.35; color: var(--ink-soft); }
+
+.arches { display: flex; gap: 14px; }
+.arch { flex: 1; height: 250px; border-radius: 999px 999px 18px 18px; overflow: hidden; border: 2.5px solid var(--gold); box-shadow: 0 14px 30px rgba(41,41,41,0.18); }
+.arch img { width: 100%; height: 100%; object-fit: cover; }
+
+.limited { position: absolute; left: 48px; right: 48px; bottom: 40px; display: flex; justify-content: space-between; align-items: center; padding: 16px 22px; border-radius: 18px; background: var(--charcoal); color: var(--cream); }
+.limited .big { font-family: Grown, serif; font-weight: 400; font-size: 22px; }
+.limited .big .em { color: var(--gold); }
+.limited .wa { font-size: 12px; letter-spacing: 0.22em; text-transform: uppercase; color: var(--gold); text-align: right; line-height: 1.6; }
+
+/* ---------- Page 2: days 1 and 2 ---------- */
+.dress { position: absolute; top: 300px; left: 48px; right: 48px; height: 132px; display: flex; border-radius: 20px; overflow: hidden; border: 2px solid var(--charcoal); }
+.dress > div { flex: 1; display: flex; align-items: center; gap: 16px; padding: 0 24px; }
+.dress .w { background: #fff; color: var(--charcoal); }
+.dress .b { background: var(--charcoal); color: var(--cream); }
+.dress .dot { width: 58px; height: 58px; border-radius: 50%; flex: none; }
+.dress .w .dot { background: #fff; border: 2px solid var(--charcoal); box-shadow: inset 0 0 0 6px #f4f4f1; }
+.dress .b .dot { background: #111; border: 2px solid var(--gold); }
+.dress .k { font-size: 10.5px; letter-spacing: 0.26em; text-transform: uppercase; color: var(--gold); }
+.dress .t { font-family: Grown, serif; font-weight: 400; font-size: 28px; line-height: 1.05; }
+.dress .or { position: absolute; left: 50%; top: 50%; transform: translate(-50%,-50%); width: 46px; height: 46px; border-radius: 50%; background: var(--gold); color: #fff; display: flex; align-items: center; justify-content: center; font-family: Grown, serif; font-weight: 400; font-size: 18px; border: 3px solid var(--cream); }
+.p2-program { position: absolute; top: 462px; left: 48px; right: 48px; }
+.p2-photos { position: absolute; top: 756px; left: 48px; right: 48px; }
+.p2-photos .arch { height: 236px; }
+
+/* ---------- Page 3: day 3 (night) ---------- */
+.dark { background: #1f1f1f; color: var(--cream); }
+.dark .pageno { color: rgba(237,236,227,0.5); }
+.dark .em { color: var(--gold); }
+.dark .program li { background: rgba(255,255,255,0.06); border-color: rgba(183,144,93,0.45); }
+.dark .program .s { color: rgba(237,236,227,0.7); }
+.dark .pill { background: var(--gold); color: var(--charcoal); }
+.dark .pill.light { background: transparent; color: var(--cream); border-color: var(--gold); }
+.dark .limited { background: var(--cream); color: var(--charcoal); }
+.dark .limited .big .em { color: var(--bronze); }
+.dark .limited .wa { color: var(--bronze); }
+.collab { position: absolute; top: 318px; left: 48px; right: 48px; display: flex; gap: 18px; align-items: stretch; }
+.collab .card { flex: 1; padding: 18px 20px; border-radius: 18px; border: 2px solid var(--gold); background: rgba(183,144,93,0.12); }
+.collab .card .t { font-family: Grown, serif; font-weight: 400; font-size: 24px; line-height: 1.1; margin-top: 6px; }
+.collab .card .s { margin-top: 6px; font-size: 11px; line-height: 1.45; color: rgba(237,236,227,0.75); }
+.collab .card img { width: 30px; height: 30px; }
+.p3-photos { position: absolute; top: 470px; left: 48px; right: 48px; }
+.p3-photos .arch { height: 225px; }
+.p3-program { position: absolute; top: 726px; left: 48px; right: 48px; }
+.p3-program .program li.wide { grid-column: span 2; }
+.glow { position: absolute; width: 12px; height: 12px; border-radius: 50%; background: #f6ebd6; box-shadow: 0 0 12px 6px rgba(214,178,122,0.85), 0 0 46px 20px rgba(183,144,93,0.35); }
+
+/* ---------- Page 4: booking ---------- */
+.p4 { display: flex; flex-direction: column; align-items: center; text-align: center; }
+.p4 .logo { margin-top: 84px; width: 180px; }
+.p4 .kicker { margin-top: 30px; }
+.p4 h1 { margin-top: 12px; font-size: 58px; line-height: 1.04; }
+.p4 .bigarch { margin-top: 40px; width: 380px; height: 390px; border-radius: 999px 999px 22px 22px; overflow: hidden; border: 3px solid var(--gold); box-shadow: 0 18px 40px rgba(41,41,41,0.22); }
+.p4 .bigarch img { width: 100%; height: 100%; object-fit: cover; object-position: 50% 30%; }
+.glance { margin-top: 44px; width: 600px; border-collapse: separate; border-spacing: 0; border-radius: 16px; overflow: hidden; border: 1.5px solid rgba(183,144,93,0.6); font-size: 12px; text-align: left; }
+.glance th { background: var(--charcoal); color: var(--cream); font-size: 10px; letter-spacing: 0.22em; text-transform: uppercase; padding: 10px 14px; font-weight: 700; }
+.glance td { padding: 11px 14px; background: rgba(255,255,255,0.6); border-top: 1px solid rgba(183,144,93,0.3); vertical-align: top; line-height: 1.4; }
+.glance td.d { font-family: Grown, serif; font-weight: 400; font-size: 16px; white-space: nowrap; }
+.cta { margin-top: 40px; display: flex; align-items: center; gap: 14px; padding: 16px 30px; border-radius: 999px; background: var(--charcoal); color: var(--cream); }
+.cta img { width: 26px; height: 26px; }
+.cta span { font-family: Grown, serif; font-weight: 400; font-size: 26px; }
+.p4 .meta { margin-top: 16px; font-size: 11.5px; letter-spacing: 0.26em; text-transform: uppercase; color: var(--gold); }
+</style>
+</head>
+<body>
+
+<!-- Bat silhouette, reused (same shape as the Halloween reel cover). -->
+<svg width="0" height="0" style="position:absolute">
+	<defs><path id="bat" d="M50 26 C46 16 36 12 22 14 C28 19 30 25 28 31 C22 27 12 27 3 33 C13 35 19 41 21 49 C29 43 39 43 45 49 L50 41 L55 49 C61 43 71 43 79 49 C81 41 87 35 97 33 C88 27 78 27 72 31 C70 25 72 19 78 14 C64 12 54 16 50 26 Z"/></defs>
+</svg>
+
+<!-- ===================== PAGE 1: COVER ===================== -->
+<section class="page">
+	<img class="cover-photo" src="../../public/halloween/cover/frame.jpg" alt="">
+	<div class="cover-band"></div>
+	<div class="cover-title">
+		<div class="row"><span class="display">Halloween at</span><img src="../../public/reel/brand/logo-dark.png" alt="Luciole"></div>
+		<div class="sub">Events catalog · Ages 2 to 12</div>
+	</div>
+	<svg class="bat" viewBox="0 0 100 60" width="70" height="42" style="left:44px;top:60px;transform:rotate(-12deg)"><use href="#bat"/></svg>
+	<svg class="bat" viewBox="0 0 100 60" width="54" height="32" style="right:52px;top:96px;transform:rotate(14deg)"><use href="#bat"/></svg>
+	<svg class="bat" viewBox="0 0 100 60" width="40" height="24" style="right:118px;top:58px;transform:rotate(-6deg)"><use href="#bat"/></svg>
+
+	<div class="badge">
+		<img src="../../public/halloween/icons/1f383.svg" alt="">
+		<span class="d">Oct 30</span><span class="to">to</span><span class="d">Nov 1</span>
+	</div>
+
+	<div class="cover-foot">
+		<div class="line display">Three spooky days of creating,<br><span class="em">playing and celebrating.</span></div>
+		<div class="meta">4 to 7 PM · Jounieh Souks · Booking is a must</div>
+	</div>
+</section>
+
+<!-- ===================== PAGE 2: DAYS 1 & 2 ===================== -->
+<section class="page">
+	<div class="head"><img class="logo" src="../../public/reel/brand/logo-dark.png" alt="Luciole"><span class="pageno">HALLOWEEN · 02</span></div>
+	<svg class="bat" viewBox="0 0 100 60" width="58" height="35" style="right:60px;top:150px;transform:rotate(12deg)"><use href="#bat"/></svg>
+	<div class="title">
+		<div class="kicker">Days 1 &amp; 2</div>
+		<h1 class="display">Friday 30 &amp; <span class="em">Saturday 31 October</span></h1>
+		<div class="pills">
+			<span class="pill"><img src="../../public/halloween/icons/1f4c5.svg" alt="">4 to 7 PM</span>
+			<span class="pill light">Spots are limited · Booking is a must</span>
+		</div>
+	</div>
+
+	<div class="dress">
+		<div class="w"><span class="dot"></span><div><div class="k">Dress code</div><div class="t">Come in<br>full white</div></div></div>
+		<div class="b"><span class="dot"></span><div><div class="k">Dress code</div><div class="t">or full<br>black</div></div></div>
+		<span class="or">or</span>
+	</div>
+
+	<div class="p2-program">
+		<div class="kicker" style="margin-bottom:12px">The plan</div>
+		<ul class="program">
+			<li><img src="../../public/halloween/icons/1f47b.svg" alt=""><div><div class="n">01</div><div class="t">Halloween themed welcoming</div><div class="s">A spooky hello at the door.</div></div></li>
+			<li><img src="../../public/halloween/icons/1f3ad.svg" alt=""><div><div class="n">02</div><div class="t">Find your Halloween character</div><div class="s">Who will they be tonight?</div></div></li>
+			<li><img src="../../public/halloween/icons/1f455.svg" alt=""><div><div class="n">03</div><div class="t">Design your spooky outfit</div><div class="s">They create their own look.</div></div></li>
+			<li><img src="../../public/halloween/icons/1f3a8.svg" alt=""><div><div class="n">04</div><div class="t">Halloween activities</div><div class="s">Crafts and games at the atelier.</div></div></li>
+			<li><img src="../../public/halloween/icons/2728.svg" alt=""><div><div class="n">05</div><div class="t">Party</div><div class="s">A spooky celebration together.</div></div></li>
+			<li><img src="../../public/halloween/icons/1f36c.svg" alt=""><div><div class="n">06</div><div class="t">Halloween bites</div><div class="s">Treats made for little monsters.</div></div></li>
+		</ul>
+	</div>
+
+	<div class="p2-photos arches">
+		<div class="arch"><img src="../../public/carousel/team/care.jpg" style="object-position:50% 30%" alt=""></div>
+		<div class="arch"><img src="../../public/carousel/umbrella/design.jpg" style="object-position:50% 40%" alt=""></div>
+		<div class="arch"><img src="../../public/carousel/discover/paint.jpg" style="object-position:30% 40%" alt=""></div>
+	</div>
+
+	<div class="limited">
+		<div class="big">Spots are limited. <span class="em">Booking is a must.</span></div>
+		<div class="wa">WhatsApp<br>81 540 282</div>
+	</div>
+</section>
+
+<!-- ===================== PAGE 3: DAY 3 ===================== -->
+<section class="page dark">
+	<span class="glow" style="left:600px;top:170px"></span>
+	<span class="glow" style="left:720px;top:250px;transform:scale(0.7)"></span>
+	<span class="glow" style="left:530px;top:110px;transform:scale(0.55)"></span>
+	<div class="head"><img class="logo" src="../../public/reel/brand/logo-white.png" alt="Luciole"><span class="pageno">HALLOWEEN · 03</span></div>
+	<svg class="bat" viewBox="0 0 100 60" width="58" height="35" style="right:64px;top:132px;transform:rotate(-10deg)"><use href="#bat"/></svg>
+	<div class="title">
+		<div class="kicker">Day 3 · In collaboration with Wood Wizard</div>
+		<h1 class="display">Sunday <span class="em">1 November</span></h1>
+		<div class="pills">
+			<span class="pill"><img src="../../public/halloween/icons/1f4c5.svg" alt="">4 to 7 PM</span>
+			<span class="pill light">Spots are limited · Booking is a must</span>
+		</div>
+	</div>
+
+	<div class="collab">
+		<div class="card"><img src="../../public/halloween/icons/1f978.svg" alt=""><div class="t">Kids come <span class="em">disguised</span></div><div class="s">Costumes on: the night belongs to little witches, heroes and monsters.</div></div>
+		<div class="card"><img src="../../public/halloween/icons/1fa9a.svg" alt=""><div class="t">With <span class="em">Wood Wizard</span></div><div class="s">A real wood workshop for the kids, guided step by step by the Wood Wizard team.</div></div>
+	</div>
+
+	<div class="p3-photos arches">
+		<div class="arch"><img src="../../public/carousel/wood/guide.jpg" style="object-position:45% 30%" alt=""></div>
+		<div class="arch"><img src="../../public/carousel/wood/tools.jpg" style="object-position:55% 40%" alt=""></div>
+		<div class="arch"><img src="../../public/posts/creator.jpg" style="object-position:62% 30%" alt=""></div>
+	</div>
+
+	<div class="p3-program">
+		<div class="kicker" style="margin-bottom:12px">The plan</div>
+		<ul class="program">
+			<li><img src="../../public/halloween/icons/1f383.svg" alt=""><div><div class="n">01</div><div class="t">Halloween themed welcoming</div></div></li>
+			<li><img src="../../public/halloween/icons/1fab5.svg" alt=""><div><div class="n">02</div><div class="t">Wood Wizard workshop</div></div></li>
+			<li><img src="../../public/halloween/icons/1f3a8.svg" alt=""><div><div class="n">03</div><div class="t">Atelier Halloween activities</div></div></li>
+			<li><img src="../../public/halloween/icons/2728.svg" alt=""><div><div class="n">04</div><div class="t">Party</div></div></li>
+			<li class="wide"><img src="../../public/halloween/icons/1f36c.svg" alt=""><div><div class="n">05</div><div class="t">Halloween bites</div></div></li>
+		</ul>
+	</div>
+
+	<div class="limited">
+		<div class="big">Spots are limited. <span class="em">Booking is a must.</span></div>
+		<div class="wa">WhatsApp<br>81 540 282</div>
+	</div>
+</section>
+
+<!-- ===================== PAGE 4: BOOKING ===================== -->
+<section class="page p4">
+	<svg class="bat" viewBox="0 0 100 60" width="66" height="40" style="left:70px;top:70px;transform:rotate(-14deg)"><use href="#bat"/></svg>
+	<svg class="bat" viewBox="0 0 100 60" width="50" height="30" style="right:80px;top:120px;transform:rotate(12deg)"><use href="#bat"/></svg>
+	<img class="logo" src="../../public/reel/brand/logo-dark.png" alt="Luciole">
+	<div class="kicker">Spots are limited</div>
+	<h1 class="display">Booking is <span class="em">a must.</span></h1>
+	<div class="bigarch"><img src="../../public/carousel/proud/made.jpg" alt=""></div>
+
+	<table class="glance">
+		<tr><th>Day</th><th>Time</th><th>Dress code</th><th>Highlights</th></tr>
+		<tr><td class="d">Fri 30 &amp; Sat 31 Oct</td><td style="white-space:nowrap">4 to 7 PM</td><td>Full white or full black</td><td>Find your character, design your spooky outfit, activities, party, Halloween bites</td></tr>
+		<tr><td class="d">Sun 1 Nov</td><td style="white-space:nowrap">4 to 7 PM</td><td>Come disguised</td><td>Wood Wizard workshop, atelier activities, party, Halloween bites</td></tr>
+	</table>
+
+	<div class="cta"><img src="../../public/halloween/icons/1f4f1.svg" alt=""><span>Book on WhatsApp · 81 540 282</span></div>
+	<div class="meta">Luciole · Jounieh Souks · Ages 2 to 12</div>
+</section>
+
+</body>
+</html>
