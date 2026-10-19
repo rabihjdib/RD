@@ -1,0 +1,258 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Birthdays at Luciole</title>
+<!--
+  Birthday packages catalog, A4 portrait, printed to PDF with headless Chromium:
+    npm run catalog:birthdays   ->  out/catalog/luciole-birthday-packages.pdf
+  Package details follow the Birthdays & Events section of the Luciole website.
+  Photos come from public/carousel (birthday, setup, science, buffet), cropped to keep
+  other families' party names out of frame.
+-->
+<style>
+@font-face { font-family: 'Grown'; src: url('../../public/fonts/Grown-Regular.ttf') format('truetype'); }
+@font-face { font-family: 'Grown'; src: url('../../public/fonts/Manrope-Bold.ttf') format('truetype'); unicode-range: U+002C, U+2019; }
+@font-face { font-family: 'Manrope'; src: url('../../public/fonts/Manrope-Bold.ttf') format('truetype'); font-weight: 700; }
+
+:root { --gold: #b7905d; --bronze: #9a6b3a; --sand: #cbc3a8; --cream: #edece3; --charcoal: #292929; --olive: #9aa65a; --sage: #b9b98e; --ink-soft: rgba(41,41,41,0.72); }
+@page { size: A4; margin: 0; }
+* { box-sizing: border-box; margin: 0; padding: 0; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+body { background: #888; font-family: Manrope, sans-serif; font-weight: 700; color: var(--charcoal); }
+.page { width: 210mm; height: 297mm; position: relative; overflow: hidden; background: var(--cream); break-after: page; page-break-after: always; }
+.page:last-child { break-after: auto; page-break-after: auto; }
+.display { font-family: Grown, Georgia, serif; font-weight: 400; }
+.kicker { font-size: 11.5px; letter-spacing: 0.3em; text-transform: uppercase; color: var(--gold); }
+.em { color: var(--bronze); }
+.abs { position: absolute; }
+.head { position: absolute; top: 44px; left: 48px; right: 48px; display: flex; justify-content: space-between; align-items: flex-start; }
+.head .logo { width: 120px; }
+.head .pageno { font-size: 11px; letter-spacing: 0.3em; color: rgba(41,41,41,0.5); padding-top: 10px; }
+.arch { border-radius: 999px 999px 18px 18px; overflow: hidden; border: 2.5px solid var(--gold); box-shadow: 0 14px 30px rgba(41,41,41,0.18); }
+.arch img, .tile img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.tile { border-radius: 18px; overflow: hidden; border: 2px solid var(--gold); box-shadow: 0 12px 26px rgba(41,41,41,0.16); }
+.foot { position: absolute; left: 48px; right: 48px; bottom: 40px; display: flex; justify-content: space-between; align-items: center; padding: 15px 22px; border-radius: 18px; background: var(--charcoal); color: var(--cream); }
+.foot .big { font-family: Grown, serif; font-weight: 400; font-size: 21px; }
+.foot .big .em { color: var(--gold); }
+.foot .wa { font-size: 12px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--gold); text-align: right; line-height: 1.6; }
+
+/* Page 1: cover */
+.cover .logo { position: absolute; top: 56px; left: 0; right: 0; margin: 0 auto; width: 200px; }
+.cover .t { position: absolute; top: 150px; left: 0; right: 0; text-align: center; }
+.cover h1 { margin-top: 10px; font-size: 64px; line-height: 1.02; }
+.cover .lead { margin: 16px auto 0; width: 520px; font-size: 14px; line-height: 1.55; color: var(--ink-soft); }
+.cover .hero { position: absolute; top: 400px; left: 132px; width: 530px; height: 540px; border-width: 3px; }
+.cover .hero2 { position: absolute; top: 412px; left: 116px; width: 562px; height: 544px; border-radius: 999px 999px 26px 26px; border: 1.5px solid rgba(183,144,93,0.6); }
+.price-badge { position: absolute; top: 800px; right: 60px; width: 150px; height: 150px; border-radius: 50%; background: var(--charcoal); color: var(--cream); border: 3px solid var(--gold); display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; transform: rotate(-6deg); box-shadow: 0 14px 30px rgba(0,0,0,0.3); }
+.price-badge .s { font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--sand); }
+.price-badge .p { font-family: Grown, serif; font-weight: 400; font-size: 44px; line-height: 1.05; color: var(--gold); }
+.cover .bottom { position: absolute; bottom: 48px; left: 0; right: 0; text-align: center; font-size: 12px; letter-spacing: 0.28em; text-transform: uppercase; color: var(--gold); }
+
+/* Page 2: what's included */
+.title { position: absolute; top: 110px; left: 48px; right: 48px; }
+.title h2 { margin-top: 8px; font-size: 42px; line-height: 1.05; }
+.title p { margin-top: 12px; font-size: 13px; line-height: 1.55; color: var(--ink-soft); max-width: 600px; }
+.feat { position: absolute; top: 300px; left: 48px; right: 48px; display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; }
+.feat div.c { padding: 16px 16px 15px; border-radius: 16px; background: rgba(255,255,255,0.62); border: 1px solid rgba(183,144,93,0.35); }
+.feat img { width: 30px; height: 30px; }
+.feat .h { margin-top: 8px; font-family: Grown, serif; font-weight: 400; font-size: 18px; line-height: 1.1; }
+.feat .s { margin-top: 5px; font-size: 10.5px; line-height: 1.45; color: var(--ink-soft); }
+.p2-photos { position: absolute; top: 640px; left: 48px; right: 48px; display: flex; gap: 14px; }
+.p2-photos .arch { flex: 1; height: 330px; }
+
+/* Page 3: packages */
+.pk { position: absolute; left: 48px; right: 48px; display: flex; gap: 16px; }
+.pk .card { flex: 1; border-radius: 22px; padding: 22px 22px 20px; border: 2px solid var(--gold); background: rgba(255,255,255,0.7); position: relative; }
+.pk .card.dark { background: var(--charcoal); color: var(--cream); }
+.pk .card .opt { font-size: 10.5px; letter-spacing: 0.26em; text-transform: uppercase; color: var(--gold); }
+.pk .card .n { margin-top: 6px; font-family: Grown, serif; font-weight: 400; font-size: 27px; line-height: 1.05; }
+.pk .card .sub { margin-top: 4px; font-size: 11.5px; color: var(--ink-soft); }
+.pk .card.dark .sub { color: rgba(237,236,227,0.7); }
+.pk .card ul { list-style: none; margin-top: 14px; }
+.pk .card li { position: relative; padding-left: 20px; font-size: 12px; line-height: 1.45; margin-bottom: 8px; }
+.pk .card li::before { content: ''; position: absolute; left: 0; top: 5px; width: 9px; height: 9px; border-radius: 50%; background: var(--gold); }
+.pk .card .price { margin-top: 14px; padding-top: 12px; border-top: 1px solid rgba(183,144,93,0.45); display: flex; align-items: baseline; gap: 8px; }
+.pk .card .price .v { font-family: Grown, serif; font-weight: 400; font-size: 40px; color: var(--bronze); line-height: 1; }
+.pk .card.dark .price .v { color: var(--gold); }
+.pk .card .price .u { font-size: 11.5px; letter-spacing: 0.14em; text-transform: uppercase; }
+.pk .card .ph { height: 262px; margin: -22px -22px 16px; border-radius: 20px 20px 0 0; overflow: hidden; }
+.pk .card .ph img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.addons { position: absolute; left: 48px; right: 48px; top: 836px; border-radius: 18px; border: 1.5px dashed var(--gold); padding: 16px 22px; display: flex; gap: 24px; align-items: center; }
+.addons .k { font-size: 10.5px; letter-spacing: 0.26em; text-transform: uppercase; color: var(--gold); width: 110px; line-height: 1.5; }
+.addons .a { flex: 1; display: flex; align-items: center; gap: 12px; }
+.addons .a img { width: 30px; height: 30px; }
+.addons .a .h { font-family: Grown, serif; font-weight: 400; font-size: 17px; }
+.addons .a .s { font-size: 11px; color: var(--bronze); margin-top: 2px; }
+
+/* Page 4: themes & how to book */
+.mosaic { position: absolute; top: 250px; left: 48px; right: 48px; height: 420px; display: grid; grid-template-columns: 1.15fr 1fr 1fr; grid-template-rows: 1fr 1fr; gap: 12px; }
+.mosaic .tile:first-child { grid-row: span 2; }
+.steps { position: absolute; top: 720px; left: 48px; right: 48px; display: flex; gap: 14px; }
+.steps .st { flex: 1; padding: 18px 18px 16px; border-radius: 18px; background: rgba(255,255,255,0.62); border: 1px solid rgba(183,144,93,0.35); }
+.steps .num { width: 34px; height: 34px; border-radius: 50%; background: var(--charcoal); color: var(--gold); display: flex; align-items: center; justify-content: center; font-family: Grown, serif; font-weight: 400; font-size: 18px; }
+.steps .h { margin-top: 10px; font-family: Grown, serif; font-weight: 400; font-size: 18px; line-height: 1.1; }
+.steps .s { margin-top: 5px; font-size: 10.5px; line-height: 1.45; color: var(--ink-soft); }
+.note { position: absolute; top: 900px; left: 48px; right: 48px; text-align: center; font-family: Grown, serif; font-weight: 400; font-size: 22px; }
+
+/* Page 5: back cover */
+.back { background: var(--charcoal); color: var(--cream); display: flex; flex-direction: column; align-items: center; text-align: center; }
+.back .logo { margin-top: 90px; width: 210px; }
+.back h2 { margin-top: 26px; font-size: 52px; line-height: 1.04; }
+.back h2 .em { color: var(--gold); }
+.back .arch { margin-top: 34px; width: 360px; height: 330px; border-width: 3px; }
+.back .cta { margin-top: 36px; display: flex; align-items: center; gap: 14px; padding: 16px 32px; border-radius: 999px; background: var(--gold); color: var(--charcoal); }
+.back .cta img { width: 26px; height: 26px; }
+.back .cta span { font-family: Grown, serif; font-weight: 400; font-size: 26px; }
+.info { margin-top: 32px; display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 0; width: 640px; border-top: 1px solid rgba(183,144,93,0.5); }
+.info div { padding: 16px 10px 0; font-size: 11.5px; line-height: 1.55; color: rgba(237,236,227,0.8); }
+.info b { display: block; font-weight: 700; font-size: 10px; letter-spacing: 0.26em; text-transform: uppercase; color: var(--gold); margin-bottom: 6px; }
+.back .web { margin-top: 26px; font-size: 12px; letter-spacing: 0.28em; text-transform: uppercase; color: var(--sand); }
+</style>
+</head>
+<body>
+
+<!-- Party balloon (olive, black, silver and sage, like the decor at Luciole parties). -->
+<svg width="0" height="0" style="position:absolute">
+	<defs>
+		<symbol id="balloon" viewBox="0 0 60 120">
+			<path d="M30 76 C30 90 22 98 30 108 C38 118 28 120 30 120" fill="none" stroke="#9a8a6a" stroke-width="1.4"/>
+			<ellipse cx="30" cy="36" rx="27" ry="33" fill="currentColor" stroke="#fff" stroke-width="2.5"/>
+			<path d="M26 69 L34 69 L31 75 L29 75 Z" fill="currentColor"/>
+			<ellipse cx="20" cy="22" rx="6" ry="9" fill="#fff" opacity="0.35" transform="rotate(-20 20 22)"/>
+		</symbol>
+	</defs>
+</svg>
+
+<!-- ===================== PAGE 1: COVER ===================== -->
+<section class="page cover">
+	<img class="logo" src="../../public/reel/brand/logo-dark.png" alt="Luciole">
+	<div class="t">
+		<div class="kicker">Birthdays &amp; Events · Packages</div>
+		<h1 class="display">Kids&rsquo; birthday parties<br><span class="em">in Jounieh</span></h1>
+		<p class="lead">Venue, food and a hands-on workshop in one booking.<br>You bring the birthday child; we handle the rest.</p>
+	</div>
+	<div class="hero2"></div>
+	<div class="hero arch"><img src="img/birthday/show.jpg" style="object-position:55% 40%" alt=""></div>
+
+	<svg class="abs" style="left:46px;top:420px;color:#9aa65a" width="70" height="140"><use href="#balloon"/></svg>
+	<svg class="abs" style="left:92px;top:470px;color:#2b2b2b" width="54" height="108"><use href="#balloon"/></svg>
+	<svg class="abs" style="left:60px;top:560px;color:#d9dbd8" width="46" height="92"><use href="#balloon"/></svg>
+	<svg class="abs" style="right:52px;top:380px;color:#b9b98e" width="64" height="128"><use href="#balloon"/></svg>
+	<svg class="abs" style="right:100px;top:440px;color:#9aa65a" width="48" height="96"><use href="#balloon"/></svg>
+
+	<div class="price-badge"><span class="s">From</span><span class="p">$22</span><span class="s">per child</span></div>
+	<div class="bottom">Luciole · Jounieh Souks · WhatsApp 81 540 282</div>
+</section>
+
+<!-- ===================== PAGE 2: WHAT'S INCLUDED ===================== -->
+<section class="page">
+	<div class="head"><img class="logo" src="../../public/reel/brand/logo-dark.png" alt="Luciole"><span class="pageno">BIRTHDAYS · 02</span></div>
+	<svg class="abs" style="right:56px;top:120px;color:#9aa65a" width="44" height="88"><use href="#balloon"/></svg>
+	<svg class="abs" style="right:96px;top:150px;color:#2b2b2b" width="34" height="68"><use href="#balloon"/></svg>
+	<div class="title">
+		<div class="kicker">Why celebrate at Luciole</div>
+		<h2 class="display">We take care of <span class="em">everything</span>.</h2>
+		<p>Food, decoration, entertainment and your theme. No running around: this time, you get to enjoy the party too.</p>
+	</div>
+	<div class="feat">
+		<div class="c"><img src="../../public/reel/icons/1f388.svg" alt=""><div class="h">A private party space</div><div class="s">The whole room is yours, set and ready before the first guest arrives.</div></div>
+		<div class="c"><img src="../../public/reel/icons/1f3a8.svg" alt=""><div class="h">A themed workshop</div><div class="s">Every child takes part in a hands-on atelier activity, led by our team.</div></div>
+		<div class="c"><img src="../../public/reel/icons/1f36a.svg" alt=""><div class="h">Kids&rsquo; meal or buffet</div><div class="s">A kids&rsquo; meal for the little ones, or a buffet for kids and parents from our bistro.</div></div>
+		<div class="c"><img src="../../public/reel/icons/2728.svg" alt=""><div class="h">Decoration to your theme</div><div class="s">Backdrops, balloons, placemats and table settings matched to their idea.</div></div>
+		<div class="c"><img src="../../public/reel/icons/1f31f.svg" alt=""><div class="h">Shows &amp; animation</div><div class="s">Extra activities, animators and characters, on request.</div></div>
+		<div class="c"><img src="../../public/reel/icons/2615.svg" alt=""><div class="h">A pause for parents</div><div class="s">Our café and bistro are steps away, so you can sit back and enjoy it.</div></div>
+	</div>
+	<div class="p2-photos">
+		<div class="arch"><img src="img/birthday/hands-on.jpg" style="object-position:50% 45%" alt=""></div>
+		<div class="arch"><img src="img/science/wow.jpg" style="object-position:50% 40%" alt=""></div>
+		<div class="arch"><img src="img/setup/served.jpg" style="object-position:35% 60%" alt=""></div>
+	</div>
+	<div class="foot"><div class="big">A birthday they remember, <span class="em">one you enjoy.</span></div><div class="wa">WhatsApp<br>81 540 282</div></div>
+</section>
+
+<!-- ===================== PAGE 3: PACKAGES ===================== -->
+<section class="page">
+	<div class="head"><img class="logo" src="../../public/reel/brand/logo-dark.png" alt="Luciole"><span class="pageno">BIRTHDAYS · 03</span></div>
+	<div class="title">
+		<div class="kicker">Our packages</div>
+		<h2 class="display">Choose your <span class="em">party</span>.</h2>
+	</div>
+	<div class="pk" style="top:240px">
+		<div class="card">
+			<div class="ph"><img src="img/birthday/food.jpg" style="object-position:30% 70%" alt=""></div>
+			<div class="opt">Option 1</div>
+			<div class="n">Kids&rsquo; meal party</div>
+			<div class="sub">Venue, kids&rsquo; meal &amp; atelier</div>
+			<ul>
+				<li>Private party space at Luciole</li>
+				<li>Kids&rsquo; meal: nuggets, mini burger, fries and a juice</li>
+				<li>A themed workshop for every child</li>
+				<li>Minimum 20 children</li>
+			</ul>
+			<div class="price"><span class="v">$22&ndash;27</span><span class="u">per child</span></div>
+		</div>
+		<div class="card dark">
+			<div class="ph"><img src="img/buffet/counter.jpg" style="object-position:60% 55%" alt=""></div>
+			<div class="opt">Option 2</div>
+			<div class="n">Buffet party</div>
+			<div class="sub">Venue, buffet &amp; atelier</div>
+			<ul>
+				<li>Private party space at Luciole</li>
+				<li>Buffet for kids and parents from our bistro</li>
+				<li>A themed workshop for every child</li>
+				<li>Built around your guest list</li>
+			</ul>
+			<div class="price"><span class="v">On request</span></div>
+		</div>
+	</div>
+	<div class="addons">
+		<div class="k">Make it<br>extra special</div>
+		<div class="a"><img src="../../public/reel/icons/1f3a8.svg" alt=""><div><div class="h">Add an extra activity</div><div class="s">$5&ndash;10 per child</div></div></div>
+		<div class="a"><img src="../../public/reel/icons/1f31f.svg" alt=""><div><div class="h">Add an animator or character</div><div class="s">On request</div></div></div>
+	</div>
+	<div class="foot"><div class="big">Message us for dates <span class="em">and a quote.</span></div><div class="wa">WhatsApp<br>81 540 282</div></div>
+</section>
+
+<!-- ===================== PAGE 4: THEMES & BOOKING ===================== -->
+<section class="page">
+	<div class="head"><img class="logo" src="../../public/reel/brand/logo-dark.png" alt="Luciole"><span class="pageno">BIRTHDAYS · 04</span></div>
+	<svg class="abs" style="right:60px;top:118px;color:#b9b98e" width="44" height="88"><use href="#balloon"/></svg>
+	<div class="title">
+		<div class="kicker">Your theme</div>
+		<h2 class="display">Their dream party, <span class="em">their theme</span>.</h2>
+	</div>
+	<div class="mosaic">
+		<div class="tile"><img src="img/setup/gathering.jpg" style="object-position:45% 50%" alt=""></div>
+		<div class="tile"><img src="img/setup/games.jpg" style="object-position:50% 35%" alt=""></div>
+		<div class="tile"><img src="img/science/lab.jpg" style="object-position:50% 40%" alt=""></div>
+		<div class="tile"><img src="img/setup/seats.jpg" style="object-position:60% 75%" alt=""></div>
+		<div class="tile"><img src="img/birthday/table.jpg" style="object-position:50% 0%" alt=""></div>
+	</div>
+	<div class="steps">
+		<div class="st"><div class="num">1</div><div class="h">Pick your package</div><div class="s">Kids&rsquo; meal or buffet, plus any extras.</div></div>
+		<div class="st"><div class="num">2</div><div class="h">Share your theme</div><div class="s">Tell us their idea and your guest list; we style the room.</div></div>
+		<div class="st"><div class="num">3</div><div class="h">Confirm on WhatsApp</div><div class="s">We confirm every booking personally.</div></div>
+	</div>
+	<div class="note">Book <span class="em">3 weeks ahead</span> and leave the rest to us.</div>
+	<div class="foot"><div class="big">Little scientist, artist or astronaut: <span class="em">we bring it to life.</span></div><div class="wa">WhatsApp<br>81 540 282</div></div>
+</section>
+
+<!-- ===================== PAGE 5: BACK COVER ===================== -->
+<section class="page back">
+	<svg class="abs" style="left:64px;top:120px;color:#9aa65a" width="60" height="120"><use href="#balloon"/></svg>
+	<svg class="abs" style="left:110px;top:170px;color:#d9dbd8" width="44" height="88"><use href="#balloon"/></svg>
+	<svg class="abs" style="right:70px;top:140px;color:#b9b98e" width="56" height="112"><use href="#balloon"/></svg>
+	<img class="logo" src="../../public/reel/brand/logo-white.png" alt="Luciole">
+	<h2 class="display">Let&rsquo;s make it<br><span class="em">unforgettable.</span></h2>
+	<div class="arch"><img src="img/birthday/hands-on.jpg" style="object-position:50% 30%" alt=""></div>
+	<div class="cta"><img src="../../public/halloween/icons/1f4f1.svg" alt=""><span>Book on WhatsApp · +961 81 540 282</span></div>
+	<div class="info">
+		<div><b>Find us</b>Chiha Building, 1st floor<br>Jounieh Souks, Keserwan</div>
+		<div><b>Opening hours</b>Tue to Fri · 10 am to 10 pm<br>Sat &amp; Sun · 9 am to midnight<br>Monday · closed</div>
+		<div><b>Follow</b>@luciole.lebanon<br>Instagram · TikTok · Facebook</div>
+	</div>
+	<div class="web">luciolelebanon.com/birthdays</div>
+</section>
+
+</body>
+</html>
