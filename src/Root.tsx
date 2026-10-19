@@ -23,6 +23,7 @@ import {PrincessPost} from './posts/PrincessPost';
 import {CreatorPost} from './posts/CreatorPost';
 import {WatchPost} from './posts/WatchPost';
 import {SoftOpeningPost} from './posts/SoftOpeningPost';
+import {SOFT_OPENING_REEL_DURATION, SoftOpeningReel} from './reel/SoftOpeningReel';
 import {QUOTES, QuotePost} from './posts/QuotePosts';
 import {POST_H, POST_W, SparkPost} from './posts/SparkPost';
 import {PostStory, STORY_POSTS} from './stories/PostStories';
@@ -69,6 +70,7 @@ export const RemotionRoot: React.FC = () => (
 		<Still id="WatchPost" component={WatchPost} width={POST_W} height={POST_H} />
 		<Still id="SoftOpeningPost" component={SoftOpeningPost} width={POST_W} height={POST_H} />
 		<Still id="SoftOpeningStory" component={SoftOpeningPost} width={STORY_W} height={STORY_H} />
+		<Composition id="SoftOpeningReel" component={SoftOpeningReel} durationInFrames={SOFT_OPENING_REEL_DURATION} fps={30} width={1080} height={1920} />
 		{STORY_POSTS.map(({id}, i) => (
 			<Still key={id} id={`Story${id}`} component={PostStory} defaultProps={{post: i}} width={STORY_W} height={STORY_H} />
 		))}
