@@ -66,7 +66,7 @@ const SLIDE_COPY: Slide[] = [
 		position: '50% 50%',
 		cards: [
 			{x: 40, y: 30, w: 470, kicker: 'Learning through play', headline: ['Science they', 'will *never forget*.'], size: 46},
-			{x: 40, y: 1236, w: 1000, kicker: 'Science parties · Ages 3 to 12 · WhatsApp 81 540 282'},
+			{x: 40, y: 1236, w: 1000, kicker: 'Science parties · Ages 2 to 12 · WhatsApp 81 540 282'},
 		],
 	},
 ];

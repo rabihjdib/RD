@@ -44,7 +44,7 @@ const SLIDE_COPY: Slide[] = [
 			y: 24,
 			w: 540,
 			header: true,
-			kicker: "L'Atelier · Ages 2+",
+			kicker: "L'Atelier · Ages 2 to 12",
 			headline: ['From 2 years', '*and up*.'],
 			size: 56,
 		},

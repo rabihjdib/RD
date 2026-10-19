@@ -94,7 +94,7 @@ const SLIDE_COPY: Slide[] = [
 		position: '50% 40%',
 		cards: [
 			{x: 680, y: 40, w: 360, kicker: 'Peace of mind', headline: ['Your child,', '*in the best*', '*hands*.'], size: 54, sub: 'So you can truly pause & connect.'},
-			{x: 40, y: 1236, w: 1000, kicker: 'The atelier · Ages 3 to 12 · WhatsApp 81 540 282'},
+			{x: 40, y: 1236, w: 1000, kicker: 'The atelier · Ages 2 to 12 · WhatsApp 81 540 282'},
 		],
 	},
 ];

@@ -170,7 +170,7 @@ const Cta: React.FC = () => (
 			boxShadow: '0 20px 50px rgba(41,41,41,0.35)',
 		}}
 	>
-		<span style={{fontFamily: sans, fontWeight: 700, fontSize: 24, letterSpacing: '0.26em', textTransform: 'uppercase', color: GOLD}}>The atelier · Ages 3 to 12</span>
+		<span style={{fontFamily: sans, fontWeight: 700, fontSize: 24, letterSpacing: '0.26em', textTransform: 'uppercase', color: GOLD}}>The atelier · Ages 2 to 12</span>
 		<span style={{fontFamily: display, fontSize: 44, color: CREAM}}>Jounieh Souks</span>
 		<span style={{fontFamily: sans, fontWeight: 700, fontSize: 28, color: SAND}}>Book on WhatsApp · 81 540 282</span>
 	</div>

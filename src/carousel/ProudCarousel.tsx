@@ -182,7 +182,7 @@ const Closing: React.FC = () => (
 				alignItems: 'center',
 			}}
 		>
-			<span style={kickerStyle}>The atelier · Ages 3 to 12 · WhatsApp 81 540 282</span>
+			<span style={kickerStyle}>The atelier · Ages 2 to 12 · WhatsApp 81 540 282</span>
 			<Img src={staticFile('reel/brand/logo-white.png')} style={{width: 140}} />
 		</div>
 	</div>

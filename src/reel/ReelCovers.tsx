@@ -70,7 +70,7 @@ export const PRE_OPENING_COVERS: ReelCoverProps[] = [
 
 export const SOFT_OPENING_COVERS: ReelCoverProps[] = [
 	{series: 'softopening', n: 1, kicker: 'Come see every corner', headline: ["We're", '*open*.'], size: 150, motif: {kind: 'chips', items: ['Café', 'Bistro', 'Atelier', 'Birthdays']}, shift: 120, ...frame},
-	{series: 'softopening', n: 2, kicker: 'The kids atelier · Ages 3 to 12', headline: ['No tablets.', 'Just *imagination*.'], size: 106, motif: {kind: 'list', items: ['Paint', 'Clay', 'Collage', 'Beads', 'Lego']}, shift: 110, ...frame},
+	{series: 'softopening', n: 2, kicker: 'The kids atelier · Ages 2 to 12', headline: ['No tablets.', 'Just *imagination*.'], size: 106, motif: {kind: 'list', items: ['Paint', 'Clay', 'Collage', 'Beads', 'Lego']}, shift: 110, ...frame},
 	{series: 'softopening', n: 3, kicker: 'With a view of the souks', headline: ['Your *pause*', 'starts here'], size: 128, motif: {kind: 'icon', icon: 'reel/icons/2615.svg', text: 'Café & Bistro'}, shift: 140, ...frame},
 	{series: 'softopening', n: 4, kicker: 'Save it for your first visit', headline: ['Finding Luciole', 'in *30 seconds*'], size: 106, motif: {kind: 'stopwatch', text: 'Chiha building · 1st floor'}, shift: 130, ...frame},
 	{series: 'softopening', n: 5, kicker: 'Birthday packages', headline: ['Birthdays without', 'the *stress*'], size: 108, motif: {kind: 'pill', text: 'From $20 per child'}, shift: 120, ...frame},

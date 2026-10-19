@@ -136,7 +136,7 @@ const CardView: React.FC<{card: Card; n: number}> = ({card, n}) => (
 		{card.sub && <div style={{marginTop: 12, fontFamily: sans, fontWeight: 700, fontSize: 25, lineHeight: 1.4, color: 'rgba(41,41,41,0.7)'}}>{card.sub}</div>}
 		{card.cta && (
 			<div style={{marginTop: 16, paddingTop: 14, borderTop: '1px solid rgba(41,41,41,0.15)', display: 'flex', justifyContent: 'space-between', alignItems: 'center'}}>
-				<span style={kickerStyle}>The atelier · Ages 3 to 12 · WhatsApp 81 540 282</span>
+				<span style={kickerStyle}>The atelier · Ages 2 to 12 · WhatsApp 81 540 282</span>
 				<Img src={staticFile('reel/brand/logo-dark.png')} style={{width: 130}} />
 			</div>
 		)}

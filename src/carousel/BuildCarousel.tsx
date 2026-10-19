@@ -68,7 +68,7 @@ const SLIDE_COPY: Slide[] = [
 		position: '50% 20%',
 		cards: [
 			{x: 40, y: 30, w: 1000, kicker: 'Step 3 · Solve', headline: ['Test, fix, try again. *That’s engineering.*'], size: 50},
-			{x: 40, y: 1190, w: 1000, kicker: 'The atelier · Ages 3 to 12 · WhatsApp 81 540 282', sub: 'Problem solving, patience and teamwork.', logo: true},
+			{x: 40, y: 1190, w: 1000, kicker: 'The atelier · Ages 2 to 12 · WhatsApp 81 540 282', sub: 'Problem solving, patience and teamwork.', logo: true},
 		],
 	},
 ];

@@ -64,7 +64,7 @@ const SLIDE_COPY: Slide[] = [
 		position: '50% 50%',
 		cards: [
 			{x: 600, y: 30, w: 450, kicker: 'For parents', headline: ['They create.', '*You pause*', '*& connect.*'], size: 50, sub: 'Enjoy a coffee at our café while they play and learn.'},
-			{x: 40, y: 1236, w: 1000, kicker: "L'Atelier · Ages 3 to 12 · WhatsApp 81 540 282"},
+			{x: 40, y: 1236, w: 1000, kicker: "L'Atelier · Ages 2 to 12 · WhatsApp 81 540 282"},
 		],
 	},
 ];

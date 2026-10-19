@@ -94,7 +94,7 @@ const SLIDE_COPY: Slide[] = [
 				y: 1170,
 				w: 980,
 				sub: 'Ready for school on the next rainy day.',
-				kicker: 'The atelier · Ages 3 to 12 · WhatsApp 81 540 282',
+				kicker: 'The atelier · Ages 2 to 12 · WhatsApp 81 540 282',
 				logo: true,
 			},
 		],

@@ -47,7 +47,7 @@ export const HeartPost: React.FC = () => (
 				<Heart size={84} />
 				Luciole
 			</div>
-			<div style={{fontFamily: sans, fontWeight: 700, fontSize: 24, color: 'rgba(41,41,41,0.65)'}}>Ages 3 to 12 · Jounieh Souks</div>
+			<div style={{fontFamily: sans, fontWeight: 700, fontSize: 24, color: 'rgba(41,41,41,0.65)'}}>Ages 2 to 12 · Jounieh Souks</div>
 		</div>
 	</AbsoluteFill>
 );
