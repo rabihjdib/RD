@@ -24,6 +24,7 @@ import {CreatorPost} from './posts/CreatorPost';
 import {WatchPost} from './posts/WatchPost';
 import {QUOTES, QuotePost} from './posts/QuotePosts';
 import {POST_H, POST_W, SparkPost} from './posts/SparkPost';
+import {PostStory, STORY_H, STORY_POSTS, STORY_W} from './stories/PostStories';
 import {BirthdayCover} from './reel/BirthdayCover';
 import {LucioleCover} from './reel/Cover';
 import {COVER_SERIES, ReelCover} from './reel/ReelCovers';
@@ -63,6 +64,9 @@ export const RemotionRoot: React.FC = () => (
 		<Still id="PrincessPost" component={PrincessPost} width={POST_W} height={POST_H} />
 		<Still id="CreatorPost" component={CreatorPost} width={POST_W} height={POST_H} />
 		<Still id="WatchPost" component={WatchPost} width={POST_W} height={POST_H} />
+		{STORY_POSTS.map(({id}, i) => (
+			<Still key={id} id={`Story${id}`} component={PostStory} defaultProps={{post: i}} width={STORY_W} height={STORY_H} />
+		))}
 		{QUOTES.map((_, i) => (
 			<Still key={i} id={`QuotePost${i + 1}`} component={QuotePost} defaultProps={{index: i}} width={POST_W} height={POST_H} />
 		))}
