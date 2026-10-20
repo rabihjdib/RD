@@ -2,6 +2,7 @@ import {AbsoluteFill, Audio, Freeze, interpolate, OffthreadVideo, Sequence, spri
 import {TitleCard} from '../atelier/Main';
 import {Outro} from '../reel/Branding';
 import {FireflyField} from '../reel/Effects';
+import {InfoCard, type InfoRow} from './InfoCard';
 
 /**
  * Music-driven montage, 1080x1920 @ 30fps, shared by the brunch and café reels: shots cut on
@@ -12,15 +13,17 @@ import {FireflyField} from '../reel/Effects';
 
 export type BeatShot = {clip: string; from: number; beats: number; focus?: [number, number]; sparkle?: boolean};
 export type BeatTitle = {shot: number; beats: number; text: string; kicker?: string};
+export type BeatCard = {shot: number; beats: number; heading: string; kicker?: string; rows: InfoRow[]};
 export type BeatReelConfig = {
 	id: string; // seeds the sparkles
 	fps: number;
 	beat: number; // seconds per beat, matching the music bed
 	shots: BeatShot[]; // `clip` is the path under public/ without .mp4
 	titles: BeatTitle[];
+	cards?: BeatCard[]; // centred info panels (e.g. opening hours), placed like titles
 	whooshAt?: number[]; // shot indexes that get a whoosh on their cut
 	sfx?: {shot: number; offset: number; src: string; volume: number}[]; // offset in seconds into the shot
-	titleSfx?: {src: string; volume: number}; // plays as each title appears
+	titleSfx?: {src: string; volume: number}; // plays as each title or card appears
 	outro: number; // seconds of logo outro after the last shot
 	outroNote: string;
 	music: string;
@@ -97,6 +100,15 @@ export const BeatReel: React.FC<{config: BeatReelConfig}> = ({config}) => {
 								<Audio src={staticFile(config.titleSfx.src)} volume={config.titleSfx.volume} />
 							</Sequence>
 						) : null}
+					</Sequence>
+				);
+			})}
+			{config.cards?.map((c) => {
+				const frames = beatFrame(c.beats);
+				return (
+					<Sequence key={c.heading} from={segments[c.shot].start} durationInFrames={frames} layout="none">
+						<InfoCard kicker={c.kicker} heading={c.heading} rows={c.rows} frames={frames} />
+						{config.titleSfx ? <Audio src={staticFile(config.titleSfx.src)} volume={config.titleSfx.volume} /> : null}
 					</Sequence>
 				);
 			})}
