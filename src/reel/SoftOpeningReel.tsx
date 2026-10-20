@@ -24,10 +24,10 @@ import {SOFT_OPENING_DATE} from '../posts/SoftOpeningPost';
 
 export const SOFT_OPENING_REEL_DURATION = 360;
 
-const EASE = Easing.bezier(0.16, 1, 0.3, 1);
+export const EASE = Easing.bezier(0.16, 1, 0.3, 1);
 
 // [x, y, core size] for each firefly.
-const FIREFLIES: [number, number, number][] = [
+export const FIREFLIES: [number, number, number][] = [
 	[150, 540, 18],
 	[940, 470, 14],
 	[880, 1150, 22],
@@ -41,13 +41,13 @@ const FIREFLIES: [number, number, number][] = [
 ];
 
 /** Fade and rise in from `start` over `dur` frames. */
-const useRise = (start: number, dur = 24, dist = 40) => {
+export const useRise = (start: number, dur = 24, dist = 40) => {
 	const frame = useCurrentFrame();
 	const t = interpolate(frame, [start, start + dur], [0, 1], {extrapolateLeft: 'clamp', extrapolateRight: 'clamp', easing: EASE});
 	return {opacity: t, transform: `translateY(${(1 - t) * dist}px)`};
 };
 
-const Firefly: React.FC<{x: number; y: number; s: number; i: number}> = ({x, y, s, i}) => {
+export const Firefly: React.FC<{x: number; y: number; s: number; i: number}> = ({x, y, s, i}) => {
 	const frame = useCurrentFrame();
 	const appear = interpolate(frame, [i * 5, i * 5 + 30], [0, 1], {extrapolateLeft: 'clamp', extrapolateRight: 'clamp'});
 	const twinkle = 0.65 + 0.35 * Math.sin(frame / 11 + i * 2.1);
@@ -124,7 +124,7 @@ const Arch: React.FC = () => {
 };
 
 /** "SOFT OPENING" tracks in from wide letter spacing. */
-const Kicker: React.FC = () => {
+export const Kicker: React.FC = () => {
 	const frame = useCurrentFrame();
 	const t = interpolate(frame, [36, 66], [0, 1], {extrapolateLeft: 'clamp', extrapolateRight: 'clamp', easing: EASE});
 	return (

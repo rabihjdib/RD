@@ -1,4 +1,5 @@
-"""Synthesize the short UI sound effects used by the Luciole reel (pop, whoosh, sparkle).
+"""Synthesize the short sound effects used by the Luciole reels (pop, whoosh, sparkle, and the
+party popper and confetti rustle of the soft opening Reel).
 
 Writes 48kHz mono WAVs to public/reel/sfx. Swap any of them for your own library
 sounds by dropping a file with the same name in that folder.
@@ -71,7 +72,36 @@ def sparkle():
     return out
 
 
+def popper():
+    # Party popper: a sharp crack, a low thump, then paper streamers fluttering down.
+    n = int(0.9 * SR)
+    t = np.arange(n) / SR
+    noise = rng.standard_normal(n)
+    crack = (noise - lowpass(noise, 1800)) * env(n, 0, 0.006) * 1.4
+    thump = np.sin(2 * np.pi * (70 + 60 * np.exp(-t * 40)) * t) * env(n, 0.001, 0.05) * 0.8
+    flutter_am = 0.6 + 0.4 * np.sin(2 * np.pi * 23 * t + 3 * np.sin(2 * np.pi * 3 * t))
+    flutter = (lowpass(noise, 5000) - lowpass(noise, 900)) * flutter_am * env(n, 0.02, 0.25) * 0.35
+    return crack + thump + flutter
+
+
+def confetti():
+    # Soft rustle of confetti landing: a scatter of tiny paper ticks that thins out.
+    n = int(1.6 * SR)
+    t = np.arange(n) / SR
+    out = np.zeros(n)
+    tick_n = int(0.012 * SR)
+    for _ in range(140):
+        at = int(min(rng.exponential(0.45), 1.5) * SR)
+        if at + tick_n >= n:
+            continue
+        tick = rng.standard_normal(tick_n) * env(tick_n, 0.0005, 0.003)
+        out[at : at + tick_n] += tick * rng.uniform(0.2, 1.0)
+    return (out - lowpass(out, 1500)) * env(n, 0.05, 0.7)
+
+
 write('pop.wav', pop())
 write('whoosh.wav', whoosh(), peak=0.6)
 write('sparkle.wav', sparkle(), peak=0.55)
+write('popper.wav', popper(), peak=0.8)
+write('confetti.wav', confetti(), peak=0.5)
 print('wrote', sorted(os.listdir(OUT)))
