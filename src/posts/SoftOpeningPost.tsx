@@ -2,7 +2,8 @@ import {AbsoluteFill, Img, staticFile, useVideoConfig} from 'remotion';
 import {BRONZE, CHARCOAL, CREAM, display, GOLD, sans} from '../brand';
 
 /**
- * Announcement: the soft opening is tomorrow at 4 PM. Built for both the feed
+ * Announcement: the soft opening at 4 PM, as "Tomorrow" or, with `today`, "It’s today".
+ * Built for both the feed
  * (1080x1350) and Stories (1080x1920); the layout stacks around a gold arch, like the
  * venue's own archways, with fireflies (a luciole is a firefly) glowing around it.
  * The Story keeps its copy clear of the profile bar and the reply bar.
@@ -25,7 +26,7 @@ const FIREFLIES: [number, number, number][] = [
 	[560, 0.12, 9],
 ];
 
-export const SoftOpeningPost: React.FC = () => {
+export const SoftOpeningPost: React.FC<{today?: boolean}> = ({today = false}) => {
 	const {height} = useVideoConfig();
 	const story = height > 1500;
 	const archW = 600;
@@ -56,7 +57,7 @@ export const SoftOpeningPost: React.FC = () => {
 
 				<div style={{marginTop: story ? 70 : 44, fontFamily: sans, fontWeight: 700, fontSize: 26, letterSpacing: '0.34em', textTransform: 'uppercase', color: GOLD}}>Soft opening</div>
 				<div style={{marginTop: 14, fontFamily: display, fontSize: 96, lineHeight: 1.02, color: CHARCOAL, whiteSpace: 'nowrap'}}>
-					Tomorrow,
+					{today ? 'It’s today,' : 'Tomorrow,'}
 					<br />
 					<span style={{color: BRONZE}}>we light up.</span>
 				</div>
@@ -83,7 +84,7 @@ export const SoftOpeningPost: React.FC = () => {
 					<div style={{marginTop: 4, fontFamily: display, fontSize: 210, lineHeight: 1, color: CHARCOAL}}>
 						4<span style={{fontSize: 110, color: GOLD}}> PM</span>
 					</div>
-					<div style={{marginTop: 14, fontFamily: sans, fontWeight: 700, fontSize: 30, color: 'rgba(41,41,41,0.75)'}}>{SOFT_OPENING_DATE}</div>
+					<div style={{marginTop: 14, fontFamily: sans, fontWeight: 700, fontSize: 30, color: 'rgba(41,41,41,0.75)'}}>{today ? `Today · ${SOFT_OPENING_DATE}` : SOFT_OPENING_DATE}</div>
 				</div>
 
 				<div style={{marginTop: story ? 64 : 40, fontFamily: display, fontSize: 40, color: CHARCOAL}}>L&rsquo;Atelier · Café · Bistro</div>
