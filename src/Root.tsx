@@ -7,6 +7,7 @@ import {BirthdayCover} from './birthday/Cover';
 import {BRUNCH_DURATION, BrunchReel} from './brunch/Main';
 import {CAFE_DURATION, CafeReel} from './cafe/Main';
 import {BirthdayReel, REEL_DURATION as BIRTHDAY_DURATION} from './birthday/Main';
+import {ChezLesPetitsStills} from './chezlespetits/compositions';
 import {BrandCover} from './covers/BrandCover';
 import {COVERS} from './covers/specs';
 import {HalloweenCover} from './halloween/Cover';
@@ -47,5 +48,6 @@ export const RemotionRoot: React.FC = () => (
 		{COVERS.map((spec) => (
 			<Still key={spec.id} id={spec.id} component={BrandCover} defaultProps={{spec}} width={WIDTH} height={HEIGHT} />
 		))}
+		<ChezLesPetitsStills />
 	</>
 );
