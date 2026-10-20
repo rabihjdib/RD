@@ -1,126 +1,149 @@
-import {AbsoluteFill} from 'remotion';
-import {COD, PHOTOS, RIBBON, SHOWROOMS, SITE, type Ad, type Format, type FORMATS} from './data';
-import {PhotoFill} from './PhotoFill';
-import {BUTTER, CEDAR, CREAM, FLAG_RED, NAVY, font} from './theme';
+import {AbsoluteFill, Img, staticFile} from 'remotion';
+import {CloudIcon, CloudPhoto, CloudShape, Logo} from './Cloud';
+import {PHOTOS, TRUST, type Ad, type Card, type Format, type FORMATS, type Trust} from './data';
+import {CTA, GREY, INK, PALETTES, body, display} from './theme';
 
 export type AdVisualProps = {ad: Ad; format: Format; formatKey: keyof typeof FORMATS};
 
-const LebanonFlag: React.FC<{size: number}> = ({size}) => (
-	<svg width={size * 1.5} height={size} viewBox="0 0 30 20" style={{borderRadius: size * 0.12, flexShrink: 0}}>
-		<rect width="30" height="20" fill="#fff" />
-		<rect width="30" height="5" fill={FLAG_RED} />
-		<rect y="15" width="30" height="5" fill={FLAG_RED} />
-		<path d="M15 5.6 L18.6 9.6 L16.8 9.6 L19.4 12.4 L16.2 12.4 L16.2 14 L13.8 14 L13.8 12.4 L10.6 12.4 L13.2 9.6 L11.4 9.6 Z" fill={CEDAR} />
-	</svg>
+const ProductCard: React.FC<{card: Card; accent: string; left: number; top: number; width: number; height: number; u: number}> = ({
+	card,
+	accent,
+	u,
+	...box
+}) => (
+	<div
+		style={{
+			position: 'absolute',
+			...box,
+			borderRadius: 26 * u,
+			backgroundColor: '#fff',
+			boxShadow: `0 ${10 * u}px ${30 * u}px rgba(0,0,0,0.12)`,
+			display: 'flex',
+			flexDirection: 'column',
+			alignItems: 'center',
+			padding: 14 * u,
+		}}
+	>
+		<Img src={staticFile(card.file)} style={{flex: 1, minHeight: 0, width: '100%', objectFit: 'contain'}} />
+		<div style={{fontFamily: display, fontWeight: 600, fontSize: 22 * u, color: accent, textTransform: 'uppercase', marginTop: 8 * u}}>{card.brand}</div>
+	</div>
 );
 
-const Check: React.FC<{size: number}> = ({size}) => (
-	<svg width={size} height={size} viewBox="0 0 24 24" style={{flexShrink: 0}}>
-		<circle cx="12" cy="12" r="12" fill={NAVY} />
-		<path d="M7 12.5l3.2 3.2L17 9" stroke={BUTTER} strokeWidth="2.6" fill="none" strokeLinecap="round" strokeLinejoin="round" />
-	</svg>
+const Backdrop: React.FC<{width: number; height: number; u: number; tint: string; accent: string}> = ({width, height, u, tint, accent}) => (
+	<>
+		<CloudShape left={-70 * u} top={height - 150 * u} width={480 * u} height={260 * u} fill="#fff" opacity={0.75} />
+		<CloudShape left={width - 330 * u} top={-90 * u} width={480 * u} height={280 * u} fill={tint} opacity={0.85} />
+		<CloudShape left={34 * u} top={30 * u} width={58 * u} height={32 * u} stroke={accent} strokeWidth={3 * u} opacity={0.9} />
+	</>
 );
 
-const Pin: React.FC<{size: number}> = ({size}) => (
-	<svg width={size} height={size} viewBox="0 0 24 24" style={{flexShrink: 0}}>
-		<path d="M12 2a7 7 0 0 0-7 7c0 5.2 7 13 7 13s7-7.8 7-13a7 7 0 0 0-7-7zm0 9.5A2.5 2.5 0 1 1 12 6.5a2.5 2.5 0 0 1 0 5z" fill={BUTTER} />
-	</svg>
+const Eyebrow: React.FC<{text: string; color: string; size: number}> = ({text, color, size}) => (
+	<div style={{fontFamily: body, fontWeight: 800, fontSize: size, letterSpacing: size * 0.14, textTransform: 'uppercase', color}}>{text}</div>
 );
 
-/** One visual: a clean photo for Google, or the full overlay layout for Meta. */
+const CtaPill: React.FC<{text: string; u: number}> = ({text, u}) => (
+	<div
+		style={{
+			display: 'inline-block',
+			marginTop: 22 * u,
+			padding: `${13 * u}px ${26 * u}px`,
+			borderRadius: 999,
+			backgroundColor: CTA,
+			color: '#fff',
+			fontFamily: display,
+			fontWeight: 600,
+			fontSize: 20 * u,
+		}}
+	>
+		{text}
+	</div>
+);
+
+/** One visual in the Chez Les Petits cloud style: pastel world, logo, copy, cloud-masked photo. */
 export const AdVisual: React.FC<AdVisualProps> = ({ad, format, formatKey}) => {
 	const {width, height} = format;
+	const pal = PALETTES[ad.palette];
 	const photo = PHOTOS[ad.photo];
 	const focus = ad.focus?.[formatKey];
-	if (!format.overlay) {
+	const u = width / 1200;
+	const landscape = width / height > 1.4;
+
+	if (landscape) {
+		const cloud = {left: 505 * u, top: 34 * u, width: 680 * u, height: height - 70 * u};
+		const cardW = 165 * u;
+		const cardH = 175 * u;
 		return (
-			<AbsoluteFill style={{backgroundColor: CREAM}}>
-				<PhotoFill photo={photo} width={width} height={height} focus={focus} />
+			<AbsoluteFill style={{backgroundColor: pal.bg}}>
+				<Backdrop width={width} height={height} u={u} tint={pal.tint} accent={pal.accent} />
+				<CloudPhoto {...cloud} photo={photo} focus={focus} outline={4 * u} />
+				{ad.cards?.slice(0, 2).map((card, i) => (
+					<ProductCard
+						key={card.file}
+						card={card}
+						accent={pal.accent}
+						u={u}
+						left={width - 30 * u - (2 - i) * (cardW + 14 * u) + 14 * u}
+						top={height - cardH - 40 * u}
+						width={cardW}
+						height={cardH}
+					/>
+				))}
+				<div style={{position: 'absolute', left: 60 * u, top: 22 * u}}>
+					<Logo width={150 * u} />
+				</div>
+				<div style={{position: 'absolute', left: 48 * u, top: 128 * u, width: 440 * u}}>
+					<Eyebrow text={ad.eyebrow} color={pal.accent} size={17 * u} />
+					<div style={{marginTop: 10 * u, fontFamily: display, fontWeight: 600, fontSize: 46 * u, lineHeight: 1.08, color: INK, width: 470 * u}}>{ad.headline}</div>
+					<div style={{marginTop: 14 * u, fontFamily: body, fontWeight: 500, fontSize: 19 * u, lineHeight: 1.45, color: GREY}}>{ad.sub}</div>
+					<CtaPill text={ad.cta} u={u} />
+					<div style={{marginTop: 28 * u, display: 'flex', flexDirection: 'column', gap: 14 * u}}>
+						{(['cod', 'delivery'] as Trust[]).map((t) => (
+							<div key={t} style={{display: 'flex', alignItems: 'center', gap: 12 * u, fontFamily: body, fontWeight: 500, fontSize: 17 * u, color: INK}}>
+								<CloudIcon kind={t} size={24 * u} color={pal.icon} />
+								{TRUST[t]}
+							</div>
+						))}
+					</div>
+				</div>
 			</AbsoluteFill>
 		);
 	}
 
-	// Everything scales off the 1080px-wide Meta canvas.
-	const u = width / 1080;
+	// Square and portrait: copy on top, cloud photo anchored above the dark trust bar. The cloud
+	// keeps a natural shape (never taller than 3:4 of its width); spare height goes to the copy.
 	const barH = 118 * u;
-	const tall = height / width > 1.1;
+	const cloudW = width - 120 * u;
+	const cloudH = Math.min(cloudW * 0.75, height - barH - 44 * u - 400 * u);
+	const cloud = {left: 60 * u, top: height - barH - 44 * u - cloudH, width: cloudW, height: cloudH};
+	const showCta = cloud.top > 520 * u;
+	// Tall formats have room to spare, so the copy steps up a size there.
+	const t = showCta ? u * 1.15 : u;
+	const cardW = 200 * u;
+	const cardH = 225 * u;
 	return (
-		<AbsoluteFill style={{backgroundColor: CREAM, fontFamily: font, color: NAVY}}>
-			<PhotoFill photo={photo} width={width} height={height} focus={focus} />
-			{/* Soft navy wash so the headline holds on any photo */}
-			<AbsoluteFill
-				style={{
-					background: `linear-gradient(180deg, rgba(29,42,72,0.82) 0%, rgba(29,42,72,0.55) ${tall ? 26 : 32}%, rgba(29,42,72,0) ${tall ? 46 : 55}%)`,
-				}}
-			/>
-			<div style={{position: 'absolute', top: 64 * u, left: 64 * u, right: 64 * u}}>
-				<div
-					style={{
-						display: 'inline-block',
-						padding: `${8 * u}px ${20 * u}px`,
-						borderRadius: 999,
-						border: `${2 * u}px solid rgba(251,246,238,0.7)`,
-						color: CREAM,
-						fontWeight: 800,
-						fontSize: 24 * u,
-						letterSpacing: 3 * u,
-						textTransform: 'uppercase',
-					}}
-				>
-					Chez Les Petits · Since 1912
-				</div>
-				<div
-					style={{
-						marginTop: 26 * u,
-						color: '#fff',
-						fontWeight: 900,
-						fontSize: (tall ? 92 : 80) * u,
-						lineHeight: 1.0,
-						letterSpacing: -1.5 * u,
-						textTransform: 'uppercase',
-						textShadow: `0 ${4 * u}px ${24 * u}px rgba(0,0,0,0.25)`,
-					}}
-				>
-					{ad.hook}
-				</div>
-				<div style={{marginTop: 18 * u, color: CREAM, fontWeight: 600, fontSize: 36 * u, lineHeight: 1.25, maxWidth: 820 * u}}>{ad.sub}</div>
-				<div style={{marginTop: 28 * u, display: 'flex', flexWrap: 'wrap', gap: 14 * u}}>
-					{ad.badges.map((b) => (
-						<div
-							key={b}
-							style={{
-								display: 'flex',
-								alignItems: 'center',
-								gap: 10 * u,
-								padding: `${12 * u}px ${22 * u}px ${12 * u}px ${14 * u}px`,
-								borderRadius: 999,
-								backgroundColor: CREAM,
-								fontWeight: 800,
-								fontSize: 27 * u,
-								boxShadow: `0 ${6 * u}px ${18 * u}px rgba(0,0,0,0.18)`,
-							}}
-						>
-							<Check size={30 * u} />
-							{b}
-						</div>
-					))}
-				</div>
+		<AbsoluteFill style={{backgroundColor: pal.bg}}>
+			<Backdrop width={width} height={height - barH} u={u} tint={pal.tint} accent={pal.accent} />
+			<CloudPhoto {...cloud} photo={photo} focus={focus} outline={5 * u} />
+			{ad.cards?.slice(0, 2).map((card, i) => (
+				<ProductCard
+					key={card.file}
+					card={card}
+					accent={pal.accent}
+					u={u}
+					left={width - 130 * u - (2 - i) * (cardW + 14 * u) + 14 * u}
+					top={height - barH - cardH - 70 * u}
+					width={cardW}
+					height={cardH}
+				/>
+			))}
+			<div style={{position: 'absolute', left: 84 * u, top: 34 * u}}>
+				<Logo width={200 * u} />
 			</div>
-			{/* Delivery ribbon sits just above the bar */}
-			<div
-				style={{
-					position: 'absolute',
-					left: 64 * u,
-					bottom: barH + 26 * u,
-					padding: `${12 * u}px ${24 * u}px`,
-					borderRadius: 999,
-					backgroundColor: BUTTER,
-					fontWeight: 900,
-					fontSize: 28 * u,
-					boxShadow: `0 ${6 * u}px ${18 * u}px rgba(0,0,0,0.2)`,
-				}}
-			>
-				{RIBBON}
+			<div style={{position: 'absolute', left: 64 * u, right: 64 * u, top: 196 * u}}>
+				<Eyebrow text={ad.eyebrow} color={pal.accent} size={22 * t} />
+				<div style={{marginTop: 12 * t, fontFamily: display, fontWeight: 600, fontSize: 68 * t, lineHeight: 1.05, color: INK}}>{ad.headline}</div>
+				<div style={{marginTop: 14 * t, fontFamily: body, fontWeight: 500, fontSize: 25 * t, lineHeight: 1.4, color: GREY}}>{ad.sub}</div>
+				{showCta ? <CtaPill text={ad.cta} u={t * 1.25} /> : null}
 			</div>
 			<div
 				style={{
@@ -129,25 +152,19 @@ export const AdVisual: React.FC<AdVisualProps> = ({ad, format, formatKey}) => {
 					right: 0,
 					bottom: 0,
 					height: barH,
-					backgroundColor: NAVY,
-					color: CREAM,
+					backgroundColor: INK,
 					display: 'flex',
 					alignItems: 'center',
-					justifyContent: 'space-between',
-					padding: `0 ${48 * u}px`,
-					fontWeight: 800,
-					fontSize: 29 * u,
+					justifyContent: 'center',
+					gap: 40 * u,
 				}}
 			>
-				<span style={{color: '#fff', fontWeight: 900}}>{SITE}</span>
-				<span style={{display: 'flex', alignItems: 'center', gap: 12 * u}}>
-					<LebanonFlag size={26 * u} />
-					{COD}
-				</span>
-				<span style={{display: 'flex', alignItems: 'center', gap: 8 * u}}>
-					<Pin size={30 * u} />
-					{SHOWROOMS}
-				</span>
+				{(['original', 'cod', 'delivery'] as Trust[]).map((t) => (
+					<div key={t} style={{display: 'flex', alignItems: 'center', gap: 12 * u, fontFamily: body, fontWeight: 700, fontSize: 23 * u, color: '#fff'}}>
+						<CloudIcon kind={t} size={28 * u} color={pal.icon} />
+						{TRUST[t]}
+					</div>
+				))}
 			</div>
 		</AbsoluteFill>
 	);
