@@ -1,6 +1,6 @@
 import {AbsoluteFill, Img, staticFile} from 'remotion';
 import {CloudIcon, CloudPhoto, CloudShape, Logo} from './Cloud';
-import {PHOTOS, TRUST, type Ad, type Card, type Format, type FORMATS, type Trust} from './data';
+import {PHOTOS, TRUST, type Ad, type Card, type Format, type FORMATS, type Statement, type Trust} from './data';
 import {CTA, GREY, INK, PALETTES, body, display} from './theme';
 
 export type AdVisualProps = {ad: Ad; format: Format; formatKey: keyof typeof FORMATS};
@@ -59,11 +59,79 @@ const CtaPill: React.FC<{text: string; u: number}> = ({text, u}) => (
 	</div>
 );
 
+type Box = {left: number; top: number; width: number; height: number};
+
+/** White brand cloud carrying the ad's big statement, for ads without a photo. */
+const StatementCloud: React.FC<Box & {statement: Statement; accent: string; icon: string; outline: number}> = ({
+	statement,
+	accent,
+	icon,
+	outline,
+	...box
+}) => {
+	// Type scales with the cloud (designed at 680x560) so every format reads the same.
+	const s = Math.min(box.width / 680, box.height / 560);
+	return (
+		<>
+			<CloudShape {...box} fill="#fff" stroke="#000" strokeWidth={outline} />
+			<div
+				style={{
+					position: 'absolute',
+					left: box.left,
+					width: box.width,
+					// The logo cloud's lobes sit up top, so the content centres a little low.
+					top: box.top + box.height * 0.2,
+					height: box.height * 0.74,
+					display: 'flex',
+					flexDirection: 'column',
+					alignItems: 'center',
+					justifyContent: 'center',
+					textAlign: 'center',
+				}}
+			>
+				<CloudIcon kind={statement.icon} size={64 * s} color={icon} />
+				<div style={{marginTop: 6 * s, fontFamily: display, fontWeight: 600, fontSize: 120 * s * Math.min(1, 7 / statement.big.length), lineHeight: 1, color: accent}}>{statement.big}</div>
+				<div style={{marginTop: 12 * s, fontFamily: body, fontWeight: 700, fontSize: 26 * s, color: INK, maxWidth: box.width * 0.7}}>{statement.caption}</div>
+				{statement.chips ? (
+					<div style={{marginTop: 18 * s, display: 'flex', flexWrap: 'wrap', justifyContent: 'center', gap: 10 * s, maxWidth: box.width * 0.78}}>
+						{statement.chips.map((c) => (
+							<div
+								key={c}
+								style={{
+									padding: `${7 * s}px ${16 * s}px`,
+									borderRadius: 999,
+									border: `${2 * s}px solid ${accent}`,
+									fontFamily: display,
+									fontWeight: 600,
+									fontSize: 20 * s,
+									color: accent,
+								}}
+							>
+								{c}
+							</div>
+						))}
+					</div>
+				) : null}
+			</div>
+		</>
+	);
+};
+
+const Hero: React.FC<Box & {ad: Ad; focus?: {x: number; y: number}; outline: number}> = ({ad, focus, outline, ...box}) => {
+	const pal = PALETTES[ad.palette];
+	if (ad.photo) {
+		return <CloudPhoto {...box} photo={PHOTOS[ad.photo]} focus={focus} outline={outline} />;
+	}
+	if (ad.statement) {
+		return <StatementCloud {...box} statement={ad.statement} accent={pal.accent} icon={pal.icon} outline={outline} />;
+	}
+	return null;
+};
+
 /** One visual in the Chez Les Petits cloud style: pastel world, logo, copy, cloud-masked photo. */
 export const AdVisual: React.FC<AdVisualProps> = ({ad, format, formatKey}) => {
 	const {width, height} = format;
 	const pal = PALETTES[ad.palette];
-	const photo = PHOTOS[ad.photo];
 	const focus = ad.focus?.[formatKey];
 	const u = width / 1200;
 	const landscape = width / height > 1.4;
@@ -75,7 +143,7 @@ export const AdVisual: React.FC<AdVisualProps> = ({ad, format, formatKey}) => {
 		return (
 			<AbsoluteFill style={{backgroundColor: pal.bg}}>
 				<Backdrop width={width} height={height} u={u} tint={pal.tint} accent={pal.accent} />
-				<CloudPhoto {...cloud} photo={photo} focus={focus} outline={4 * u} />
+				<Hero {...cloud} ad={ad} focus={focus} outline={4 * u} />
 				{ad.cards?.slice(0, 2).map((card, i) => (
 					<ProductCard
 						key={card.file}
@@ -110,10 +178,10 @@ export const AdVisual: React.FC<AdVisualProps> = ({ad, format, formatKey}) => {
 	}
 
 	// Square and portrait: copy on top, cloud photo anchored above the dark trust bar. The cloud
-	// keeps a natural shape (never taller than 3:4 of its width); spare height goes to the copy.
+	// keeps a natural shape (never taller than 85% of its width); spare height goes to the copy.
 	const barH = 118 * u;
 	const cloudW = width - 120 * u;
-	const cloudH = Math.min(cloudW * 0.75, height - barH - 44 * u - 400 * u);
+	const cloudH = Math.min(cloudW * 0.85, height - barH - 44 * u - 400 * u);
 	const cloud = {left: 60 * u, top: height - barH - 44 * u - cloudH, width: cloudW, height: cloudH};
 	const showCta = cloud.top > 520 * u;
 	// Tall formats have room to spare, so the copy steps up a size there.
@@ -123,7 +191,7 @@ export const AdVisual: React.FC<AdVisualProps> = ({ad, format, formatKey}) => {
 	return (
 		<AbsoluteFill style={{backgroundColor: pal.bg}}>
 			<Backdrop width={width} height={height - barH} u={u} tint={pal.tint} accent={pal.accent} />
-			<CloudPhoto {...cloud} photo={photo} focus={focus} outline={5 * u} />
+			<Hero {...cloud} ad={ad} focus={focus} outline={5 * u} />
 			{ad.cards?.slice(0, 2).map((card, i) => (
 				<ProductCard
 					key={card.file}

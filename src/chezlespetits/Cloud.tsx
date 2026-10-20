@@ -1,6 +1,6 @@
 import {Img, staticFile} from 'remotion';
 import {CLOUD} from './cloud';
-import type {Photo, Trust} from './data';
+import type {Glyph as GlyphKind, Photo} from './data';
 import {PhotoFill} from './PhotoFill';
 
 /** The logo cloud path stretched to a width x height box (all its coordinates are x,y pairs). */
@@ -41,7 +41,13 @@ export const CloudPhoto: React.FC<Box & {photo: Photo; focus?: {x: number; y: nu
 	</>
 );
 
-const Glyph: React.FC<{kind: Trust}> = ({kind}) => {
+const Glyph: React.FC<{kind: GlyphKind}> = ({kind}) => {
+	if (kind === 'pin') {
+		return <path d="M12 4.5a5 5 0 0 0-5 5c0 3.8 5 9 5 9s5-5.2 5-9a5 5 0 0 0-5-5zm0 7a2 2 0 1 1 0-4 2 2 0 0 1 0 4z" fill="#fff" />;
+	}
+	if (kind === 'list') {
+		return <path d="M7 8.5h1.6M7 12.5h1.6M7 16.5h1.6M11 8.5h6M11 12.5h6M11 16.5h6" stroke="#fff" strokeWidth="2.2" strokeLinecap="round" />;
+	}
 	if (kind === 'original') {
 		return <path d="M7 12.5l3.2 3.2L17 9" stroke="#fff" strokeWidth="2.8" fill="none" strokeLinecap="round" strokeLinejoin="round" />;
 	}
@@ -63,7 +69,7 @@ const Glyph: React.FC<{kind: Trust}> = ({kind}) => {
 };
 
 /** Trust icon: a filled brand cloud with a white glyph. */
-export const CloudIcon: React.FC<{kind: Trust; size: number; color: string}> = ({kind, size, color}) => {
+export const CloudIcon: React.FC<{kind: GlyphKind; size: number; color: string}> = ({kind, size, color}) => {
 	const w = size * 1.5;
 	return (
 		<svg width={w} height={size} viewBox={`0 0 ${w} ${size}`} style={{flexShrink: 0, color}}>

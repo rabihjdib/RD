@@ -39,9 +39,16 @@ export const FORMATS = {
 /** A white product card laid over the cloud: product cutout plus the brand name. */
 export type Card = {file: string; brand: string};
 
+export type Glyph = Trust | 'pin' | 'list';
+
+/** Big brand statement shown in a white cloud when an ad has no photo. */
+export type Statement = {big: string; caption: string; icon: Glyph; chips?: string[]};
+
 export type Ad = {
 	id: string;
-	photo: PhotoId;
+	// An ad shows either a cloud-masked photo or a statement cloud.
+	photo?: PhotoId;
+	statement?: Statement;
 	palette: PaletteName;
 	eyebrow: string;
 	headline: string;
@@ -53,6 +60,56 @@ export type Ad = {
 };
 
 export const ADS: Ad[] = [
+	{
+		id: 'B1-cash-on-delivery',
+		palette: 'blue',
+		eyebrow: 'Cash on delivery',
+		headline: 'Pay at your door, all over Lebanon',
+		sub: 'Order online or on WhatsApp and pay cash when it arrives. Delivered within 3 days.',
+		cta: 'Shop now',
+		statement: {big: '3 days', caption: 'Doorstep delivery anywhere in Lebanon', icon: 'delivery'},
+	},
+	{
+		id: 'B2-original-brands',
+		palette: 'pink',
+		eyebrow: 'Original brands',
+		headline: 'Never risk a copy with your baby',
+		sub: '100% genuine brands from a trusted supplier, with official warranty.',
+		cta: 'Shop original brands',
+		statement: {
+			big: '100%',
+			caption: 'Original, with official warranty',
+			icon: 'original',
+			chips: ['Chicco', 'Peg Perego', 'Philips Avent', "Dr. Brown's", 'Joie', 'Red Castle'],
+		},
+	},
+	{
+		id: 'B3-expert-must-have-list',
+		palette: 'lime',
+		eyebrow: 'Free must-have list',
+		headline: 'Everything baby, from A to Z',
+		sub: 'Ask our experts for your must-have list before delivery and after.',
+		cta: 'Message our experts',
+		statement: {big: 'A to Z', caption: 'Your newborn checklist, free from our experts', icon: 'list'},
+	},
+	{
+		id: 'B4-showrooms',
+		palette: 'blue',
+		eyebrow: 'Visit our showrooms',
+		headline: 'Try it before you buy it',
+		sub: 'Push the stroller, click the car seat, feel the fabric. Then order online or in store.',
+		cta: 'Get directions',
+		statement: {big: '2 showrooms', caption: 'Sin El Fil • Maameltein, Jounieh', icon: 'pin'},
+	},
+	{
+		id: 'B5-since-1912',
+		palette: 'pink',
+		eyebrow: 'Since 1912',
+		headline: 'Growing with Lebanese families',
+		sub: 'Part of Gebran Geahchan & Sons. A century of trust for your little ones.',
+		cta: 'Shop now',
+		statement: {big: '1912', caption: 'Original brands. Official guarantee.', icon: 'original'},
+	},
 	{
 		id: 'S3-toddler-car-seats',
 		photo: 'boosterInstall',
