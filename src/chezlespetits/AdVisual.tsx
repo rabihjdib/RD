@@ -29,11 +29,11 @@ const ProductCard: React.FC<{card: Card; accent: string; left: number; top: numb
 	</div>
 );
 
-const Backdrop: React.FC<{width: number; height: number; u: number; tint: string; accent: string}> = ({width, height, u, tint, accent}) => (
+const Backdrop: React.FC<{width: number; height: number; u: number; bg: string; tint: string; accent: string}> = ({width, height, u, bg, tint, accent}) => (
 	<>
-		<CloudShape left={-70 * u} top={height - 150 * u} width={480 * u} height={260 * u} fill="#fff" opacity={0.75} />
-		<CloudShape left={width - 330 * u} top={-90 * u} width={480 * u} height={280 * u} fill={tint} opacity={0.85} />
-		<CloudShape left={34 * u} top={30 * u} width={58 * u} height={32 * u} stroke={accent} strokeWidth={3 * u} opacity={0.9} />
+		<CloudShape left={-70 * u} top={height - 170 * u} width={480 * u} height={320 * u} fill="#fff" opacity={0.75} />
+		<CloudShape left={width - 330 * u} top={-130 * u} width={480 * u} height={320 * u} fill={tint} opacity={0.85} />
+		<CloudShape left={34 * u} top={30 * u} width={57 * u} height={38 * u} fill={bg} stroke={accent} strokeWidth={3 * u} opacity={0.9} />
 	</>
 );
 
@@ -137,12 +137,13 @@ export const AdVisual: React.FC<AdVisualProps> = ({ad, format, formatKey}) => {
 	const landscape = width / height > 1.4;
 
 	if (landscape) {
-		const cloud = {left: 505 * u, top: 34 * u, width: 680 * u, height: height - 70 * u};
+		// The cloud keeps its natural 3:2 shape, fully inside the frame.
+		const cloud = {left: 500 * u, top: (height - 460 * u) / 2, width: 690 * u, height: 460 * u};
 		const cardW = 165 * u;
 		const cardH = 175 * u;
 		return (
 			<AbsoluteFill style={{backgroundColor: pal.bg}}>
-				<Backdrop width={width} height={height} u={u} tint={pal.tint} accent={pal.accent} />
+				<Backdrop width={width} height={height} u={u} bg={pal.bg} tint={pal.tint} accent={pal.accent} />
 				<Hero {...cloud} ad={ad} focus={focus} outline={4 * u} />
 				{ad.cards?.slice(0, 2).map((card, i) => (
 					<ProductCard
@@ -177,12 +178,15 @@ export const AdVisual: React.FC<AdVisualProps> = ({ad, format, formatKey}) => {
 		);
 	}
 
-	// Square and portrait: copy on top, cloud photo anchored above the dark trust bar. The cloud
-	// keeps a natural shape (never taller than 85% of its width); spare height goes to the copy.
+	// Square and portrait: copy on top, cloud photo above the dark trust bar. The cloud always
+	// keeps its natural 3:2 shape; spare height goes to the copy.
 	const barH = 118 * u;
-	const cloudW = width - 120 * u;
-	const cloudH = Math.min(cloudW * 0.85, height - barH - 44 * u - 400 * u);
-	const cloud = {left: 60 * u, top: height - barH - 44 * u - cloudH, width: cloudW, height: cloudH};
+	const headerEnd = 400 * u;
+	const space = height - barH - 44 * u - headerEnd;
+	const cloudH = Math.min((width - 120 * u) / 1.5, space);
+	const cloudW = cloudH * 1.5;
+	// Sits a little below the middle of the free space, under the copy.
+	const cloud = {left: (width - cloudW) / 2, top: headerEnd + (space - cloudH) * 0.6, width: cloudW, height: cloudH};
 	const showCta = cloud.top > 520 * u;
 	// Tall formats have room to spare, so the copy steps up a size there.
 	const t = showCta ? u * 1.15 : u;
@@ -190,7 +194,7 @@ export const AdVisual: React.FC<AdVisualProps> = ({ad, format, formatKey}) => {
 	const cardH = 225 * u;
 	return (
 		<AbsoluteFill style={{backgroundColor: pal.bg}}>
-			<Backdrop width={width} height={height - barH} u={u} tint={pal.tint} accent={pal.accent} />
+			<Backdrop width={width} height={height - barH} u={u} bg={pal.bg} tint={pal.tint} accent={pal.accent} />
 			<Hero {...cloud} ad={ad} focus={focus} outline={5 * u} />
 			{ad.cards?.slice(0, 2).map((card, i) => (
 				<ProductCard

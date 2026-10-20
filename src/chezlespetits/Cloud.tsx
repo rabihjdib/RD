@@ -1,17 +1,43 @@
+import {useId} from 'react';
 import {Img, staticFile} from 'remotion';
-import {CLOUD} from './cloud';
 import type {Glyph as GlyphKind, Photo} from './data';
 import {PhotoFill} from './PhotoFill';
 
-/** The logo cloud path stretched to a width x height box (all its coordinates are x,y pairs). */
-export const cloudPath = (width: number, height: number) => {
-	const sx = width / CLOUD.width;
-	const sy = height / CLOUD.height;
-	return CLOUD.d.replace(/(-?\d+(?:\.\d+)?),(-?\d+(?:\.\d+)?)/g, (_, x, y) => `${(+x * sx).toFixed(1)},${(+y * sy).toFixed(1)}`);
+// The brand cloud, drawn as true vector geometry instead of a stretched trace: a pill-shaped
+// base with three round bumps on top, like the cloud in the logo. Drawn for a 3:2 box; keep
+// boxes near that shape and the bumps stay distinct, round and never stretched.
+type Circle = {cx: number; cy: number; r: number};
+type Parts = {base: {x: number; y: number; w: number; h: number; rx: number}; bumps: Circle[]};
+
+const cloudParts = (w: number, h: number): Parts => ({
+	base: {x: 0, y: h * 0.45, w, h: h * 0.55, rx: h * 0.275},
+	bumps: [
+		{cx: w * 0.22, cy: h * 0.5, r: h * 0.3},
+		{cx: w * 0.5, cy: h * 0.45, r: h * 0.45},
+		{cx: w * 0.77, cy: h * 0.52, r: h * 0.34},
+	],
+});
+
+/** The cloud's shapes, grown by `grow` px all round (used to draw a clean outer outline). */
+const CloudShapes: React.FC<{width: number; height: number; grow?: number; fill?: string}> = ({width, height, grow = 0, fill}) => {
+	const {base, bumps} = cloudParts(width, height);
+	return (
+		<>
+			<rect x={base.x - grow} y={base.y - grow} width={base.w + grow * 2} height={base.h + grow * 2} rx={base.rx + grow} fill={fill} />
+			{bumps.map((c) => (
+				<circle key={`${c.cx},${c.cy}`} cx={c.cx} cy={c.cy} r={c.r + grow} fill={fill} />
+			))}
+		</>
+	);
 };
 
 type Box = {left: number; top: number; width: number; height: number};
 
+/**
+ * A solid cloud, optionally outlined. The outline is the same shapes grown by the stroke width
+ * and painted underneath, so overlapping bumps never show seams. With `fill` set to the page
+ * colour this also draws an outline-only cloud.
+ */
 export const CloudShape: React.FC<Box & {fill?: string; stroke?: string; strokeWidth?: number; opacity?: number}> = ({
 	left,
 	top,
@@ -22,24 +48,29 @@ export const CloudShape: React.FC<Box & {fill?: string; stroke?: string; strokeW
 	strokeWidth = 0,
 	opacity = 1,
 }) => (
-	<svg
-		width={width + strokeWidth * 2}
-		height={height + strokeWidth * 2}
-		style={{position: 'absolute', left: left - strokeWidth, top: top - strokeWidth, opacity, overflow: 'visible'}}
-	>
-		<path d={cloudPath(width, height)} transform={`translate(${strokeWidth},${strokeWidth})`} fill={fill} stroke={stroke} strokeWidth={strokeWidth} />
+	<svg width={width} height={height} style={{position: 'absolute', left, top, opacity, overflow: 'visible'}}>
+		{stroke && strokeWidth ? <CloudShapes width={width} height={height} grow={strokeWidth} fill={stroke} /> : null}
+		{fill !== 'none' ? <CloudShapes width={width} height={height} fill={fill} /> : null}
 	</svg>
 );
 
-/** A photo masked to the brand cloud with the logo's black outline. */
-export const CloudPhoto: React.FC<Box & {photo: Photo; focus?: {x: number; y: number}; outline: number}> = ({photo, focus, outline, ...box}) => (
-	<>
-		<div style={{position: 'absolute', ...box, clipPath: `path('${cloudPath(box.width, box.height)}')`}}>
-			<PhotoFill photo={photo} width={box.width} height={box.height} focus={focus} />
-		</div>
-		<CloudShape {...box} stroke="#000" strokeWidth={outline} />
-	</>
-);
+/** A photo masked to the brand cloud with a black outline. */
+export const CloudPhoto: React.FC<Box & {photo: Photo; focus?: {x: number; y: number}; outline: number}> = ({photo, focus, outline, ...box}) => {
+	const id = `cloud-${useId().replace(/:/g, '')}`;
+	return (
+		<>
+			<CloudShape {...box} stroke="#000" strokeWidth={outline} />
+			<svg width={0} height={0} style={{position: 'absolute'}}>
+				<clipPath id={id} clipPathUnits="userSpaceOnUse">
+					<CloudShapes width={box.width} height={box.height} />
+				</clipPath>
+			</svg>
+			<div style={{position: 'absolute', ...box, clipPath: `url(#${id})`}}>
+				<PhotoFill photo={photo} width={box.width} height={box.height} focus={focus} />
+			</div>
+		</>
+	);
+};
 
 const Glyph: React.FC<{kind: GlyphKind}> = ({kind}) => {
 	if (kind === 'pin') {
@@ -73,7 +104,7 @@ export const CloudIcon: React.FC<{kind: GlyphKind; size: number; color: string}>
 	const w = size * 1.5;
 	return (
 		<svg width={w} height={size} viewBox={`0 0 ${w} ${size}`} style={{flexShrink: 0, color}}>
-			<path d={cloudPath(w, size)} fill={color} />
+			<CloudShapes width={w} height={size} fill={color} />
 			<g transform={`translate(${(w - size) / 2 + size * 0.04},${size * 0.1}) scale(${size / 26})`}>
 				<Glyph kind={kind} />
 			</g>
