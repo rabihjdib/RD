@@ -59,27 +59,30 @@
   $$('.hdr .burger').forEach(function (b) { b.addEventListener('click', function () { menu(true); }); });
   if (mnav) { $('.mclose', mnav).addEventListener('click', function () { menu(false); }); $$('a', mnav).forEach(function (a) { a.addEventListener('click', function () { menu(false); }); }); }
 
-  /* Residences slider: one residence per screen, swipe or arrows */
+  /* Residences slider: floor tabs, residence chips, arrows on the image, swipe */
   $$('.slider').forEach(function (sl) {
-    var track = $('.track', sl), slides = $$('.slide', sl), tabs = $$('.ftab'), ci = $('.ci', sl);
-    var prev = $('.prev', sl), next = $('.next', sl), cur = 0;
-    function go(i) { i = Math.max(0, Math.min(slides.length - 1, i)); var t = slides[i], rtl = getComputedStyle(track).direction === 'rtl';
+    var track = $('.track', sl), slides = $$('.slide', sl), tabs = $$('.ftab'), chips = $$('.uchip'), cur = 0;
+    function go(i) {
+      i = Math.max(0, Math.min(slides.length - 1, i)); var t = slides[i], rtl = getComputedStyle(track).direction === 'rtl';
       var x = rtl ? -(slides[0].offsetLeft + slides[0].offsetWidth - t.offsetLeft - t.offsetWidth) : t.offsetLeft - slides[0].offsetLeft;
-      track.scrollTo({ left: x, behavior: 'smooth' }); }
+      track.scrollTo({ left: x, behavior: 'smooth' }); mark(i);
+    }
     function mark(i) {
-      cur = i; ci.textContent = (i < 9 ? '0' : '') + (i + 1);
-      prev.disabled = i === 0; next.disabled = i === slides.length - 1;
-      var f = slides[i].getAttribute('data-floor');
+      cur = i; var f = slides[i].getAttribute('data-floor');
       tabs.forEach(function (t, k) { t.setAttribute('aria-selected', String(k) === f ? 'true' : 'false'); });
-      var act = tabs[+f]; if (act && act.parentNode.scrollWidth > act.parentNode.clientWidth) act.parentNode.scrollTo({ left: act.offsetLeft - 16, behavior: 'smooth' });
+      chips.forEach(function (c) { c.hidden = c.getAttribute('data-floor') !== f; if (+c.getAttribute('data-go') === i) c.setAttribute('aria-current', 'true'); else c.removeAttribute('aria-current'); });
     }
     if ('IntersectionObserver' in window) {
       var io = new IntersectionObserver(function (es) { es.forEach(function (e) { if (e.isIntersecting) mark(+e.target.getAttribute('data-i')); }); }, { root: track, threshold: 0.6 });
       slides.forEach(function (s) { io.observe(s); });
     }
-    prev.addEventListener('click', function () { go(cur - 1); });
-    next.addEventListener('click', function () { go(cur + 1); });
+    slides.forEach(function (s, k) {
+      var p = $('.oarr.prev', s), n = $('.oarr.next', s);
+      if (p) { p.disabled = k === 0; p.addEventListener('click', function () { go(k - 1); }); }
+      if (n) { n.disabled = k === slides.length - 1; n.addEventListener('click', function () { go(k + 1); }); }
+    });
     tabs.forEach(function (t) { t.addEventListener('click', function () { go(+t.getAttribute('data-go')); }); });
+    chips.forEach(function (c) { c.addEventListener('click', function () { go(+c.getAttribute('data-go')); }); });
     track.addEventListener('keydown', function (e) { if (e.key === 'ArrowRight') go(cur + 1); if (e.key === 'ArrowLeft') go(cur - 1); });
     mark(0);
   });
