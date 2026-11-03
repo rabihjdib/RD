@@ -195,6 +195,53 @@
     });
   });
 
+
+  /* Mobile: dropdowns open as a bottom sheet instead of the small native picker */
+  var mobile = window.matchMedia && window.matchMedia('(max-width: 860px), (pointer: coarse)').matches;
+  function openSheet(sel, title, search) {
+    var bg = document.createElement('div'); bg.className = 'sheet-bg';
+    var sh = document.createElement('div'); sh.className = 'sheet'; sh.setAttribute('role', 'dialog'); sh.setAttribute('aria-modal', 'true');
+    var lbl = (CFG.sheet || ['Search', 'Done']);
+    sh.innerHTML = '<div class="sheet-h"><span class="sheet-t"></span><button type="button" class="sheet-x">' + lbl[1] + '</button></div>' +
+      (search ? '<input class="sheet-s" type="search" autocomplete="off" placeholder="' + lbl[0] + '">' : '') + '<ul class="sheet-l" role="listbox"></ul>';
+    $('.sheet-t', sh).textContent = title;
+    var ul = $('.sheet-l', sh);
+    function render(q) {
+      ul.innerHTML = ''; q = (q || '').toLowerCase();
+      Array.prototype.forEach.call(sel.options, function (o) {
+        var li = document.createElement('li');
+        if (o.disabled) { if (!q) { li.className = 'sep'; ul.appendChild(li); } return; }
+        if (q && o.text.toLowerCase().indexOf(q) < 0) return;
+        var b = document.createElement('button'); b.type = 'button'; b.textContent = o.text; b.setAttribute('role', 'option');
+        b.setAttribute('aria-selected', o.value === sel.value ? 'true' : 'false');
+        b.addEventListener('click', function () { sel.value = o.value; sel.dispatchEvent(new Event('change', { bubbles: true })); close(); });
+        li.appendChild(b); ul.appendChild(li);
+      });
+    }
+    function close() { sh.classList.remove('open'); bg.classList.remove('open'); document.body.style.overflow = ''; setTimeout(function () { sh.remove(); bg.remove(); }, 350); }
+    render('');
+    document.body.appendChild(bg); document.body.appendChild(sh);
+    requestAnimationFrame(function () { bg.classList.add('open'); sh.classList.add('open'); var cur = $('[aria-selected=true]', ul); if (cur) cur.scrollIntoView({ block: 'center' }); });
+    document.body.style.overflow = 'hidden';
+    bg.addEventListener('click', close); $('.sheet-x', sh).addEventListener('click', close);
+    var si = $('.sheet-s', sh); if (si) si.addEventListener('input', function () { render(si.value); });
+  }
+  if (mobile) {
+    $$('.lead-form select').forEach(function (sel) {
+      var wrap = sel.closest('.cc') || sel.parentNode;
+      var lab = wrap.closest('.fg') ? $('label', wrap.closest('.fg')) : null;
+      sel.style.pointerEvents = 'none'; sel.setAttribute('tabindex', '-1');
+      var hit = sel.closest('.cc') || sel;
+      var target = sel.closest('.cc') ? hit : wrap;
+      target.style.cursor = 'pointer';
+      (sel.closest('.cc') ? hit : sel.parentNode).addEventListener('click', function (e) {
+        if (e.target.tagName === 'INPUT') return;
+        if (!sel.closest('.cc') && e.target !== sel && e.target.tagName === 'LABEL') { }
+        openSheet(sel, lab ? lab.textContent : '', !!sel.closest('.cc'));
+      });
+    });
+  }
+
   /* "Get price & floor plan" on a residence */
   $$('.ask').forEach(function (b) {
     b.addEventListener('click', function () {
