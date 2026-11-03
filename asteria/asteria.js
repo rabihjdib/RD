@@ -75,3 +75,5 @@
     els.forEach(function (el) { io.observe(el); });
   } else { els.forEach(function (el) { el.classList.add('on'); }); }
 })();
+
+document.querySelectorAll('.film-play').forEach(function(b){b.addEventListener('click',function(){var w=b.parentNode,f=document.createElement('iframe');f.src='https://www.youtube-nocookie.com/embed/'+b.dataset.yt+'?autoplay=1&rel=0&modestbranding=1&playsinline=1';f.title='ASTERIA Residence film';f.allow='autoplay; encrypted-media; picture-in-picture; fullscreen';f.allowFullscreen=true;f.style.cssText='position:absolute;inset:0;width:100%;height:100%;border:0';w.innerHTML='';w.appendChild(f);try{if(window.fbq)fbq('trackCustom','FilmPlay');if(window.gtag)gtag('event','video_start',{video_title:'ASTERIA film'});}catch(e){}});});
