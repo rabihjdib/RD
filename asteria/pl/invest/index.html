@@ -122,12 +122,19 @@ img{max-width:100%}
 [dir=rtl] .fig .hint{left:auto;right:14px}
 .info{padding:36px 40px;display:flex;flex-direction:column;justify-content:center;gap:18px;min-width:0}
 .info .fl{font-size:11px;letter-spacing:.3em;text-transform:uppercase;color:#8A5A33}
-.info .no{margin:0;font-family:'Cormorant Garamond',Georgia,serif;font-weight:500;font-size:clamp(34px,3.6vw,50px);line-height:1}
+.info .no{margin:0;letter-spacing:-.01em;font-family:'Cormorant Garamond',Georgia,serif;font-weight:500;font-size:clamp(34px,3.6vw,50px);line-height:1}
 .info .lay{font-size:12px;letter-spacing:.2em;text-transform:uppercase;color:#4F483C}
-.areas{display:grid;grid-template-columns:1fr 1fr;gap:12px 20px}
-.areas>div{border-top:1px solid #E2DACB;padding-top:8px}
-.areas .a{font-size:10.5px;letter-spacing:.2em;text-transform:uppercase;color:#6B6355}
-.areas .v{margin-top:4px;font-family:'Cormorant Garamond',Georgia,serif;font-size:22px;color:#2A251D}
+.areas{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.tile{display:flex;align-items:center;gap:12px;padding:12px;background:#F6F2EA;min-width:0}
+.tile .ic{flex:none;width:36px;height:36px;border-radius:50%;background:#EAD7BC;color:#7A4E2A;display:inline-flex;align-items:center;justify-content:center}
+.tile .tx{display:flex;flex-direction:column;gap:2px;min-width:0}
+.tile .a{font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;color:#6B6355;line-height:1.3}
+.tile .v{font-size:18px;font-weight:500;color:#2A251D;line-height:1.2}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chip{display:inline-flex;align-items:center;gap:8px;padding:7px 12px;border-radius:999px;background:#4A4233;color:#F4F0E8;font-size:12px;letter-spacing:.06em}
+.ask{align-self:flex-start;display:inline-flex;align-items:center;gap:10px;min-height:44px;padding:0 18px;background:transparent;border:1px solid #4A4233;color:#2A251D;font:inherit;font-size:11.5px;letter-spacing:.16em;text-transform:uppercase;cursor:pointer;transition:background .3s,color .3s}
+.ask:hover{background:#4A4233;color:#F4F0E8}
+[dir=rtl] .ask svg{transform:scaleX(-1)}
 .sctl{display:flex;align-items:center;justify-content:space-between;gap:16px;margin-top:16px}
 .arrows{display:flex;gap:8px}
 .arr{width:52px;height:52px;display:inline-flex;align-items:center;justify-content:center;border:1px solid #CFC6B6;background:transparent;color:#2A251D;cursor:pointer;transition:background .3s,border-color .3s}
@@ -136,7 +143,7 @@ img{max-width:100%}
 .count{font-family:'Cormorant Garamond',Georgia,serif;font-size:22px;color:#4F483C}
 .swipe{font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:#6B6355;display:none}
 .note{margin:18px 0 0;font-size:13px;line-height:1.6;color:#6B6355}
-@media(max-width:860px){.slide{grid-template-columns:1fr;grid-template-rows:auto 1fr;height:auto}.fig{height:min(36vh,290px)}.info{padding:18px 18px 20px;gap:10px;justify-content:flex-start}.info .no{font-size:34px}.areas{gap:8px 16px}.areas .v{font-size:19px}.fig .hint{font-size:10px;padding:7px 10px;left:10px;bottom:10px}.sctl{margin-top:12px}.info .cta{width:100%}.swipe{display:block}}
+@media(max-width:860px){.slide{grid-template-columns:1fr;grid-template-rows:auto 1fr;height:auto}.fig{height:min(32vh,260px)}.info .fl{display:none}.info{padding:18px 18px 20px;gap:10px;justify-content:flex-start}.info .no{font-size:34px}.tile{padding:10px;gap:10px}.tile .ic{width:32px;height:32px}.tile .v{font-size:16px}.tile .a{font-size:9.5px;letter-spacing:.08em}.fig .hint{font-size:10px;padding:7px 10px;left:10px;bottom:10px}.sctl{margin-top:12px}.swipe{display:block}}
 /* lightbox */
 .lb{position:fixed;inset:0;z-index:90;background:rgba(16,14,10,.97);display:none;color:#F4F0E8;touch-action:none}
 .lb.open{display:block}
@@ -193,7 +200,7 @@ select.field{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w
 @media(max-width:720px){.lead-l .lede,.pts{display:none}.lead-l{gap:12px}.lead-in{padding:56px 18px;gap:26px}.card{padding:28px 20px}.lead-form{grid-template-columns:1fr}}
 /* sticky */
 .sticky{position:fixed;left:0;right:0;bottom:0;z-index:40;display:none;padding:10px 12px calc(10px + env(safe-area-inset-bottom));background:rgba(244,240,232,.96);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);box-shadow:0 -1px 0 rgba(42,37,29,.12);transform:translateY(110%);transition:transform .4s cubic-bezier(.2,.7,.1,1)}
-.sticky .cta{width:100%;min-height:52px}
+.sticky .cta{width:100%;min-height:46px;font-size:12px}
 .sticky.show{transform:none}
 @media(max-width:860px){.sticky{display:block}}
 </style>
